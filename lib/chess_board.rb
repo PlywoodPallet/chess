@@ -50,10 +50,11 @@ class ChessBoard
     back_row = nil
     pawn_row = nil
 
-    if player_num == 1
+    case player_num
+    when 1
       back_row = 1
       pawn_row = 2
-    elsif player_num == 2
+    when 2
       back_row = 8
       pawn_row = 7
     else
