@@ -15,8 +15,7 @@
 # optional: alternating square color
 # https://en.wikipedia.org/wiki/Chess if following this format, white is bottom two rows, black is top two rows
 
-
-require '../lib/chess_piece.rb'
+require '../lib/chess_piece'
 
 class ChessBoard
   def initialize
@@ -58,7 +57,7 @@ class ChessBoard
       back_row = 8
       pawn_row = 7
     else
-      puts "Invalid player number"
+      puts 'Invalid player number'
       # Learn how to throw errors
     end
 
@@ -129,5 +128,5 @@ class ChessBoard
 
 end
 
-board = ChessBoard.new
-board.print_board
+# board = ChessBoard.new
+# board.print_board
