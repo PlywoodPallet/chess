@@ -11,15 +11,19 @@
 
 # pieces are denoted by the file its in such as "pawn in f-file"
 
-
+# Colorize console text with ANSI escape codes
+# https://en.wikipedia.org/wiki/ANSI_escape_code
 # optional: alternating square color
+
+
+
 # https://en.wikipedia.org/wiki/Chess if following this format, white is bottom two rows, black is top two rows
 
 require '../lib/chess_piece'
 
 class ChessBoard
   def initialize
-    @blank_value = '*'
+    @blank_value = ' '
 
     # Benefits of using hash to represent the board: 
     # can store pieces in the exact coordinates that they are represented on the board (key a3 has the piece), rather than creating a 2d array where the location is no obvious
@@ -33,8 +37,7 @@ class ChessBoard
     initialize_player_pieces(2)
   end
 
-  # initialize the board coordinates according to the format below (rows: descending numbers, col: ascending alphabet)
-  # https://en.wikipedia.org/wiki/Chess
+  # initialize the board coordinates with blank value
   def initialize_board_coordinates
     (1..8).reverse_each do |number|
       ('a'..'h').each do |letter|
@@ -129,5 +132,5 @@ class ChessBoard
 
 end
 
-# board = ChessBoard.new
-# board.print_board
+board = ChessBoard.new
+board.print_board
