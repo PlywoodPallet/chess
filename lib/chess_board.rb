@@ -35,14 +35,18 @@ class ChessBoard
     initialize_board
   end
 
-  # initialize the board according to the format below (rows: descending numbers, col: ascending alphabet)
+  # initialize the board coordinates according to the format below (rows: descending numbers, col: ascending alphabet)
   # https://en.wikipedia.org/wiki/Chess
-  def initialize_board
+  def initialize_board_coordinates
     (1..8).reverse_each do |number|
       ('a'..'h').each do |letter|
         @board["#{letter}#{number}"] = @blank_value
       end
     end
+  end
+
+  def initialize_board_pieces
+    
   end
 
   # print the board according to the format below (rows: descending numbers, col: ascending alphabet)
