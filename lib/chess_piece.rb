@@ -5,6 +5,8 @@
 # location? - its stored in Board, pieces are chosen by grid coordinate
 # legal moves? calculated by Game
 
+require '../lib/string.rb' # console font styles
+
 class ChessPiece
   attr_reader :player, :icon
 
@@ -19,9 +21,9 @@ class ChessPiece
   def to_s
     # Player 1 = white (37)
     # Player 2 = black (30)
-    icon_color = @player == 1 ? 37 : 30
+    @player == 1 ? @icon.red : @icon.green
     
-    "\e[#{icon_color}m #{@icon}\e[0m"
+    # "\e[#{icon_color}m #{@icon}\e[0m"
   end
 end
 
