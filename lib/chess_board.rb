@@ -5,10 +5,6 @@
 # rows are called ranks
 # columns are called files
 
-
-
-# Board alignment - "queen starts on own color". White queen starts on white square, etc
-
 # pieces are denoted by the file its in such as "pawn in f-file"
 
 # Colorize console text with ANSI escape codes
@@ -23,7 +19,7 @@ require '../lib/chess_piece'
 
 class ChessBoard
   def initialize
-    @blank_value = ' '
+    @blank_value = ' *'
 
     # Benefits of using hash to represent the board: 
     # can store pieces in the exact coordinates that they are represented on the board (key a3 has the piece), rather than creating a 2d array where the location is no obvious
@@ -106,12 +102,23 @@ class ChessBoard
 
   # print the board according to the format below (rows: descending numbers, col: ascending alphabet)
   # https://en.wikipedia.org/wiki/Chess
+  # Board alignment - "queen starts on own color". White queen starts on white square, etc
   def print_board
+    #background colors
+    # 47 = white
+    # 40 = black
+    current_bg_color = 47 # first cell in upper left is white (a8)
     (1..8).reverse_each do |number|
       ('a'..'h').each do |letter|
-        print @board["#{letter}#{number}"]
-        print '  ' # space in between items
+        icon = @board["#{letter}#{number}"]
+        print "\e[#{current_bg_color}m#{icon}\e[0m"
+        print "\e[#{current_bg_color}m\e[0m" # space in between cols
+
+        # alternate between white and black background
+        current_bg_color = current_bg_color == 47 ? 40 : 47
       end
+      # first element in new row has different bg color
+      current_bg_color = current_bg_color == 47 ? 40 : 47
       puts # new line
     end
   end
