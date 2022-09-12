@@ -19,6 +19,8 @@ require '../lib/chess_piece'
 require '../lib/string' # console font styles
 
 class ChessBoard
+  attr_reader :blank_value
+
   def initialize
     @blank_value = ' '
 

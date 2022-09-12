@@ -36,7 +36,11 @@
 
 # pieces are denoted by the file its in such as "pawn in f-file"
 
+require '../lib/chess_board'
+
 class ChessGame
+  attr_accessor :board # remove, for debugging only
+
   def initialize
     @active_player = 1
     @player1_input = nil
@@ -57,8 +61,43 @@ class ChessGame
     toggle_active_player
   end
 
-  def player_turn(player_num)
+  def enter_start_coord(player_num)
+    puts "Player #{player_num} enter coordinate of piece to move: "
     
+    verified_start_coord = ''
+    verified_piece_at_coord = ''
+    loop do
+      raw_input = player_input
+      verified_start_coord = verify_start_coord(raw_input, player_num)
+
+      break if verified_start_coord # break if not nil
+
+      puts 'Input Error!'
+    end
+
+    puts "You selected piece_name at #{verified_start_coord}"
+    puts 
+  end
+
+  def player_input
+    gets.chomp
+  end
+
+  def verify_start_coord(start_coord, player_num)
+    start_coord = start_coord.to_s
+
+    # check if coordinate exists on the board
+    piece_at_coord = @board.get_piece(start_coord)
+    return nil if piece_at_coord.nil?
+
+    # check if piece exists at the coord
+    return nil if piece_at_coord == @board.blank_value
+    
+    # check if piece belongs to player
+    piece_player = piece_at_coord.player
+    return nil if piece_player != player_num
+
+    start_coord
   end
   
   # Switch the active player between 1 and 2
@@ -79,3 +118,10 @@ class ChessGame
     puts "Print the chess board"
   end
 end
+
+game = ChessGame.new
+game.enter_start_coord(1)
+
+board = game.board
+# p board.get_piece("a1")
+# p board.get_piece("a3")
