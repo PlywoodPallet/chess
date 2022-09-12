@@ -145,6 +145,17 @@ class ChessBoard
     print " #{number} "
   end
 
+  def move_piece(start_coord, end_coord)
+    piece = get_piece(start_coord)
+    @board[start_coord] = @blank_value
+
+    @board[end_coord] = piece
+  end
+
+  def get_piece(coord)
+    @board[coord]
+  end
+
   # sanity check: print the keys-value pairs in @board
   # for debugging only
   def sanity_check
@@ -161,5 +172,3 @@ class ChessBoard
 
 end
 
-board = ChessBoard.new
-board.print_board
