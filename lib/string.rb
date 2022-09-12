@@ -32,13 +32,13 @@ class String
   def bg_white; "\e[47m#{self}\e[0m" end
 
   def bg_bright_black; "\e[100m#{self}\e[0m" end
-  def bright_red; "\e[101m#{self}\e[0m" end
-  def bright_green; "\e[102m#{self}\e[0m" end
-  def bright_yellow; "\e[103m#{self}\e[0m" end
-  def bright_blue; "\e[104m#{self}\e[0m" end
-  def bright_magenta; "\e[105m#{self}\e[0m" end
-  def bright_cyan; "\e[106m#{self}\e[0m" end
-  def bright_white; "\e[107m#{self}\e[0m" end
+  def bg_bright_red; "\e[101m#{self}\e[0m" end
+  def bg_bright_green; "\e[102m#{self}\e[0m" end
+  def bg_bright_yellow; "\e[103m#{self}\e[0m" end
+  def bg_bright_blue; "\e[104m#{self}\e[0m" end
+  def bg_bright_magenta; "\e[105m#{self}\e[0m" end
+  def bg_bright_cyan; "\e[106m#{self}\e[0m" end
+  def bg_bright_white; "\e[107m#{self}\e[0m" end
  
   def bold; "\e[1m#{self}\e[22m" end
   def italic; "\e[3m#{self}\e[23m" end
