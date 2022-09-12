@@ -126,15 +126,15 @@ class ChessBoard
   # sanity check: print the keys-value pairs in @board
   # for debugging only
   def sanity_check
-      (1..8).reverse_each do |number|
-        ('a'..'h').each do |letter|
-          print "#{letter}#{number}:" 
-          print @board["#{letter}#{number}"]
-          
-          print '  ' # space in between items
-        end
-        puts # new line
+    (1..8).reverse_each do |number|
+      ('a'..'h').each do |letter|
+        print "#{letter}#{number}:" 
+        print @board["#{letter}#{number}"]
+        
+        print '  ' # space in between items
       end
+      puts # new line
+    end
   end
 
 end
