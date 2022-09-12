@@ -57,6 +57,10 @@ class ChessGame
     toggle_active_player
   end
 
+  def player_turn(player_num)
+    
+  end
+  
   # Switch the active player between 1 and 2
   def toggle_active_player
     if @active_player == 1
