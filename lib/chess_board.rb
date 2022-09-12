@@ -16,10 +16,11 @@
 # https://en.wikipedia.org/wiki/Chess if following this format, white is bottom two rows, black is top two rows
 
 require '../lib/chess_piece'
+require '../lib/string' # console font styles
 
 class ChessBoard
   def initialize
-    @blank_value = ' *'
+    @blank_value = '*'
 
     # Benefits of using hash to represent the board: 
     # can store pieces in the exact coordinates that they are represented on the board (key a3 has the piece), rather than creating a 2d array where the location is no obvious
@@ -103,22 +104,21 @@ class ChessBoard
   # print the board according to the format below (rows: descending numbers, col: ascending alphabet)
   # https://en.wikipedia.org/wiki/Chess
   # Board alignment - "queen starts on own color". White queen starts on white square, etc
+  # TODO: center chess piece in square
   def print_board
-    #background colors
-    # 47 = white
-    # 40 = black
-    current_bg_color = 47 # first cell in upper left is white (a8)
-    (1..8).reverse_each do |number|
+    bg_colors = ['bg_white', 'bg_black']
+    current_bg_color = bg_colors[0] # first cell in upper left is white (a8)
+    (1..8).reverse_each do |number| # start with row 8, end with row 1
       ('a'..'h').each do |letter|
-        icon = @board["#{letter}#{number}"]
-        print "\e[#{current_bg_color}m#{icon}\e[0m"
-        print "\e[#{current_bg_color}m\e[0m" # space in between cols
+        icon = @board["#{letter}#{number}"].to_s # explicit to_s needed for icon.send to work correctly
+        icon = "  #{icon}" # add spaces for display padding
+        print icon.send(current_bg_color)
 
-        # alternate between white and black background
-        current_bg_color = current_bg_color == 47 ? 40 : 47
+        # alternate between background colors
+        current_bg_color = current_bg_color == bg_colors[0] ? bg_colors[1] : bg_colors[0]
       end
       # first element in new row has different bg color
-      current_bg_color = current_bg_color == 47 ? 40 : 47
+      current_bg_color = current_bg_color == bg_colors[0] ? bg_colors[1] : bg_colors[0]
       puts # new line
     end
   end
