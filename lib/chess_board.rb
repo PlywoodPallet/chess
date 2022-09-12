@@ -29,6 +29,9 @@ class ChessBoard
     # Knights Travails written for a 2d array - can use a lookup 2d array that converts between coordinate key "a3" and y,x coordinates
     # Major/minor diagonal algo in Connect Four project written for 2d array
     @board = Hash.new # default value is nil so moves off the board can be detected
+
+    @bg_colors = ['bg_white', 'bg_black']
+
     initialize_board_coordinates
     initialize_player_pieces(1)
     initialize_player_pieces(2)
@@ -106,8 +109,8 @@ class ChessBoard
   # Board alignment - "queen starts on own color". White queen starts on white square, etc
   # TODO: center chess piece in square
   def print_board
-    bg_colors = ['bg_white', 'bg_black']
-    current_bg_color = bg_colors[0] # first cell in upper left is white (a8)
+    
+    current_bg_color = @bg_colors[0] # first cell in upper left is white (a8)
     (1..8).reverse_each do |number| # start with row 8, end with row 1
       ('a'..'h').each do |letter|
         icon = @board["#{letter}#{number}"].to_s # explicit to_s needed for icon.send to work correctly
@@ -115,10 +118,10 @@ class ChessBoard
         print icon.send(current_bg_color)
 
         # alternate between background colors
-        current_bg_color = current_bg_color == bg_colors[0] ? bg_colors[1] : bg_colors[0]
+        current_bg_color = current_bg_color == @bg_colors[0] ? @bg_colors[1] : @bg_colors[0]
       end
       # first element in new row has different bg color
-      current_bg_color = current_bg_color == bg_colors[0] ? bg_colors[1] : bg_colors[0]
+      current_bg_color = current_bg_color == @bg_colors[0] ? @bg_colors[1] : @bg_colors[0]
       puts # new line
     end
   end
