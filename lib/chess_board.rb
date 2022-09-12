@@ -109,9 +109,12 @@ class ChessBoard
   # Board alignment - "queen starts on own color". White queen starts on white square, etc
   # TODO: center chess piece in square
   def print_board
-    
+    print_col_label
+
     current_bg_color = @bg_colors[0] # first cell in upper left is white (a8)
     (1..8).reverse_each do |number| # start with row 8, end with row 1
+      print_row_label(number)
+      
       ('a'..'h').each do |letter|
         icon = @board["#{letter}#{number}"].to_s # explicit to_s needed for icon.send to work correctly
         icon = "  #{icon}" # add spaces for display padding
@@ -120,10 +123,26 @@ class ChessBoard
         # alternate between background colors
         current_bg_color = current_bg_color == @bg_colors[0] ? @bg_colors[1] : @bg_colors[0]
       end
+      print_row_label(number)
+
       # first element in new row has different bg color
       current_bg_color = current_bg_color == @bg_colors[0] ? @bg_colors[1] : @bg_colors[0]
       puts # new line
     end
+
+    print_col_label
+  end
+
+  def print_col_label
+    print '   '
+    ('a'..'h').each do |letter|
+      print " #{letter} "
+    end
+    puts # new line
+  end
+
+  def print_row_label(number)
+    print " #{number} "
   end
 
   # sanity check: print the keys-value pairs in @board
