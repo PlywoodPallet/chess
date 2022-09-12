@@ -14,6 +14,7 @@ class ChessPiece
   def initialize(player = nil)
     @player = player
     @icon = nil
+    @icon_colors = ['bright_white', 'black'] # player 1, player 2
   end
 
   # important for Chess_Board.print_board
@@ -21,7 +22,7 @@ class ChessPiece
   def to_s
     # Player 1 = white (37)
     # Player 2 = black (30)
-    @player == 1 ? @icon.red : @icon.green
+    @player == 1 ? @icon.to_s.send(@icon_colors[0]) : @icon.to_s.send(@icon_colors[1])
     
     # "\e[#{icon_color}m #{@icon}\e[0m"
   end

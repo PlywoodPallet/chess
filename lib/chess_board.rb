@@ -20,7 +20,7 @@ require '../lib/string' # console font styles
 
 class ChessBoard
   def initialize
-    @blank_value = '*'
+    @blank_value = ' '
 
     # Benefits of using hash to represent the board: 
     # can store pieces in the exact coordinates that they are represented on the board (key a3 has the piece), rather than creating a 2d array where the location is no obvious
@@ -30,7 +30,7 @@ class ChessBoard
     # Major/minor diagonal algo in Connect Four project written for 2d array
     @board = Hash.new # default value is nil so moves off the board can be detected
 
-    @bg_colors = ['bg_white', 'bg_black']
+    @bg_colors = ['bg_white', 'bg_bright_black']
 
     initialize_board_coordinates
     initialize_player_pieces(1)
