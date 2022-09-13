@@ -75,8 +75,13 @@ class ChessGame
       puts 'Input Error!'
     end
 
+<<<<<<< HEAD
     puts "You selected piece_name at #{verified_start_coord}"
     puts 
+=======
+    puts "You selected piece at coord"
+    puts verified_start_coord
+>>>>>>> origin/main
   end
 
   def player_input
