@@ -1,4 +1,4 @@
-require_relative 'lib/chess_game.rb'
+require_relative 'lib/chess_game'
 require_relative 'lib/chess_board'
 require_relative 'lib/chess_piece'
 require_relative 'lib/string' # console font styles
