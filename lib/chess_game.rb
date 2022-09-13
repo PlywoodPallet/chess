@@ -128,10 +128,3 @@ class ChessGame
     puts "Print the chess board"
   end
 end
-
-game = ChessGame.new
-game.enter_start_coord(1)
-
-board = game.board
-# p board.get_piece("a1")
-# p board.get_piece("a3")
