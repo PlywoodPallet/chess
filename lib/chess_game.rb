@@ -42,9 +42,11 @@ class ChessGame
   attr_accessor :board # remove, for debugging only
 
   def initialize
-    @active_player = 1
+    @active_player = 1 # Player 1 always starts the game
     @player1_input = nil
+    @player1_active_piece = nil
     @player2_input = nil
+    @player2_active_piece = nil
     @board = ChessBoard.new
   end
 
@@ -59,6 +61,13 @@ class ChessGame
     player_turn(@active_player)
     print_board
     toggle_active_player
+  end
+
+  def player_turn(active_player)
+    # Ask player to choose a valid piece
+    # List valid moves of piece (give an opportunity to choose another piece)
+    # Ask player to chose a valid move for piece
+    # Move piece
   end
 
   def enter_start_coord(player_num)
@@ -96,6 +105,9 @@ class ChessGame
     return nil if piece_player != player_num
 
     start_coord
+  end
+
+  def list_possible_moves(piece)
   end
   
   # Switch the active player between 1 and 2
