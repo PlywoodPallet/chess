@@ -67,8 +67,7 @@ class ChessGame
     verified_start_coord = ''
     verified_piece_at_coord = ''
     loop do
-      raw_input = player_input
-      verified_start_coord = verify_start_coord(raw_input, player_num)
+      verified_start_coord = verify_start_coord(player_input, player_num)
 
       break if verified_start_coord # break if not nil
 
@@ -76,7 +75,6 @@ class ChessGame
     end
 
     puts "You selected piece_name at #{verified_start_coord}"
-    puts 
   end
 
   def player_input
