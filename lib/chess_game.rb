@@ -74,7 +74,7 @@ class ChessGame
     puts "Player #{player_num} enter coordinate of piece to move: "
     
     verified_start_coord = ''
-    verified_piece_at_coord = ''
+    # verified_piece_at_coord = ''
     loop do
       verified_start_coord = verify_start_coord(player_input, player_num)
 
