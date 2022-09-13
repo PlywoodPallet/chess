@@ -1,3 +1,6 @@
+# Accomplishments
+# Created my first custom matcher for #get_piece test in spec_helper.rb called "be_the_same_chess_piece_as"
+
 require_relative '../lib/chess_board.rb'
 require_relative '../lib/chess_piece.rb'
 
@@ -34,6 +37,30 @@ describe ChessBoard do
 
         expect(start_piece).to eq(board.blank_value)
       end
+    end
+  end
+
+  # this test may also need to be performed on higher level functions
+  describe '#get_piece(coord)' do 
+    subject(:board) { described_class.new }
+
+    it 'if piece at coordinate exists, return the piece' do
+      expected_piece = Pawn.new(1)
+      retrieved_piece = board.get_piece("a2") # pawn in this location on starting board
+
+      expect(retrieved_piece).to be_the_same_chess_piece_as(expected_piece)
+    end
+
+    it 'if piece is off the board, return nil' do
+      retrieved_piece = board.get_piece("z22") # location off the board
+
+      expect(retrieved_piece).to be_nil
+    end
+
+    it 'if the coordinate has no piece, return blank value' do 
+      retrieved_piece = board.get_piece("a5") # location with no piece
+
+      expect(retrieved_piece).to eq(board.blank_value)
     end
   end
 

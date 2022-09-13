@@ -95,4 +95,21 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+  # Custom matcher for testing equality of two chess pieces
+  RSpec::Matchers.define :be_the_same_chess_piece_as do |expected_piece|
+    match do |actual_piece|
+      actual_piece.class == expected_piece.class &&
+      actual_piece.player == expected_piece.player &&
+      actual_piece.icon == expected_piece.icon
+    end
+    failure_message do |actual_piece|
+      "expected that #{actual_piece} would have all the attributes the same as #{expected_piece}. Attributes:\n
+      ACTUAL | EXPECTED\n
+      #{actual_piece.class} | #{expected_piece.class}\n
+      #{actual_piece.player} | #{expected_piece.player}\n
+      #{actual_piece.icon} | #{expected_piece.icon}\n
+      "
+    end
+  end
 end
