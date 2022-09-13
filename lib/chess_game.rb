@@ -36,7 +36,7 @@
 
 # pieces are denoted by the file its in such as "pawn in f-file"
 
-require '../lib/chess_board'
+require_relative '../lib/chess_board'
 
 class ChessGame
   attr_accessor :board # remove, for debugging only

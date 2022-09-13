@@ -5,7 +5,7 @@
 # location? - its stored in Board, pieces are chosen by grid coordinate
 # legal moves? calculated by Game
 
-require '../lib/string.rb' # console font styles
+require_relative '../lib/string.rb' # console font styles
 
 class ChessPiece
   attr_reader :player, :icon

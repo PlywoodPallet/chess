@@ -15,8 +15,8 @@
 
 # https://en.wikipedia.org/wiki/Chess if following this format, white is bottom two rows, black is top two rows
 
-require '../lib/chess_piece'
-require '../lib/string' # console font styles
+require_relative '../lib/chess_piece'
+require_relative '../lib/string' # console font styles
 
 class ChessBoard
   attr_reader :blank_value
@@ -175,4 +175,3 @@ class ChessBoard
   end
 
 end
-
