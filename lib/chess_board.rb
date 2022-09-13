@@ -147,13 +147,15 @@ class ChessBoard
     print " #{number} "
   end
 
+  # Move a piece on the board. No error checking
   def move_piece(start_coord, end_coord)
     piece = get_piece(start_coord)
     @board[start_coord] = @blank_value
-
     @board[end_coord] = piece
   end
 
+  # Return the piece at a given coordinate
+  # If no piece, return blank value. If off the board, return nil
   def get_piece(coord)
     @board[coord]
   end
