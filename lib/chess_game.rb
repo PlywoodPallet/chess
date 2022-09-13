@@ -70,7 +70,7 @@ class ChessGame
     # Move piece
   end
 
-  def enter_start_coord(player_num)
+  def select_piece(player_num)
     puts "Player #{player_num} enter coordinate of piece to move: "
     
     verified_start_coord = ''
