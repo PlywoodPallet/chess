@@ -70,20 +70,32 @@ class ChessGame
     # Move piece
   end
 
+  # TODO: Learn how to throw errors
   def select_piece(player_num)
     puts "Player #{player_num} enter coordinate of piece to move: "
     
     verified_start_coord = ''
-    # verified_piece_at_coord = ''
     loop do
-      verified_start_coord = verify_start_coord(player_input, player_num)
+      raw_input = player_input
+      verified_start_coord = verify_start_coord(raw_input, player_num)
 
       break if verified_start_coord # break if not nil
 
       puts 'Input Error!'
     end
 
-    puts "You selected piece_name at #{verified_start_coord}"
+    selected_piece = @board.get_piece(verified_start_coord)
+
+    case
+      when player_num == 1
+        @player1_active_piece = selected_piece
+      when player_num == 2
+        @player2_active_piece = selected_piece
+      else
+        'Input Error!'
+    end
+
+    puts "You selected #{selected_piece.class} at #{verified_start_coord}"
   end
 
   def player_input
@@ -125,6 +137,6 @@ class ChessGame
 
   # call a ChessBoard method here
   def print_board
-    puts "Print the chess board"
+    @board.print_board
   end
 end
