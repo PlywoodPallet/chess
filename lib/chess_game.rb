@@ -98,6 +98,32 @@ class ChessGame
     puts "You selected #{selected_piece.class} at #{verified_start_coord}"
   end
 
+  # List valid moves of piece 
+  # TODO: (give an opportunity to choose another piece)
+  def list_moves(player_num)
+    active_piece = nil
+    
+    case
+      when player_num == 1
+        active_piece = @player1_active_piece
+      when player_num == 2
+        active_piece = @player2_active_piece
+      else
+        'Input Error!'
+    end
+
+    # get all moves from piece object
+    # ask board object which moves are valid
+    # print these moves and well as store them for subsequent methods
+
+  end
+
+  # Ask player to chose a valid move for piece
+  # Move piece
+  def move_piece(player_num)
+
+  end
+
   def player_input
     gets.chomp
   end
@@ -117,9 +143,6 @@ class ChessGame
     return nil if piece_player != player_num
 
     start_coord
-  end
-
-  def list_possible_moves(piece)
   end
   
   # Switch the active player between 1 and 2
