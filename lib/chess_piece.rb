@@ -13,7 +13,6 @@ class ChessPiece
   # player is nil by default
   def initialize(player = nil)
     @player = player
-    @icon = nil
     @icon_colors = ['bright_white', 'black'] # player 1, player 2
   end
 
