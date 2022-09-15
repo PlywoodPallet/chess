@@ -8,7 +8,7 @@
 require_relative '../lib/string' # console font styles
 
 class ChessPiece
-  attr_reader :player, :icon
+  attr_reader :player, :icon, :relative_moves
 
   # player is nil by default
   def initialize(player = nil)
@@ -27,11 +27,15 @@ class ChessPiece
   end
 end
 
+# Note: relative moves are [x,y] or [col, row]
+
+# TODO: var for initial 2 step move
 class Pawn < ChessPiece
   def initialize(player = nil)
     super
     
     @icon = "\u265F"
+    @relative_moves = [0, 1]
   end
 end
 
@@ -40,6 +44,7 @@ class Knight < ChessPiece
     super
     
     @icon = "\u265E"
+    @relative_moves = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]]
   end
 end
 
@@ -51,6 +56,7 @@ class Rook < ChessPiece
   end
 end
 
+#TODO: castling feature
 class Bishop < ChessPiece
   def initialize(player = nil)
     super
