@@ -160,6 +160,50 @@ class ChessBoard
     @board[coord]
   end
 
+  def coord_is_empty?(coord)
+    return true if @board[coord] == @blank_value
+    false
+  end
+
+  # this method should be in ChessBoard rather than ChessGame because valid moves need to take other pieces into consideration
+  def get_valid_moves(piece, coord)
+
+    # if piece can only move one square, do this code (Pawn, King)
+    return get_valid_pawn_moves(piece, coord) if piece.class == "Pawn"
+    # if piece can jump over other pieces, do this code (Knight)
+
+    # if piece cannot jump over other pieces but can move in rows,col, or diag, do this code (Rook, Bishop, Queen)
+
+
+  end
+
+  def get_valid_pawn_moves(piece, coord)
+    relative_moves = piece.relative_moves
+
+
+  end
+
+  def get_absolute_moves(coord, relative_moves)
+
+  end
+
+  # given [1,2] and starting coordinate, return the absolute grid (ex. "d5")
+  # TODO: what should this method do when the new absolute coord is out of bounds? Should this method have error checking?
+  def convert_relative_to_absolute(starting_coord, relative_coord)
+    relative_x = relative_coord[0].to_i
+    relative_y = relative_coord[1].to_i
+
+    letter_to_number_hash = {'a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5, 'f' => 6, 'g' => 7, 'h' => 8}
+    starting_x = letter_to_number_hash[starting_coord[0]].to_i # first char is a letter, so it needs to be converted to a number
+    starting_y = starting_coord[1].to_i
+
+    number_to_letter_hash = letter_to_number_hash.invert
+    absolute_x_letter = number_to_letter_hash[starting_x + relative_x]
+    absolute_y = starting_y + relative_y
+
+    absolute_x_letter + absolute_y.to_s
+  end
+
   # sanity check: print the keys-value pairs in @board
   # for debugging only
   def sanity_check

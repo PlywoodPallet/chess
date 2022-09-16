@@ -45,8 +45,10 @@ class ChessGame
     @active_player = 1 # Player 1 always starts the game
     @player1_input = nil
     @player1_active_piece = nil
+    @player1_active_piece_coord = nil
     @player2_input = nil
     @player2_active_piece = nil
+    @player1_active_piece_coord = nil
     @board = ChessBoard.new
   end
 
@@ -102,12 +104,15 @@ class ChessGame
   # TODO: (give an opportunity to choose another piece)
   def list_moves(player_num)
     active_piece = nil
+    active_piece_coord = nil
     
     case
       when player_num == 1
         active_piece = @player1_active_piece
+        active_piece_coord = @player1_active_piece_coord
       when player_num == 2
         active_piece = @player2_active_piece
+        active_piece_coord = @player2_active_piece_coord
       else
         'Input Error!'
     end
