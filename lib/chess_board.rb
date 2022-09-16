@@ -11,6 +11,7 @@
 # https://en.wikipedia.org/wiki/ANSI_escape_code
 # optional: alternating square color
 
+# should finding valid moves be in a separate class? "move_validator"
 
 
 # https://en.wikipedia.org/wiki/Chess if following this format, white is bottom two rows, black is top two rows
@@ -184,9 +185,12 @@ class ChessBoard
 
   end
 
+  # BUG: forward move into an occupied coord should not be allowed, but sideways attacking and en passant should be allowed
   # TODO: (1) Pawn standard attack move, (2) "en passant" special attack
+  # TODO: error checking when relative move goes off the map (implement in #convert_relative_to_absolute)
   def get_valid_pawn_moves(piece, starting_coord)
     relative_moves = []
+    absolute_moves = []
     player_num = piece.player
 
     # the pawn can only move forward, based on player (player1/white goes from bottom to top, player2/black goes from top to bottom)
@@ -206,7 +210,31 @@ class ChessBoard
       relative_moves << [0, -2]
     end
 
-    relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+    absolute_moves << relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+
+    # scan for enemy pieces for standard attack
+    # TODO: clean up code, lots of repetition here
+    if player_num == 1
+      relative_attack_moves = []
+      relative_attack_moves << [-1, 1]
+      relative_attack_moves << [1, 1]
+      absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+
+      valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) }
+      absolute_moves << valid_absolute_attack_moves
+    elsif player_num == 2
+      relative_attack_moves = []
+      relative_attack_moves << [-1, -1]
+      relative_attack_moves << [1, -1]
+      absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+
+      valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) }
+      absolute_moves << valid_absolute_attack_moves
+    end
+
+    # scan for "en passant" special attack
+
+    absolute_moves
   end
 
   # given [1,2] and starting coordinate, return the absolute grid (ex. "d5")
