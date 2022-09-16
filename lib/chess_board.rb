@@ -197,6 +197,7 @@ class ChessBoard
     end
 
     # if pawn is in starting row, add another starting move where it can move two spaces
+    # TODO: edge case where pawn has gone to the other player side and returned to the home row (without exchanging for another piece?) Highly unlikely
     starting_coord_y = starting_coord[1].to_i
 
     if player_num == 1 && starting_coord_y == 2
