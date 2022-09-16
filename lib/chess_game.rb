@@ -119,7 +119,7 @@ class ChessGame
 
     # get all moves from piece object
     # ask board object which moves are valid
-    # print these moves and well as store them for subsequent methods
+    # print these moves and well as store them for subsequent user choice
 
   end
 
