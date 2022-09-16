@@ -160,6 +160,7 @@ class ChessBoard
     @board[coord]
   end
 
+  # return true if the coord contains a blank value, but not a nil value
   def coord_is_empty?(coord)
     return true if @board[coord] == @blank_value
     false
