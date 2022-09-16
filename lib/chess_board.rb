@@ -177,10 +177,28 @@ class ChessBoard
 
   end
 
+  # TODO: (1) Pawn standard attack move, (2) "en passant" special attack
   def get_valid_pawn_moves(piece, starting_coord)
-    relative_moves = piece.relative_moves
-    absolute_moves = relative_moves.map {|relative_move| convert_relative_to_absolute(starting_coord, relative_move)}
-    absolute_moves
+    relative_moves = []
+    player_num = piece.player
+
+    # the pawn can only move forward, based on player (player1/white goes from bottom to top, player2/black goes from top to bottom)
+    if player_num == 1
+      relative_moves << [0, 1]
+    elsif player_num == 2
+      relative_moves << [0, -1]
+    end
+
+    # if pawn is in starting row, add another starting move where it can move two spaces
+    starting_coord_y = starting_coord[1].to_i
+
+    if player_num == 1 && starting_coord_y == 2
+      relative_moves << [0, 2]
+    elsif player_num == 2 && starting_coord_y == 7
+      relative_moves << [0, -2]
+    end
+
+    relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
   end
 
   # given [1,2] and starting coordinate, return the absolute grid (ex. "d5")

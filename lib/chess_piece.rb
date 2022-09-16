@@ -29,13 +29,12 @@ end
 
 # Note: relative moves are [x,y] or [col, row]
 
-# TODO: var for initial 2 step move
+# removed @relative_moves because pawns can only move forward. The logic involved is in ChessBoard#get_valid_pawn_moves
 class Pawn < ChessPiece
   def initialize(player = nil)
     super
     
     @icon = "\u265F"
-    @relative_moves = [[0, 1]]
   end
 end
 
