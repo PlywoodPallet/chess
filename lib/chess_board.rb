@@ -212,7 +212,7 @@ class ChessBoard
     starting_y = starting_coord[1].to_i
 
     number_to_letter_hash = letter_to_number_hash.invert
-    absolute_x_letter = number_to_letter_hash[starting_x + relative_x]
+    absolute_x_letter = number_to_letter_hash[starting_x + relative_x] # convert from number back to letter
     absolute_y = starting_y + relative_y
 
     absolute_x_letter + absolute_y.to_s
