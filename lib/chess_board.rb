@@ -177,10 +177,11 @@ class ChessBoard
 
   end
 
-  def get_valid_pawn_moves(piece, coord)
-    relative_moves = piece.relative_moves
-
-
+  def get_valid_pawn_moves(piece, starting_coord)
+    p relative_moves = piece.relative_moves
+    p relative_moves[0]
+    absolute_moves = relative_moves.map {|relative_move| convert_relative_to_absolute(starting_coord, relative_move)}
+    absolute_moves
   end
 
   def get_absolute_moves(coord, relative_moves)

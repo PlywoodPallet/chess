@@ -10,7 +10,9 @@ board.print_board
 # board.move_piece('a2', 'a3')
 # board.print_board
 
-p board.convert_relative_to_absolute('a2', [0,1])
+# p board.convert_relative_to_absolute('a2', [0,1])
+piece = Pawn.new(1)
+p board.get_valid_pawn_moves(piece, "b2")
 
 # game = ChessGame.new
 # game.print_board

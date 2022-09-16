@@ -35,7 +35,7 @@ class Pawn < ChessPiece
     super
     
     @icon = "\u265F"
-    @relative_moves = [0, 1]
+    @relative_moves = [[0, 1]]
   end
 end
 
