@@ -165,6 +165,12 @@ class ChessBoard
     false
   end
 
+  # return true if the coord contains a child of ChessPiece
+  def coord_contains_piece?(coord)
+    return true if @board[coord].class.superclass.name == 'ChessPiece'
+    false
+  end
+
   # this method should be in ChessBoard rather than ChessGame because valid moves need to take other pieces into consideration
   def get_valid_moves(piece, coord)
 
