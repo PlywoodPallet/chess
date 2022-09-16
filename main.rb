@@ -12,7 +12,11 @@ board.print_board
 
 # p board.convert_relative_to_absolute('a2', [0,1])
 piece = Pawn.new(1)
+<<<<<<< HEAD
 p board.get_valid_pawn_moves(piece, "b2")
+=======
+p board.get_valid_pawn_moves(piece, "a2")
+>>>>>>> 5086ca3 (Initial work on ChessGame#list_moves)
 
 # game = ChessGame.new
 # game.print_board

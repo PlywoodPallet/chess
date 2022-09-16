@@ -178,16 +178,23 @@ class ChessBoard
   end
 
   def get_valid_pawn_moves(piece, starting_coord)
+<<<<<<< HEAD
     p relative_moves = piece.relative_moves
     p relative_moves[0]
+=======
+    relative_moves = piece.relative_moves
+>>>>>>> 5086ca3 (Initial work on ChessGame#list_moves)
     absolute_moves = relative_moves.map {|relative_move| convert_relative_to_absolute(starting_coord, relative_move)}
     absolute_moves
   end
 
+<<<<<<< HEAD
   def get_absolute_moves(coord, relative_moves)
 
   end
 
+=======
+>>>>>>> 5086ca3 (Initial work on ChessGame#list_moves)
   # given [1,2] and starting coordinate, return the absolute grid (ex. "d5")
   # TODO: what should this method do when the new absolute coord is out of bounds? Should this method have error checking?
   def convert_relative_to_absolute(starting_coord, relative_coord)
