@@ -185,9 +185,9 @@ class ChessBoard
 
   end
 
-  # BUG: forward move into an occupied coord should not be allowed, but sideways attacking and en passant should be allowed
-  # TODO: (1) Pawn standard attack move, (2) "en passant" special attack
-  # TODO: error checking when relative move goes off the map (implement in #convert_relative_to_absolute)
+  # TODO: (1) "en passant" special attack, (2) pawn promotion, (3) refactor into elegant code
+  # Pawns are the only piece can only move in a certain direction, which requires extra complexity
+  # "en passant" is a reaction to an opponent pawn's 2 square initial move. Is only available immediately afterwards
   def get_valid_pawn_moves(piece, starting_coord)
     relative_moves = []
     absolute_moves = []
