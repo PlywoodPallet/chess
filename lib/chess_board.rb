@@ -210,7 +210,18 @@ class ChessBoard
       relative_moves << [0, -2]
     end
 
-    absolute_moves << relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+    # these are non-attack moves
+    absolute_moves = relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+    
+    # First value in array is a 1 square move, second value in the array is a 2 square move
+    # if [0,1]/[0,-1] are invalid, piece is blocked so remove all moves
+    if coord_contains_piece?(absolute_moves[0])
+      absolute_moves.clear
+
+    # if [0,2]/[0,-2] are invalid but [0,1]/[0,-1] is valid, only remove the former
+    elsif coord_contains_piece?(absolute_moves[1])
+      absolute_moves.pop
+    end
 
     # scan for enemy pieces for standard attack
     # TODO: clean up code, lots of repetition here
@@ -221,7 +232,7 @@ class ChessBoard
       absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
 
       valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) }
-      absolute_moves << valid_absolute_attack_moves
+      absolute_moves += valid_absolute_attack_moves
     elsif player_num == 2
       relative_attack_moves = []
       relative_attack_moves << [-1, -1]
@@ -229,7 +240,7 @@ class ChessBoard
       absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
 
       valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) }
-      absolute_moves << valid_absolute_attack_moves
+      absolute_moves += valid_absolute_attack_moves
     end
 
     # scan for "en passant" special attack
