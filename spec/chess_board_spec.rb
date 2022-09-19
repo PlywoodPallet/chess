@@ -64,6 +64,34 @@ describe ChessBoard do
     end
   end
 
+  # convert_relative_to_absolute
+  # cases: (1) relative_coord leads to a valid square, (2) relative_coord leads to invalid square (return nil)
+  # assume starting_cord is valid. If its invalid the issue is with the method that calls it, not this method
+  describe '#convert_relative_to_absolute' do 
+    subject(:board) { described_class.new }
+
+    it 'when relative coordinate leads to a valid square, return the resulting absolute coordinate' do 
+      starting_coord = 'e2'
+      relative_coord = [0,2]
+      
+      new_coord = board.convert_relative_to_absolute(starting_coord, relative_coord)
+
+      expect(new_coord).to eq('e4')
+    end
+
+    it 'when relative coordinate goes off the board, return nil' do 
+      starting_coord = 'a2'
+      relative_coord = [-1,0]
+      
+      new_coord = board.convert_relative_to_absolute(starting_coord, relative_coord)
+
+      expect(new_coord).to be_nil
+    end
+  end
+
+  # get_valid_pawn_moves
+
+
 
 
 
