@@ -12,7 +12,7 @@
 # optional: alternating square color
 
 # should finding valid moves be in a separate class? "move_validator"
-
+# TODO: VScode console and Linux terminal display the board differently. Alternates each player color from black and white
 
 # https://en.wikipedia.org/wiki/Chess if following this format, white is bottom two rows, black is top two rows
 
