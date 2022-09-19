@@ -252,7 +252,26 @@ class ChessBoard
   end
 
   def get_valid_knight_moves(piece, starting_coord)
-    relative_moves = []
+    # get the relative moves from the piece
+    relative_moves = piece.relative_moves
+
+    # convert relatives moves to absolute moves based on starting coord
+    absolute_moves = relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+
+    # select all moves that go to an empty space OR an opponent's piece
+    valid_absolute_moves = []
+    valid_absolute_attack_moves = []
+    if player_num = 1
+      valid_absolute_moves = absolute_moves.select { |absolute_move| coord_is_empty?(absolute_move)}
+
+      valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == 2}
+    elsif player_num = 2
+      valid_absolute_moves = absolute_moves.select { |absolute_move| coord_is_empty?(absolute_move)}
+
+      valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == 1}
+    end
+
+    valid_absolute_moves + valid_absolute_attack_moves
   end
 
   # given a starting coordinate and relative move (ex [0,1]), return the absolute grid (ex. "d5")
