@@ -193,7 +193,7 @@ describe ChessBoard do
       subject(:board) { described_class.new }
       let(:knight) { Knight.new(2) }
 
-      it 'returns normal, non-attack moves and does not go out of bounds. It does not attack own pieces' do
+      it 'returns normal, non-attack moves and does not go out of bounds. It does not attack own pieces' do 
         knight_moves = board.get_valid_knight_moves(knight, 'b8')
 
         expect(knight_moves).to eq(['c6', 'a6'])
