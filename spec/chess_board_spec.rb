@@ -89,10 +89,81 @@ describe ChessBoard do
     end
   end
 
-  # get_valid_pawn_moves
+  # #get_valid_pawn_moves
+  # each test needs to be tested for player 1 and 2
+  # pawn can only move forward based on player
+  # when pawn is on home row, it can move one or two squares forward
+  # pawn can attack opponent piece diagonally
+  # pawn cannot attack diagonally if piece is owned by the same player
+  # Note: to debug test use board.print_board to print the state of the board
+  # TODO: add tests once #get_valid_pawn_moves TODO's are finished (additional functionality)
+  describe '#get_valid_pawn_moves' do
+    context 'player 1' do
+      subject(:board) { described_class.new }
+      let(:pawn) { Pawn.new(1) }
+      
+      it 'pawn can only move forward' do
+        board.move_piece('a2', 'a3') # move a pawn out of home row
+        pawn_moves = board.get_valid_pawn_moves(pawn, 'a3')
 
+        expect(pawn_moves).to eq(['a4'])
+      end
 
+      it 'when pawn is in home row, it can move one or two square forward' do
+        pawn_moves = board.get_valid_pawn_moves(pawn, 'b2')
 
+        expect(pawn_moves).to eq(['b3','b4'])
+      end
 
+      it 'in addition to regular moves, pawn can attack opponent piece diagonally if available' do
+        board.move_piece('e7', 'e3') # move opponent piece into position
+        pawn_moves = board.get_valid_pawn_moves(pawn, 'f2')
 
+        expect(pawn_moves).to eq(['f3','f4','e3']) # returns regular moves first, then attack moves
+        
+      end
+
+      it 'pawn cannot attack own piece diagonally' do
+        board.move_piece('d2', 'd3') # move own piece into position
+        pawn_moves = board.get_valid_pawn_moves(pawn, 'c2')
+
+        expect(pawn_moves).to eq(['c3','c4']) 
+      end
+    end
+
+    context 'player 2' do
+      subject(:board) { described_class.new }
+      let(:pawn) { Pawn.new(2) }
+
+      it 'pawn can only move forward' do
+        board.move_piece('a7', 'a6') # move a pawn out of home row
+        pawn_moves = board.get_valid_pawn_moves(pawn, 'a6')
+
+        expect(pawn_moves).to eq(['a5'])
+        
+      end
+
+      it 'when pawn is in home row, it can move one or two square forward' do
+        pawn_moves = board.get_valid_pawn_moves(pawn, 'b7')
+
+        expect(pawn_moves).to eq(['b6','b5'])
+      end
+
+      it 'in addition to regular moves, pawn can attack opponent piece diagonally if available' do
+        board.move_piece('e2', 'e6') # move opponent piece into position
+        pawn_moves = board.get_valid_pawn_moves(pawn, 'f7')
+
+        expect(pawn_moves).to eq(['f6','f5','e6']) # returns regular moves first, then attack moves
+      end
+
+      it 'pawn cannot attack own piece diagonally' do
+        board.move_piece('d7', 'd6') # move own piece into position
+        pawn_moves = board.get_valid_pawn_moves(pawn, 'c7')
+
+        expect(pawn_moves).to eq(['c6','c5'])
+      end
+    end
+
+    
+  end
 end
