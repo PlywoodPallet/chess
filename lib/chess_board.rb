@@ -251,6 +251,10 @@ class ChessBoard
     absolute_x_letter = number_to_letter_hash[starting_x + relative_x] # convert from number back to letter
     absolute_y = starting_y + relative_y
 
+    # if absolute x or y coord is out of bounds, return nil
+    return nil if absolute_x_letter.nil?
+    return nil if absolute_y < 1 || absolute_y > 8
+
     absolute_x_letter + absolute_y.to_s
   end
 
