@@ -174,11 +174,12 @@ class ChessBoard
   end
 
   # this method should be in ChessBoard rather than ChessGame because valid moves need to take other pieces into consideration
-  def get_valid_moves(piece, coord)
+  def get_valid_moves(piece, starting_coord)
 
     # if piece can only move one square, do this code (Pawn, King)
-    return get_valid_pawn_moves(piece, coord) if piece.class == "Pawn"
+    return get_valid_pawn_moves(piece, starting_coord) if piece.class == "Pawn"
     # if piece can jump over other pieces, do this code (Knight)
+    return get_valid_knight_moves(piece, starting_coord) if piece.class == "Knight"
 
     # if piece cannot jump over other pieces but can move in rows,col, or diag, do this code (Rook, Bishop, Queen)
 
