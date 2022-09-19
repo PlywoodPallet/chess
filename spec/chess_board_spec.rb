@@ -163,7 +163,5 @@ describe ChessBoard do
         expect(pawn_moves).to eq(['c6','c5'])
       end
     end
-
-    
   end
 end
