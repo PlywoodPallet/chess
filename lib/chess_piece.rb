@@ -5,6 +5,8 @@
 # location? - its stored in Board, pieces are chosen by grid coordinate
 # legal moves? calculated by Game
 
+# TODO: Change @player to @player_num, and refactor all other variable calls throughout the project
+
 require_relative '../lib/string' # console font styles
 
 class ChessPiece
