@@ -202,6 +202,7 @@ class ChessBoard
     end
 
     # if pawn is in starting row, add another starting move where it can move two spaces
+    # TODO: remove the piece parameter and just access it with get_piece()
     # TODO: edge case where pawn has gone to the other player side and returned to the home row (without exchanging for another piece?) Highly unlikely
     starting_coord_y = starting_coord[1].to_i
 
@@ -251,6 +252,7 @@ class ChessBoard
     absolute_moves
   end
 
+  # TODO: remove the piece parameter and just access it with get_piece()
   def get_valid_knight_moves(piece, starting_coord)
     # get the relative moves from the piece
     relative_moves = piece.relative_moves
