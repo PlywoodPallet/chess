@@ -164,4 +164,48 @@ describe ChessBoard do
       end
     end
   end
+
+  # test for player 1 and 2
+  # test regular moves/does not go out of bounds
+  # test attack moves on opponent's pieces
+  # test that it cannot attack own pieces
+  describe '#get_valid_knight_moves' do
+    context 'player 1' do
+      subject(:board) { described_class.new }
+      let(:knight) { Knight.new(1) }
+
+      it 'returns normal, non-attack moves and does not go out of bounds. It does not attack own pieces' do
+        knight_moves = board.get_valid_knight_moves(knight, 'b1')
+
+        expect(knight_moves).to eq(['c3', 'a3'])
+      end
+
+      it 'returns attack moves onto opponents pieces in addition to normal moves' do
+        board.move_piece('b1', 'c6') # move piece into position
+
+        knight_moves = board.get_valid_knight_moves(knight, 'c6')
+
+        expect(knight_moves).to eq(['e5', 'd4', 'b4', 'a5', 'd8', 'e7', 'a7', 'b8'])
+      end
+    end
+
+    context 'player 2' do
+      subject(:board) { described_class.new }
+      let(:knight) { Knight.new(2) }
+
+      it 'returns normal, non-attack moves and does not go out of bounds. It does not attack own pieces' do
+        knight_moves = board.get_valid_knight_moves(knight, 'b8')
+
+        expect(knight_moves).to eq(['c6', 'a6'])
+      end
+
+      it 'returns attack moves onto opponents pieces in addition to normal moves' do
+        board.move_piece('b8', 'c3') # move piece into position
+
+        knight_moves = board.get_valid_knight_moves(knight, 'c3')
+
+        expect(knight_moves).to eq(['d5', 'e4', 'a4', 'b5', 'e2', 'd1', 'b1', 'a2'])
+      end
+    end
+  end
 end
