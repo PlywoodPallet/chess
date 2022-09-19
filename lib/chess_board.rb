@@ -248,8 +248,8 @@ class ChessBoard
     absolute_moves
   end
 
-  # given [1,2] and starting coordinate, return the absolute grid (ex. "d5")
-  # TODO: what should this method do when the new absolute coord is out of bounds? Should this method have error checking?
+  # given a starting coordinate and relative move (ex [0,1]), return the absolute grid (ex. "d5")
+  # if absolute x or y coord is out of bounds, return nil
   def convert_relative_to_absolute(starting_coord, relative_coord)
     relative_x = relative_coord[0].to_i
     relative_y = relative_coord[1].to_i
