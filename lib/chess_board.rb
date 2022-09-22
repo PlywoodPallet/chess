@@ -180,10 +180,12 @@ class ChessBoard
     return get_valid_pawn_moves(piece, starting_coord) if piece.class == "Pawn"
     # if piece can jump over other pieces, do this code (Knight)
     return get_valid_knight_moves(piece, starting_coord) if piece.class == "Knight"
+    # if piece cannot jump over other pieces but can move in rows,col (Rook)
 
-    # if piece cannot jump over other pieces but can move in rows,col, or diag, do this code (Rook, Bishop, Queen)
+    # if piece cannot jump over other pieces but can move in diagonals (Bishop)
 
-
+    # if piece cannot jump over other pieces but can move in rows,col and diagonals (Queen)
+    
   end
 
   # TODO: (1) "en passant" special attack, (2) pawn promotion, (3) refactor into elegant code
