@@ -6,6 +6,4 @@ require_relative 'lib/string' # console font styles
 board = ChessBoard.new
 board.move_piece("b8", "c3")
 board.print_board
-piece = board.get_piece("c3")
-
-p board.get_valid_knight_moves(piece, "c3")
+p board.get_valid_knight_moves("c3")

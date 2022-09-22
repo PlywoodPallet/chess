@@ -174,12 +174,14 @@ class ChessBoard
   end
 
   # this method should be in ChessBoard rather than ChessGame because valid moves need to take other pieces into consideration
-  def get_valid_moves(piece, starting_coord)
+  def get_valid_moves(starting_coord)
+
+    piece = get_piece(starting_coord)
 
     # if piece can only move one square, do this code (Pawn, King)
-    return get_valid_pawn_moves(piece, starting_coord) if piece.class == "Pawn"
+    return get_valid_pawn_moves(starting_coord) if piece.class == "Pawn"
     # if piece can jump over other pieces, do this code (Knight)
-    return get_valid_knight_moves(piece, starting_coord) if piece.class == "Knight"
+    return get_valid_knight_moves(starting_coord) if piece.class == "Knight"
     # if piece cannot jump over other pieces but can move in rows,col (Rook)
 
     # if piece cannot jump over other pieces but can move in diagonals (Bishop)
@@ -191,9 +193,10 @@ class ChessBoard
   # TODO: (1) "en passant" special attack, (2) pawn promotion, (3) refactor into elegant code
   # Pawns are the only piece can only move in a certain direction, which requires extra complexity
   # "en passant" is a reaction to an opponent pawn's 2 square initial move. Is only available immediately afterwards
-  def get_valid_pawn_moves(piece, starting_coord)
+  def get_valid_pawn_moves(starting_coord)
     relative_moves = []
     absolute_moves = []
+    piece = get_piece(starting_coord)
     player_num = piece.player
 
     # the pawn can only move forward, based on player (player1/white goes from bottom to top, player2/black goes from top to bottom)
@@ -255,7 +258,8 @@ class ChessBoard
   end
 
   # TODO: remove the piece parameter and just access it with get_piece()
-  def get_valid_knight_moves(piece, starting_coord)
+  def get_valid_knight_moves(starting_coord)
+    piece = get_piece(starting_coord)
     player_num = piece.player
     # get the relative moves from the piece
     relative_moves = piece.relative_moves

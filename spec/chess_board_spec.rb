@@ -100,24 +100,23 @@ describe ChessBoard do
   describe '#get_valid_pawn_moves' do
     context 'player 1' do
       subject(:board) { described_class.new }
-      let(:pawn) { Pawn.new(1) }
       
       it 'pawn can only move forward' do
         board.move_piece('a2', 'a3') # move a pawn out of home row
-        pawn_moves = board.get_valid_pawn_moves(pawn, 'a3')
+        pawn_moves = board.get_valid_pawn_moves('a3')
 
         expect(pawn_moves).to eq(['a4'])
       end
 
       it 'when pawn is in home row, it can move one or two square forward' do
-        pawn_moves = board.get_valid_pawn_moves(pawn, 'b2')
+        pawn_moves = board.get_valid_pawn_moves('b2')
 
         expect(pawn_moves).to eq(['b3','b4'])
       end
 
       it 'in addition to regular moves, pawn can attack opponent piece diagonally if available' do
         board.move_piece('e7', 'e3') # move opponent piece into position
-        pawn_moves = board.get_valid_pawn_moves(pawn, 'f2')
+        pawn_moves = board.get_valid_pawn_moves('f2')
 
         expect(pawn_moves).to eq(['f3','f4','e3']) # returns regular moves first, then attack moves
         
@@ -125,7 +124,7 @@ describe ChessBoard do
 
       it 'pawn cannot attack own piece diagonally' do
         board.move_piece('d2', 'd3') # move own piece into position
-        pawn_moves = board.get_valid_pawn_moves(pawn, 'c2')
+        pawn_moves = board.get_valid_pawn_moves('c2')
 
         expect(pawn_moves).to eq(['c3','c4']) 
       end
@@ -133,32 +132,31 @@ describe ChessBoard do
 
     context 'player 2' do
       subject(:board) { described_class.new }
-      let(:pawn) { Pawn.new(2) }
 
       it 'pawn can only move forward' do
         board.move_piece('a7', 'a6') # move a pawn out of home row
-        pawn_moves = board.get_valid_pawn_moves(pawn, 'a6')
+        pawn_moves = board.get_valid_pawn_moves('a6')
 
         expect(pawn_moves).to eq(['a5'])
         
       end
 
       it 'when pawn is in home row, it can move one or two square forward' do
-        pawn_moves = board.get_valid_pawn_moves(pawn, 'b7')
+        pawn_moves = board.get_valid_pawn_moves('b7')
 
         expect(pawn_moves).to eq(['b6','b5'])
       end
 
       it 'in addition to regular moves, pawn can attack opponent piece diagonally if available' do
         board.move_piece('e2', 'e6') # move opponent piece into position
-        pawn_moves = board.get_valid_pawn_moves(pawn, 'f7')
+        pawn_moves = board.get_valid_pawn_moves('f7')
 
         expect(pawn_moves).to eq(['f6','f5','e6']) # returns regular moves first, then attack moves
       end
 
       it 'pawn cannot attack own piece diagonally' do
         board.move_piece('d7', 'd6') # move own piece into position
-        pawn_moves = board.get_valid_pawn_moves(pawn, 'c7')
+        pawn_moves = board.get_valid_pawn_moves('c7')
 
         expect(pawn_moves).to eq(['c6','c5'])
       end
@@ -172,10 +170,9 @@ describe ChessBoard do
   describe '#get_valid_knight_moves' do
     context 'player 1' do
       subject(:board) { described_class.new }
-      let(:knight) { Knight.new(1) }
 
       it 'returns normal, non-attack moves and does not go out of bounds. It does not attack own pieces' do
-        knight_moves = board.get_valid_knight_moves(knight, 'b1')
+        knight_moves = board.get_valid_knight_moves('b1')
 
         expect(knight_moves).to eq(['c3', 'a3'])
       end
@@ -183,7 +180,7 @@ describe ChessBoard do
       it 'returns attack moves onto opponents pieces in addition to normal moves' do
         board.move_piece('b1', 'c6') # move piece into position
 
-        knight_moves = board.get_valid_knight_moves(knight, 'c6')
+        knight_moves = board.get_valid_knight_moves('c6')
 
         expect(knight_moves).to eq(['e5', 'd4', 'b4', 'a5', 'd8', 'e7', 'a7', 'b8'])
       end
@@ -191,10 +188,9 @@ describe ChessBoard do
 
     context 'player 2' do
       subject(:board) { described_class.new }
-      let(:knight) { Knight.new(2) }
 
       it 'returns normal, non-attack moves and does not go out of bounds. It does not attack own pieces' do 
-        knight_moves = board.get_valid_knight_moves(knight, 'b8')
+        knight_moves = board.get_valid_knight_moves('b8')
 
         expect(knight_moves).to eq(['c6', 'a6'])
       end
@@ -202,7 +198,7 @@ describe ChessBoard do
       it 'returns attack moves onto opponents pieces in addition to normal moves' do
         board.move_piece('b8', 'c3') # move piece into position
 
-        knight_moves = board.get_valid_knight_moves(knight, 'c3')
+        knight_moves = board.get_valid_knight_moves('c3')
 
         expect(knight_moves).to eq(['d5', 'e4', 'a4', 'b5', 'e2', 'd1', 'b1', 'a2'])
       end
