@@ -185,7 +185,7 @@ class ChessBoard
     # if piece can jump over other pieces, do this code (Knight)
     return get_valid_knight_moves(starting_coord) if piece.class == "Knight"
     # if piece cannot jump over other pieces but can move in rows,col (Rook)
-
+    return get_valid_rook_moves(starting_coord) if piece.class == "Rook"
     # if piece cannot jump over other pieces but can move in diagonals (Bishop)
 
     # if piece cannot jump over other pieces but can move in rows,col and diagonals (Queen)
