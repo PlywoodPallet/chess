@@ -38,6 +38,7 @@ end
 # Note: relative moves are [x,y] or [col, row]
 
 # removed @relative_moves because pawns can only move forward. The logic involved is in ChessBoard#get_valid_pawn_moves
+# TODO: castling feature
 class Pawn < ChessPiece
   def initialize(player = nil)
     super
@@ -100,7 +101,7 @@ class Rook < ChessPiece
   end
 end
 
-#TODO: castling feature
+
 class Bishop < ChessPiece
   def initialize(player = nil)
     super
