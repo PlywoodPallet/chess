@@ -101,12 +101,29 @@ class Rook < ChessPiece
   end
 end
 
-
+  # relative_moves for Bishop class has a different array structure
+  # [1, 2, 3, 4]
+  #1 [[1, 1] to [8, 8]]
+  #2 [[1, -1] to [8, -8]]
+  #3 [[-1, -1] to [-8, -8]]
+  #4 [[-1, 1] to [-8, 8]]
 class Bishop < ChessPiece
   def initialize(player = nil)
     super
     
     @icon = "\u265D"
+    @relative_moves = build_relative_moves
+  end
+
+  def build_relative_moves
+    relative_moves = []
+
+    relative_moves << (1..8).collect { |num| [num, num] }
+    relative_moves << (1..8).collect { |num| [num, -num] }
+    relative_moves << (1..8).collect { |num| [-num, -num] }
+    relative_moves << (1..8).collect { |num| [-num, num] }
+
+    relative_moves
   end
 end
 
