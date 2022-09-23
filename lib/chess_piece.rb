@@ -54,6 +54,43 @@ class Rook < ChessPiece
     super
     
     @icon = "\u265C"
+    @relative_moves = build_relative_moves #NOTE: different array structure
+  end
+  
+  # relative_moves for Rook classes have a different array structure
+  # [1, 2, 3, 4]
+  #1 [[1, 0] to [8, 0]] (move in row)
+  #2 [[0, 1] to [0, 8]] (move in col)
+  #3 [[-1, 0] to [-8, 0]]
+  #4 [[0, -1] to [0, -8]]
+  def build_relative_moves
+    relative_moves = []
+
+    relative_moves1 = []
+    1.upto(8) do |num|
+      relative_moves1 << [num, 0]
+    end
+    relative_moves << relative_moves1
+
+    relative_moves2 = []
+    1.upto(8) do |num|
+      relative_moves2 << [0, num]
+    end
+    relative_moves << relative_moves2
+
+    relative_moves3 = []
+    -1.downto(-8) do |num|
+      relative_moves3 << [num, 0]
+    end
+    relative_moves << relative_moves3
+
+    relative_moves4 = []
+    -1.downto(-8) do |num|
+      relative_moves4 << [0, num]
+    end
+    relative_moves << relative_moves4
+
+    relative_moves
   end
 end
 
