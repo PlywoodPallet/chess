@@ -73,29 +73,10 @@ class Rook < ChessPiece
   def build_relative_moves
     relative_moves = []
 
-    relative_moves1 = []
-    1.upto(8) do |num|
-      relative_moves1 << [num, 0]
-    end
-    relative_moves << relative_moves1
-
-    relative_moves2 = []
-    1.upto(8) do |num|
-      relative_moves2 << [0, num]
-    end
-    relative_moves << relative_moves2
-
-    relative_moves3 = []
-    -1.downto(-8) do |num|
-      relative_moves3 << [num, 0]
-    end
-    relative_moves << relative_moves3
-
-    relative_moves4 = []
-    -1.downto(-8) do |num|
-      relative_moves4 << [0, num]
-    end
-    relative_moves << relative_moves4
+    relative_moves << (1..8).collect { |num| [num, 0] }
+    relative_moves << (1..8).collect { |num| [0, num] }
+    relative_moves << (1..8).collect { |num| [-num, 0] }
+    relative_moves << (1..8).collect { |num| [0, -num] }
 
     relative_moves
   end
