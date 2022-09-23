@@ -236,7 +236,40 @@ describe ChessBoard do
         # does not attack friendly piece: d7 not on the list
         expect(rook_moves).to eq(['e4', 'f4', 'g4', 'h4', 'd5', 'd6', 'c4', 'b4', 'a4', 'd3', 'd2'])
       end
+    end
+  end
 
+  # test for player 1 and 2
+  # test regular moves/does not go out of bounds
+  # test attack moves on opponent's pieces
+  # test that it cannot attack own pieces
+  describe '#get_valid_bishop_moves' do
+    context 'player 1' do
+      subject(:board) { described_class.new }
+
+      it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
+        board.move_piece('c1', 'd4')
+
+        bishop_moves = board.get_valid_bishop_moves('d4')
+
+        # attacks opponent piece: a7, g7
+        # does not attack friendly piece: b2,f2 ommitted
+        expect(bishop_moves).to eq(['e5', 'f6', 'g7', 'e3', 'c3', 'c5', 'b6', 'a7'])
+      end
+
+    end
+    context 'player 2' do
+      subject(:board) { described_class.new }
+
+      it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
+        board.move_piece('c8', 'd4')
+
+        bishop_moves = board.get_valid_bishop_moves('d4')
+
+        # attacks opponent piece: f2, b2
+        # does not attack friendly piece: a7, g7 ommitted
+        expect(bishop_moves).to eq(['e5', 'f6', 'e3', 'f2', 'c3', 'b2', 'c5', 'b6'])
+      end
     end
   end
 end
