@@ -204,4 +204,39 @@ describe ChessBoard do
       end
     end
   end
+
+  # test for player 1 and 2
+  # test regular moves/does not go out of bounds
+  # test attack moves on opponent's pieces
+  # test that it cannot attack own pieces
+  describe '#get_valid_rook_moves' do
+    context 'player 1' do
+      subject(:board) { described_class.new }
+
+      it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
+        board.move_piece('a1', 'd4')
+
+        rook_moves = board.get_valid_rook_moves('d4')
+
+        # attacks opponent piece: d7
+        # does not attack friendly piece: d2 not on the list
+        expect(rook_moves).to eq(['e4', 'f4', 'g4', 'h4', 'd5', 'd6', 'd7', 'c4', 'b4', 'a4', 'd3'])
+      end
+
+    end
+    context 'player 2' do
+      subject(:board) { described_class.new }
+
+      it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
+        board.move_piece('a8', 'd4')
+
+        rook_moves = board.get_valid_rook_moves('d4')
+
+        # attacks opponent piece: d2
+        # does not attack friendly piece: d7 not on the list
+        expect(rook_moves).to eq(['e4', 'f4', 'g4', 'h4', 'd5', 'd6', 'c4', 'b4', 'a4', 'd3', 'd2'])
+      end
+
+    end
+  end
 end
