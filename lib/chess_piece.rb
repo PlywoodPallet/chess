@@ -113,6 +113,17 @@ class Queen < ChessPiece
     super
     
     @icon = "\u265B"
+    @relative_moves = build_relative_moves
+  end
+
+  # TODO: Change Rook.build_relative_moves and Bishop_build_relative_moves into static methods that can be directly called here
+  # Queen has the combined moves of Rook and Bishop
+  def build_relative_moves
+    # player number doesn't matter
+    rook = Rook.new(1) 
+    bishop = Bishop.new(1)
+
+    rook.relative_moves + bishop.relative_moves
   end
 end
 
