@@ -282,6 +282,47 @@ class ChessBoard
     valid_absolute_moves + valid_absolute_attack_moves
   end
 
+  # Rook can move multiple squares cannot jump over other pieces
+  # Rook.relative_moves has a different data structure. Each subarray contains dimension (up,down,left,right). Each subarray goes from 1-square move to 8-square move. The method checks 1 move first, then 2nd move, etc. If one move contains a piece, the iteration stops and all other moves are not considered. This prevents rooks from jumping over pieces
+  
+  def get_valid_rook_moves(starting_coord)
+    piece = get_piece(starting_coord)
+    player_num = piece.player
+    opponent_player_num = piece.opponent_player_num
+    # get the relative moves from the piece
+    relative_moves = piece.relative_moves
+
+    # note: moves off the board are converted to nil
+    absolute_moves = relative_moves.map do |subarray|
+      subarray.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+    end
+
+    valid_absolute_moves = []
+
+    # for each sub array, iterate from start to finish. 
+    # Check if current coord is empty, if it is, add to a list to valid absolute moves
+    # If the coord is off the board (nil result) 
+    # If the coord is not empty. 
+    # (1) If it contains an opponent piece, add to valid moves and break out of subarray iteration 
+    # (2) If it contains an friendly piece, break out of subarray iteration 
+    absolute_moves.each do |subarray|
+      subarray.each do |absolute_move|
+        break if absolute_move.nil? # stop subarray iteration if the move is off the board
+        break if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == player_num
+
+        # (1) If it contains an opponent piece, add to valid moves and break out of subarray iteration 
+        if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == opponent_player_num
+          valid_absolute_moves << absolute_move
+          break
+        end
+        
+        valid_absolute_moves << absolute_move
+      end
+    end
+
+    valid_absolute_moves
+  end
+
   # given a starting coordinate and relative move (ex [0,1]), return the absolute grid (ex. "d5")
   # if absolute x or y coord is out of bounds, return nil
   def convert_relative_to_absolute(starting_coord, relative_coord)
