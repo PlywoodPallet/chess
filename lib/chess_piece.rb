@@ -133,5 +133,6 @@ class King < ChessPiece
     @hasCastled = false
     
     @icon = "\u265A"
+    @relative_moves = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
   end
 end
