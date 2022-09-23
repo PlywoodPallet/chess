@@ -13,6 +13,7 @@ class ChessPiece
   attr_reader :player, :icon, :relative_moves
 
   # player is nil by default
+  # TODO: Refactor player to player_num for consistency with chessboard methods
   def initialize(player = nil)
     @player = player
     @icon_colors = ['bright_white', 'black'] # player 1, player 2
@@ -26,6 +27,11 @@ class ChessPiece
     @player == 1 ? @icon.to_s.send(@icon_colors[0]) : @icon.to_s.send(@icon_colors[1])
     
     # "\e[#{icon_color}m #{@icon}\e[0m"
+  end
+
+  # return the player number of the opponent
+  def opponent_player_num
+    @player == 1 ? 2 : 1
   end
 end
 
@@ -56,7 +62,7 @@ class Rook < ChessPiece
     @icon = "\u265C"
     @relative_moves = build_relative_moves #NOTE: different array structure
   end
-  
+
   # relative_moves for Rook classes have a different array structure
   # [1, 2, 3, 4]
   #1 [[1, 0] to [8, 0]] (move in row)
