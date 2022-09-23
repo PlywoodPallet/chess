@@ -187,8 +187,9 @@ class ChessBoard
     # if piece cannot jump over other pieces but can move in rows,col (Rook)
     return get_valid_rook_moves(starting_coord) if piece.class == "Rook"
     # if piece cannot jump over other pieces but can move in diagonals (Bishop)
-
+    return get_valid_bishop_moves(starting_coord) if piece.class == "Bishop"
     # if piece cannot jump over other pieces but can move in rows,col and diagonals (Queen)
+    return get_valid_queen_moves(starting_coord) if piece.class == "Queen"
     
   end
 
@@ -323,6 +324,15 @@ class ChessBoard
     end
 
     valid_absolute_moves
+  end
+
+  # Consider making a general method for bishop, rook and queen
+  def get_valid_bishop_moves(starting_coord)
+    get_valid_rook_moves(starting_coord)
+  end
+
+  def get_valid_queen_moves(starting_coord)
+    get_valid_rook_moves(starting_coord)
   end
 
   # given a starting coordinate and relative move (ex [0,1]), return the absolute grid (ex. "d5")
