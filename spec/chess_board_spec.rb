@@ -272,4 +272,38 @@ describe ChessBoard do
       end
     end
   end
+
+  # test for player 1 and 2
+  # test regular moves/does not go out of bounds
+  # test attack moves on opponent's pieces
+  # test that it cannot attack own pieces
+  describe '#get_valid_queen_moves' do
+    context 'player 1' do
+      subject(:board) { described_class.new }
+
+      it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
+        board.move_piece('d1', 'd4')
+
+        queen_moves = board.get_valid_queen_moves('d4')
+
+        # attacks opponent piece: d7, a7, g7
+        # does not attack friendly piece: d2, b2, f2 ommitted
+        expect(queen_moves).to eq(['e4', 'f4', 'g4', 'h4', 'd5', 'd6', 'd7', 'c4', 'b4', 'a4', 'd3', 'e5', 'f6', 'g7', 'e3', 'c3', 'c5', 'b6', 'a7'])
+      end
+
+    end
+    context 'player 2' do
+      subject(:board) { described_class.new }
+
+      it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
+        board.move_piece('d8', 'd4')
+
+        queen_moves = board.get_valid_queen_moves('d4')
+
+        # attacks opponent piece: d2, a2, f2
+        # does not attack friendly piece:  d7, a7, g7
+        expect(queen_moves).to eq(['e4', 'f4', 'g4', 'h4', 'd5', 'd6', 'c4', 'b4', 'a4', 'd3', 'd2', 'e5', 'f6', 'e3', 'f2', 'c3', 'b2', 'c5', 'b6'])
+      end
+    end
+  end
 end
