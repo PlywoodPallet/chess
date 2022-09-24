@@ -44,21 +44,12 @@ class ChessGame
   def initialize
     @active_player = 1 # Player 1 always starts the game
     
-
     # TODO: change to a set of variables for a single active player only
     # TODO: remove case/when for all associated methods
-    @player1_input = nil
-    @player1_active_piece = nil
-    @player1_active_piece_coord = nil
-    @player1_valid_moves = []
-    @player1_move_choice = nil
-
-    @player2_input = nil
-    @player2_active_piece = nil
-    @player2_active_piece_coord = nil
-    @player2_valid_moves = []
-    @player2_move_choice = nil
-
+    @player_input = nil
+    @player_starting_coord = nil
+    @player_valid_moves = []
+    @player_ending_coord = nil
 
     @board = ChessBoard.new
   end
@@ -101,52 +92,22 @@ class ChessGame
       puts 'Input Error!'
     end
 
+    @player_starting_coord = verified_start_coord
+
     selected_piece = @board.get_piece(verified_start_coord)
-
-    case
-      when player_num == 1
-        @player1_active_piece = selected_piece
-        @player1_active_piece_coord = verified_start_coord
-      when player_num == 2
-        @player2_active_piece = selected_piece
-        @player2_active_piece_coord = verified_start_coord
-      else
-        'Input Error!'
-    end
-
     puts "You selected #{selected_piece.class} at #{verified_start_coord}"
   end
 
   # List valid moves of piece 
   # TODO: (give an opportunity to choose another piece)
   def list_moves(player_num)
-    active_piece_coord = nil
-    
-    # access the valid player input
-    case
-      when player_num == 1
-        active_piece_coord = @player1_active_piece_coord
-      when player_num == 2
-        active_piece_coord = @player2_active_piece_coord
-      else
-        'Input Error!'
-    end
 
-    # list the valid moves of the piece at selected coord
-    valid_moves = board.get_valid_moves(active_piece_coord)
-
+    # get the valid moves of the piece at selected coord
     # store moves for subsequent user choice
-    case
-      when player_num == 1
-        @player1_valid_moves = valid_moves
-      when player_num == 2
-        @player2_valid_moves = valid_moves
-      else
-        'Input Error!'
-    end
+    @player_valid_moves = board.get_valid_moves(@player_starting_coord)
 
-    # print moves
-    p valid_moves
+    # print moves for user
+    p @player_valid_moves
   end
 
   def choose_move(player_num)
@@ -162,29 +123,13 @@ class ChessGame
       puts 'Input Error!'
     end
 
-    case
-    when player_num == 1
-      @player1_move_choice = verified_move
-    when player_num == 2
-      @player2_move_choice = verified_move
-    else
-      'Input Error!'
-    end
+    @player_ending_coord = verified_move
 
     puts "Player #{player_num} chose #{verified_move}"
   end
 
   def verify_move_choice(move_choice, player_num)
-    active_moves = []
-    
-    case
-    when player_num == 1
-      active_moves = @player1_valid_moves
-    when player_num == 2
-      active_moves = @player2_valid_moves
-    end
-
-    return move_choice if active_moves.include?(move_choice)
+    return move_choice if @player_valid_moves.include?(move_choice)
 
     nil
   end
@@ -192,20 +137,7 @@ class ChessGame
   # Ask player to chose a valid move for piece
   # Move piece
   def move_piece(player_num)
-    
-    start_coord = nil
-    verified_move = nil
-
-    case
-    when player_num == 1
-      verified_move = @player1_move_choice
-      start_coord = @player1_active_piece_coord
-    when player_num == 2
-      verified_move = @player2_move_choice
-      start_coord = @player2_active_piece_coord
-    end
-
-    board.move_piece(start_coord, verified_move)
+    board.move_piece(@player_starting_coord, @player_ending_coord)
   end
 
   def player_input
