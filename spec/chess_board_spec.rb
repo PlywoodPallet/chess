@@ -306,4 +306,66 @@ describe ChessBoard do
       end
     end
   end
+
+  # test for player 1 and 2
+  # test regular moves/does not go out of bounds
+  # test attack moves on opponent's pieces
+  # test that it cannot attack own pieces
+  describe '#get_valid_king_moves' do
+    context 'player 1' do
+      subject(:board) { described_class.new }
+
+      it 'moves in rows and columns, does not go out of bounds' do
+        board.move_piece('e1', 'a4')
+
+        king_moves = board.get_valid_king_moves('a4')
+
+        expect(king_moves).to eq(['a5', 'b5', 'b4', 'b3', 'a3'])
+      end
+
+      it 'does not attack friendy pieces' do 
+        board.move_piece('e1', 'e3')
+
+        king_moves = board.get_valid_king_moves('e3')
+
+        expect(king_moves).to eq(['e4', 'f4', 'f3', 'd3', 'd4'])
+      end
+
+      it 'attacks opponent pieces' do 
+        board.move_piece('e1', 'e6')
+
+        king_moves = board.get_valid_king_moves('e6')
+
+        expect(king_moves).to eq(['f6', 'f5', 'e5', 'd5', 'd6', 'e7', 'f7', 'd7'])
+      end
+
+    end
+    context 'player 2' do
+      subject(:board) { described_class.new }
+
+      it 'moves in rows and columns, does not go out of bounds' do
+        board.move_piece('e8', 'a4')
+
+        king_moves = board.get_valid_king_moves('a4')
+
+        expect(king_moves).to eq(['a5', 'b5', 'b4', 'b3', 'a3'])
+      end
+
+      it 'does not attack friendy pieces' do 
+        board.move_piece('e8', 'e6')
+
+        king_moves = board.get_valid_king_moves('e6')
+
+        expect(king_moves).to eq(['f6', 'f5', 'e5', 'd5', 'd6'])
+      end
+
+      it 'attacks opponent pieces' do 
+        board.move_piece('e8', 'e3')
+
+        king_moves = board.get_valid_king_moves('e3')
+
+        expect(king_moves).to eq(['e4', 'f4', 'f3', 'd3', 'd4', 'f2', 'e2', 'd2'])
+      end
+    end
+  end
 end

@@ -180,7 +180,7 @@ class ChessBoard
 
     piece = get_piece(starting_coord)
 
-    # if piece can only move one square, do this code (Pawn, King)
+    # if piece is a pawn do this code (Pawn)
     return get_valid_pawn_moves(starting_coord) if piece.class == "Pawn"
     # if piece can jump over other pieces, do this code (Knight)
     return get_valid_knight_moves(starting_coord) if piece.class == "Knight"
@@ -190,7 +190,10 @@ class ChessBoard
     return get_valid_bishop_moves(starting_coord) if piece.class == "Bishop"
     # if piece cannot jump over other pieces but can move in rows,col and diagonals (Queen)
     return get_valid_queen_moves(starting_coord) if piece.class == "Queen"
+    # if piece is a king, do this code (King)
+    return get_valid_king_moves(starting_coord) if piece.class == "King"
     
+    puts "Error: Chess piece not recognized"
   end
 
   # TODO: (1) "en passant" special attack, (2) pawn promotion, (3) refactor into elegant code
@@ -333,6 +336,10 @@ class ChessBoard
 
   def get_valid_queen_moves(starting_coord)
     get_valid_rook_moves(starting_coord)
+  end
+
+  def get_valid_king_moves(starting_coord)
+    get_valid_knight_moves(starting_coord)
   end
 
   # given a starting coordinate and relative move (ex [0,1]), return the absolute grid (ex. "d5")
