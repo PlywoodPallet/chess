@@ -48,11 +48,13 @@ class ChessGame
     @player1_active_piece = nil
     @player1_active_piece_coord = nil
     @player1_valid_moves = []
+    @player1_move_choice = nil
 
     @player2_input = nil
     @player2_active_piece = nil
     @player2_active_piece_coord = nil
     @player2_valid_moves = []
+    @player2_move_choice = nil
 
 
     @board = ChessBoard.new
@@ -77,7 +79,9 @@ class ChessGame
     # List valid moves of piece (give an opportunity to choose another piece)
     list_moves(active_player)
     # Ask player to chose a valid move for piece
+    choose_move(active_player)
     # Move piece
+    move_piece(active_player)
   end
 
   # TODO: Learn how to throw errors
@@ -142,10 +146,63 @@ class ChessGame
     p valid_moves
   end
 
+  def choose_move(player_num)
+    puts "Player #{player_num} enter a move: "
+    
+    verified_move = ''
+    loop do
+      raw_input = player_input
+      verified_move = verify_move_choice(raw_input, player_num)
+
+      break if verified_move # break if not nil
+
+      puts 'Input Error!'
+    end
+
+    case
+    when player_num == 1
+      @player1_move_choice = verified_move
+    when player_num == 2
+      @player2_move_choice = verified_move
+    else
+      'Input Error!'
+    end
+
+    puts "Player #{player_num} chose #{verified_move}"
+  end
+
+  def verify_move_choice(move_choice, player_num)
+    active_moves = []
+    
+    case
+    when player_num == 1
+      active_moves = @player1_valid_moves
+    when player_num == 2
+      active_moves = @player2_valid_moves
+    end
+
+    return move_choice if active_moves.include?(move_choice)
+
+    nil
+  end
+
   # Ask player to chose a valid move for piece
   # Move piece
   def move_piece(player_num)
+    
+    start_coord = nil
+    verified_move = nil
 
+    case
+    when player_num == 1
+      verified_move = @player1_move_choice
+      start_coord = @player1_active_piece_coord
+    when player_num == 2
+      verified_move = @player2_move_choice
+      start_coord = @player2_active_piece_coord
+    end
+
+    board.move_piece(start_coord, verified_move)
   end
 
   def player_input
