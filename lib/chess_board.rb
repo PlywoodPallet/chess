@@ -113,6 +113,9 @@ class ChessBoard
   # https://en.wikipedia.org/wiki/Chess
   # Board alignment - "queen starts on own color". White queen starts on white square, etc
   # TODO: center chess piece in square
+  # TODO: add two parameters and background-highlighting function
+  # selected_piece is for highlighting the piece selected by user (color1)
+  # valid_moves is for highlighting the valid moves of the selected piece (color2)
   def print_board
     print_col_label
 
