@@ -338,10 +338,7 @@ class ChessBoard
     get_valid_rook_moves(starting_coord)
   end
 
-<<<<<<< HEAD
-=======
   # Consider making a general method for knight and king
->>>>>>> b4be906 (Add #get_valid_king_moves and associated tests)
   def get_valid_king_moves(starting_coord)
     get_valid_knight_moves(starting_coord)
   end
