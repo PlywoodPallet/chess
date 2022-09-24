@@ -181,19 +181,19 @@ class ChessBoard
     piece = get_piece(starting_coord)
 
     # if piece is a pawn do this code (Pawn)
-    return get_valid_pawn_moves(starting_coord) if piece.class == "Pawn"
+    return get_valid_pawn_moves(starting_coord) if piece.instance_of?(Pawn)
     # if piece can jump over other pieces, do this code (Knight)
-    return get_valid_knight_moves(starting_coord) if piece.class == "Knight"
+    return get_valid_knight_moves(starting_coord) if piece.instance_of?(Knight)
     # if piece cannot jump over other pieces but can move in rows,col (Rook)
-    return get_valid_rook_moves(starting_coord) if piece.class == "Rook"
+    return get_valid_rook_moves(starting_coord) if piece.instance_of?(Rook)
     # if piece cannot jump over other pieces but can move in diagonals (Bishop)
-    return get_valid_bishop_moves(starting_coord) if piece.class == "Bishop"
+    return get_valid_bishop_moves(starting_coord) if piece.instance_of?(Bishop)
     # if piece cannot jump over other pieces but can move in rows,col and diagonals (Queen)
-    return get_valid_queen_moves(starting_coord) if piece.class == "Queen"
+    return get_valid_queen_moves(starting_coord) if piece.instance_of?(Queen)
     # if piece is a king, do this code (King)
-    return get_valid_king_moves(starting_coord) if piece.class == "King"
+    return get_valid_king_moves(starting_coord) if piece.instance_of?(King)
     
-    puts "Error: Chess piece not recognized"
+    puts 'Error: Chess piece not recognized'
   end
 
   # TODO: (1) "en passant" special attack, (2) pawn promotion, (3) refactor into elegant code
