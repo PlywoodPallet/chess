@@ -44,8 +44,6 @@ class ChessGame
   def initialize
     @active_player = 1 # Player 1 always starts the game
     
-    # TODO: change to a set of variables for a single active player only
-    # TODO: remove case/when for all associated methods
     @player_input = nil
     @player_starting_coord = nil
     @player_valid_moves = []
