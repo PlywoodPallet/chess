@@ -110,6 +110,9 @@ class ChessGame
     piece_player = piece_at_coord.player
     return nil if piece_player != player_num
 
+    # check if piece has any available moves
+    return nil if board.get_valid_moves(start_coord) == []
+
     start_coord
   end
 
