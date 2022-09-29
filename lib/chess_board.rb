@@ -114,9 +114,9 @@ class ChessBoard
   # Board alignment - "queen starts on own color". White queen starts on white square, etc
   # TODO: center chess piece in square
   # TODO: add two parameters and background-highlighting function
-  # selected_piece is for highlighting the piece selected by user (color1)
-  # valid_moves is for highlighting the valid moves of the selected piece (color2)
-  def print_board
+  # selected_piece is for highlighting the piece selected by user at coordinate (color1)
+  # valid_moves is for highlighting the valid moves of the selected piece at coordinate array (color2)
+  def print_board (selected_piece_coord = nil, valid_moves = nil)
     print_col_label
 
     current_bg_color = @bg_colors[0] # first cell in upper left is white (a8)
@@ -126,6 +126,18 @@ class ChessBoard
       ('a'..'h').each do |letter|
         icon = @board["#{letter}#{number}"].to_s # explicit to_s needed for icon.send to work correctly
         icon = "  #{icon}" # add spaces for display padding
+
+        coord = letter.to_s + number.to_s
+
+        # highlight the coordinate selected by user
+        if selected_piece_coord != nil && coord == selected_piece_coord
+          current_bg_color = 'bg_cyan'
+
+        # highlight the possible moves of the piece
+        elsif selected_piece_coord != nil && valid_moves.include?(coord)
+          current_bg_color = 'bg_green'
+        end
+
         print icon.send(current_bg_color)
 
         # alternate between background colors
