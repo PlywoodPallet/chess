@@ -69,7 +69,7 @@ class ChessGame
     # Ask player to choose a valid piece
     select_piece(active_player)
     # List valid moves of piece (give an opportunity to choose another piece)
-    list_moves
+    print_moves
     # Ask player to chose a valid move for piece
     choose_move(active_player)
     # Move piece
@@ -118,7 +118,7 @@ class ChessGame
 
   # List valid moves of piece 
   # TODO: (give an opportunity to choose another piece)
-  def list_moves
+  def print_moves
 
     # get the valid moves of the piece at selected coord
     # store moves for subsequent user choice
