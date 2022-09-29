@@ -104,6 +104,8 @@ class ChessGame
     # store moves for subsequent user choice
     @player_valid_moves = board.get_valid_moves(@player_starting_coord)
 
+    @board.print_board(@player_starting_coord, @player_valid_moves)
+
     # print moves for user
     p @player_valid_moves
   end
