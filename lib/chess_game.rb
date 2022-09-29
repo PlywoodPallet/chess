@@ -69,11 +69,11 @@ class ChessGame
     # Ask player to choose a valid piece
     select_piece(active_player)
     # List valid moves of piece (give an opportunity to choose another piece)
-    list_moves(active_player)
+    list_moves
     # Ask player to chose a valid move for piece
     choose_move(active_player)
     # Move piece
-    move_piece(active_player)
+    move_piece
   end
 
   # TODO: Learn how to throw errors
@@ -98,7 +98,7 @@ class ChessGame
 
   # List valid moves of piece 
   # TODO: (give an opportunity to choose another piece)
-  def list_moves(player_num)
+  def list_moves
 
     # get the valid moves of the piece at selected coord
     # store moves for subsequent user choice
@@ -136,7 +136,7 @@ class ChessGame
 
   # Ask player to chose a valid move for piece
   # Move piece
-  def move_piece(player_num)
+  def move_piece
     board.move_piece(@player_starting_coord, @player_ending_coord)
   end
 
