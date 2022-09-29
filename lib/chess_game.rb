@@ -96,6 +96,23 @@ class ChessGame
     puts "You selected #{selected_piece.class} at #{verified_start_coord}"
   end
 
+  def verify_start_coord(start_coord, player_num)
+    start_coord = start_coord.to_s
+
+    # check if coordinate exists on the board
+    piece_at_coord = @board.get_piece(start_coord)
+    return nil if piece_at_coord.nil?
+
+    # check if piece exists at the coord
+    return nil if piece_at_coord == @board.blank_value
+    
+    # check if piece belongs to player
+    piece_player = piece_at_coord.player
+    return nil if piece_player != player_num
+
+    start_coord
+  end
+
   # List valid moves of piece 
   # TODO: (give an opportunity to choose another piece)
   def list_moves
@@ -142,23 +159,6 @@ class ChessGame
 
   def player_input
     gets.chomp
-  end
-
-  def verify_start_coord(start_coord, player_num)
-    start_coord = start_coord.to_s
-
-    # check if coordinate exists on the board
-    piece_at_coord = @board.get_piece(start_coord)
-    return nil if piece_at_coord.nil?
-
-    # check if piece exists at the coord
-    return nil if piece_at_coord == @board.blank_value
-    
-    # check if piece belongs to player
-    piece_player = piece_at_coord.player
-    return nil if piece_player != player_num
-
-    start_coord
   end
   
   # Switch the active player between 1 and 2
