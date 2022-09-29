@@ -1,0 +1,1 @@
+#test all conditions of #verify_start_coord
