@@ -25,7 +25,7 @@ class ChessBoard
   attr_reader :blank_value
 
   def initialize
-    @blank_value = ' '
+    @blank_value = ' ' # needed for print_board to display correctly and so empty values aren't nil
 
     # Benefits of using hash to represent the board: 
     # can store pieces in the exact coordinates that they are represented on the board (key a3 has the piece), rather than creating a 2d array where the location is no obvious
