@@ -191,8 +191,26 @@ class ChessGame
     end
   end
 
+  # Game over conditions
+  # Player resign - player is able to enter option during piece choice
+  # Checkmate
+  # Stalemate - player has no legal move and not in check
+  # Dead position - neither player is able to checkmate. Such as only two kings are on the board (research all possibilities - hope its a short list)
+
   def game_over?
     false
+  end
+
+  def check?
+  end
+
+  # Checkmate - King is under threat. King may have valid_moves but they all lead to the king being captured
+  # Need to know the location of both kings are at all times
+  # From a king position, scan for opponent pieces similar to get_valid_moves (using a relative_moves check) for rook, bishop, queen, knight, pawn/king. All opponent piece coords that satisfy this condition go into an array. Check each piece with get_valid_moves to double check that these pieces can directly attack the king
+  # if no pieces can attack the king, the player is not in check or checkmate
+  # if a piece can attack the king, but it can flee into a safe position, the player is in check
+  # if a piece can attack the king and it cannot flee into a safe position, the player is in checkmate and the game is over
+  def checkmate?
   end
 
   # call a ChessBoard method here
