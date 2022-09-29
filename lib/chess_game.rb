@@ -37,6 +37,7 @@
 # pieces are denoted by the file its in such as "pawn in f-file"
 
 require_relative '../lib/chess_board'
+require 'pry-byebug'
 
 class ChessGame
   attr_accessor :board # remove, for debugging only
@@ -48,6 +49,7 @@ class ChessGame
     @player_starting_coord = nil
     @player_valid_moves = []
     @player_ending_coord = nil
+    @player_redo_selection = true
 
     @board = ChessBoard.new
   end
@@ -66,14 +68,17 @@ class ChessGame
   end
 
   def player_turn(active_player)
-    # Ask player to choose a valid piece
-    select_piece(active_player)
-    # List valid moves of piece (give an opportunity to choose another piece)
-    print_moves
-    # Ask player to chose a valid move for piece
-    choose_move(active_player)
+    while @player_redo_selection == true
+      # Ask player to choose a valid piece
+      select_piece(active_player)
+      # List valid moves of piece (give an opportunity to choose another piece)
+      print_moves
+      # Ask player to chose a valid move for piece
+      choose_move(active_player)
+    end
     # Move piece
     move_piece
+    @player_redo_selection = true # reset back to default value to prevent an infinite loop
   end
 
   # TODO: Learn how to throw errors
@@ -132,6 +137,7 @@ class ChessGame
 
   def choose_move(player_num)
     puts "Player #{player_num} enter a move: "
+    puts "Enter R to choose a different piece"
     
     verified_move = ''
     loop do
@@ -149,7 +155,19 @@ class ChessGame
   end
 
   def verify_move_choice(move_choice, player_num)
-    return move_choice if @player_valid_moves.include?(move_choice)
+    # if a move is chosen, the player doesn't want to choose another piece
+    if @player_valid_moves.include?(move_choice)
+      @player_redo_selection = false
+      return move_choice
+    # if "R" is chosen, the player wants to redo their choice
+    elsif move_choice.upcase == 'R'
+      @player_redo_selection = true
+      return move_choice
+    end
+
+    # return move_choice if @player_valid_moves.include?(move_choice)
+
+    # return move_choice if move_choice.upcase == 'R'
 
     nil
   end
