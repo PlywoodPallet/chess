@@ -2,15 +2,6 @@
 # x axis - lower case letters (a-h)
 # y axis - numbers (1-8) starts at the bottom of the board then goes up
 
-# rows are called ranks
-# columns are called files
-
-# pieces are denoted by the file its in such as "pawn in f-file"
-
-# Colorize console text with ANSI escape codes
-# https://en.wikipedia.org/wiki/ANSI_escape_code
-# optional: alternating square color
-
 # should finding valid moves be in a separate class? "move_validator"
 # TODO: VScode console and Linux terminal display the board differently. Alternates each player color from black and white
 
