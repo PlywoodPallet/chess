@@ -33,6 +33,9 @@ class ChessBoard
     # When a player chooses a piece to move, bg color of that piece
     @possible_moves_bg_color = 'bg_green'
 
+    @player1_king_coord = nil
+    @player2_king_coord = nil
+
     initialize_board_coordinates
     initialize_player_pieces(1)
     initialize_player_pieces(2)
