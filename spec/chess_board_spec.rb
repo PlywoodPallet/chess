@@ -37,6 +37,17 @@ describe ChessBoard do
 
         expect(start_piece).to eq(board.blank_value)
       end
+
+      it 'when king is moved, it stores its new coordinate' do
+        start_coord = 'e1' # player 1 king
+        end_coord = 'a3'
+
+        piece = board.get_piece(start_coord)
+
+        board.move_piece(start_coord, end_coord)
+
+        expect(board.player1_king_coord).to eq(end_coord)
+      end
     end
   end
 

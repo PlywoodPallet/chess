@@ -15,13 +15,12 @@ require_relative '../lib/chess_piece'
 require_relative '../lib/string' # console font styles
 
 class ChessBoard
-  attr_reader :blank_value
+  attr_reader :blank_value, :player1_king_coord, :player2_king_coord
 
   def initialize
     @blank_value = ' ' # needed for print_board to display correctly and so empty values aren't nil
 
-    # Benefits of using hash to represent the board: 
-    # can store pieces in the exact coordinates that they are represented on the board (key a3 has the piece), rather than creating a 2d array where the location is no obvious
+
 
     # Cons 
     # Knights Travails written for a 2d array - can use a lookup 2d array that converts between coordinate key "a3" and y,x coordinates
@@ -35,6 +34,7 @@ class ChessBoard
     # When a player chooses a piece to move, bg color of that piece
     @possible_moves_bg_color = 'bg_green'
 
+    # Track the coord of each players king for determining checkmate
     @player1_king_coord = nil
     @player2_king_coord = nil
 
@@ -107,7 +107,10 @@ class ChessBoard
     # White: 1x King - e1
     # Black: 1x King - e8
     king = King.new(player_num)
-    @board["e#{back_row}"] = king
+    king_coord = "e#{back_row}"
+    @board[king_coord] = king
+    # initialize the variables that track the position of each players king
+    player_num == 1 ? @player1_king_coord = king_coord : @player2_king_coord = king_coord
   end
 
   # print the board according to the format below (rows: descending numbers, col: ascending alphabet)
@@ -170,6 +173,12 @@ class ChessBoard
     piece = get_piece(start_coord)
     @board[start_coord] = @blank_value
     @board[end_coord] = piece
+
+    # Track the coordinates of each players king
+    if piece.instance_of?(King)
+      piece.player_num == 1 ? @player1_king_coord = end_coord : @player2_king_coord = end_coord
+      # puts "Player #{piece.player_num} king has moved to #{end_coord}"
+    end
   end
 
   # Return the piece at a given coordinate
