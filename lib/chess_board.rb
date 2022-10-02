@@ -122,14 +122,13 @@ class ChessBoard
 
         # highlight the coordinate selected by user
         if selected_piece_coord != nil && coord == selected_piece_coord
-          current_bg_color = 'bg_cyan'
-
+          print icon.send('bg_cyan') # send bg color command directly to preserve checkered background
         # highlight the possible moves of the piece
         elsif selected_piece_coord != nil && valid_moves.include?(coord)
-          current_bg_color = 'bg_green'
+          print icon.send('bg_green') # send bg color command directly to preserve checkered background
+        else
+          print icon.send(current_bg_color)
         end
-
-        print icon.send(current_bg_color)
 
         # alternate between background colors
         current_bg_color = current_bg_color == @bg_colors[0] ? @bg_colors[1] : @bg_colors[0]
