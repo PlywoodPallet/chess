@@ -70,6 +70,7 @@ class Rook < ChessPiece
   # 2 [[0, 1] to [0, 8]] (move in col)
   # 3 [[-1, 0] to [-8, 0]]
   # 4 [[0, -1] to [0, -8]]
+  # output = [[subarray1], [subarray2], [subarray3], [subarray4]]
   def build_relative_moves
     relative_moves = []
 
@@ -88,6 +89,7 @@ end
   # 2 [[1, -1] to [8, -8]]
   # 3 [[-1, -1] to [-8, -8]]
   # 4 [[-1, 1] to [-8, 8]]
+  # output = [[subarray1], [subarray2], [subarray3], [subarray4]]
 class Bishop < ChessPiece
   def initialize(player = nil)
     super
