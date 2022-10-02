@@ -28,6 +28,11 @@ class ChessBoard
 
     @bg_colors = ['bg_white', 'bg_bright_black']
 
+    # When a player chooses a piece to move, bg color of that piece
+    @highlighed_piece_bg_color = 'bg_cyan'
+    # When a player chooses a piece to move, bg color of that piece
+    @possible_moves_bg_color = 'bg_green'
+
     initialize_board_coordinates
     initialize_player_pieces(1)
     initialize_player_pieces(2)
@@ -122,10 +127,10 @@ class ChessBoard
 
         # highlight the coordinate selected by user
         if selected_piece_coord != nil && coord == selected_piece_coord
-          print icon.send('bg_cyan') # send bg color command directly to preserve checkered background
+          print icon.send(@highlighed_piece_bg_color) # send bg color command directly to preserve checkered background
         # highlight the possible moves of the piece
         elsif selected_piece_coord != nil && valid_moves.include?(coord)
-          print icon.send('bg_green') # send bg color command directly to preserve checkered background
+          print icon.send(@possible_moves_bg_color) # send bg color command directly to preserve checkered background
         else
           print icon.send(current_bg_color)
         end
