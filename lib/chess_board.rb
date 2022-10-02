@@ -216,7 +216,7 @@ class ChessBoard
     relative_moves = []
     absolute_moves = []
     piece = get_piece(starting_coord)
-    player_num = piece.player
+    player_num = piece.player_num
 
     # the pawn can only move forward, based on player (player1/white goes from bottom to top, player2/black goes from top to bottom)
     if player_num == 1
@@ -257,7 +257,7 @@ class ChessBoard
       absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
 
       # select attack move coordinates that contain a piece belonging to the opponent
-      valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == 2 }
+      valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == 2 }
       absolute_moves += valid_absolute_attack_moves
     elsif player_num == 2
       relative_attack_moves = []
@@ -266,7 +266,7 @@ class ChessBoard
       absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
 
       # select attack move coordinates that contain a piece belonging to the opponent
-      valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == 1}
+      valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == 1}
       absolute_moves += valid_absolute_attack_moves
     end
 
@@ -276,9 +276,10 @@ class ChessBoard
   end
 
   # TODO: remove the piece parameter and just access it with get_piece()
+  # TODO: refactor method remove if elsif. Use method that gets the opponents player number
   def get_valid_knight_moves(starting_coord)
     piece = get_piece(starting_coord)
-    player_num = piece.player
+    player_num = piece.player_num
     # get the relative moves from the piece
     relative_moves = piece.relative_moves
 
@@ -291,11 +292,11 @@ class ChessBoard
     if player_num == 1
       valid_absolute_moves = absolute_moves.select { |absolute_move| coord_is_empty?(absolute_move)}
 
-      valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == 2}
+      valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == 2}
     elsif player_num == 2
       valid_absolute_moves = absolute_moves.select { |absolute_move| coord_is_empty?(absolute_move)}
 
-      valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == 1}
+      valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == 1}
     end
 
     valid_absolute_moves + valid_absolute_attack_moves
@@ -306,7 +307,7 @@ class ChessBoard
   
   def get_valid_rook_moves(starting_coord)
     piece = get_piece(starting_coord)
-    player_num = piece.player
+    player_num = piece.player_num
     opponent_player_num = piece.opponent_player_num
     # get the relative moves from the piece
     relative_moves = piece.relative_moves
@@ -327,10 +328,10 @@ class ChessBoard
     absolute_moves.each do |subarray|
       subarray.each do |absolute_move|
         break if absolute_move.nil? # stop subarray iteration if the move is off the board
-        break if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == player_num
+        break if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == player_num
 
         # (1) If it contains an opponent piece, add to valid moves and break out of subarray iteration 
-        if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player == opponent_player_num
+        if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num
           valid_absolute_moves << absolute_move
           break
         end

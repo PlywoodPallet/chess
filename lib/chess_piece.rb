@@ -10,12 +10,12 @@
 require_relative '../lib/string' # console font styles
 
 class ChessPiece
-  attr_reader :player, :icon, :relative_moves
+  attr_reader :player_num, :icon, :relative_moves
 
   # player is nil by default
   # TODO: Refactor player to player_num for consistency with chessboard methods
-  def initialize(player = nil)
-    @player = player
+  def initialize(player_num = nil)
+    @player_num = player_num
     @icon_colors = ['bright_white', 'black'] # player 1, player 2
   end
 
@@ -24,14 +24,14 @@ class ChessPiece
   def to_s
     # Player 1 = white (37)
     # Player 2 = black (30)
-    @player == 1 ? @icon.to_s.send(@icon_colors[0]) : @icon.to_s.send(@icon_colors[1])
+    @player_num == 1 ? @icon.to_s.send(@icon_colors[0]) : @icon.to_s.send(@icon_colors[1])
     
     # "\e[#{icon_color}m #{@icon}\e[0m"
   end
 
   # return the player number of the opponent
   def opponent_player_num
-    @player == 1 ? 2 : 1
+    @player_num == 1 ? 2 : 1
   end
 end
 
@@ -40,7 +40,7 @@ end
 # removed @relative_moves because pawns can only move forward. The logic involved is in ChessBoard#get_valid_pawn_moves
 # TODO: castling feature
 class Pawn < ChessPiece
-  def initialize(player = nil)
+  def initialize(player_num = nil)
     super
     
     @icon = "\u265F"
@@ -48,7 +48,7 @@ class Pawn < ChessPiece
 end
 
 class Knight < ChessPiece
-  def initialize(player = nil)
+  def initialize(player_num = nil)
     super
     
     @icon = "\u265E"
@@ -57,7 +57,7 @@ class Knight < ChessPiece
 end
 
 class Rook < ChessPiece
-  def initialize(player = nil)
+  def initialize(player_num = nil)
     super
     
     @icon = "\u265C"
@@ -128,7 +128,7 @@ class Queen < ChessPiece
 end
 
 class King < ChessPiece
-  def initialize(player = nil)
+  def initialize(player_num = nil)
     super
     @hasCastled = false
     

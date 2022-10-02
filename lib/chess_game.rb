@@ -112,8 +112,8 @@ class ChessGame
     return nil if piece_at_coord == @board.blank_value
     
     # check if piece belongs to player
-    piece_player = piece_at_coord.player
-    return nil if piece_player != player_num
+    piece_player_num = piece_at_coord.player_num
+    return nil if piece_player_num != player_num
 
     # check if piece has any available moves
     return nil if board.get_valid_moves(start_coord) == []
