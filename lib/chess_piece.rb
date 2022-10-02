@@ -66,10 +66,10 @@ class Rook < ChessPiece
 
   # relative_moves for Rook classes have a different array structure
   # [1, 2, 3, 4]
-  #1 [[1, 0] to [8, 0]] (move in row)
-  #2 [[0, 1] to [0, 8]] (move in col)
-  #3 [[-1, 0] to [-8, 0]]
-  #4 [[0, -1] to [0, -8]]
+  # 1 [[1, 0] to [8, 0]] (move in row)
+  # 2 [[0, 1] to [0, 8]] (move in col)
+  # 3 [[-1, 0] to [-8, 0]]
+  # 4 [[0, -1] to [0, -8]]
   def build_relative_moves
     relative_moves = []
 
@@ -84,10 +84,10 @@ end
 
   # relative_moves for Bishop class has a different array structure
   # [1, 2, 3, 4]
-  #1 [[1, 1] to [8, 8]]
-  #2 [[1, -1] to [8, -8]]
-  #3 [[-1, -1] to [-8, -8]]
-  #4 [[-1, 1] to [-8, 8]]
+  # 1 [[1, 1] to [8, 8]]
+  # 2 [[1, -1] to [8, -8]]
+  # 3 [[-1, -1] to [-8, -8]]
+  # 4 [[-1, 1] to [-8, 8]]
 class Bishop < ChessPiece
   def initialize(player = nil)
     super
