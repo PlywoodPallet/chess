@@ -200,12 +200,12 @@ class ChessBoard
   end
 
   # this method should be in ChessBoard rather than ChessGame because valid moves need to take other pieces into consideration
-  def get_valid_moves(starting_coord)
+  def get_valid_moves(starting_coord, pawn_attack_only = false)
 
     piece = get_piece(starting_coord)
 
     # if piece is a pawn do this code (Pawn)
-    return get_valid_pawn_moves(starting_coord) if piece.instance_of?(Pawn)
+    return get_valid_pawn_moves(starting_coord, pawn_attack_only) if piece.instance_of?(Pawn)
     # if piece can jump over other pieces, do this code (Knight)
     return get_valid_knight_moves(starting_coord) if piece.instance_of?(Knight)
     # if piece cannot jump over other pieces but can move in rows,col (Rook)
@@ -223,63 +223,58 @@ class ChessBoard
   # TODO: (1) "en passant" special attack, (2) pawn promotion, (3) refactor into elegant code
   # Pawns are the only piece can only move in a certain direction, which requires extra complexity
   # "en passant" is a reaction to an opponent pawn's 2 square initial move. Is only available immediately afterwards
-  def get_valid_pawn_moves(starting_coord)
+  def get_valid_pawn_moves(starting_coord, pawn_attack_only = false)
     relative_moves = []
     absolute_moves = []
     piece = get_piece(starting_coord)
     player_num = piece.player_num
+    opponent_player_num = piece.opponent_player_num
 
-    # the pawn can only move forward, based on player (player1/white goes from bottom to top, player2/black goes from top to bottom)
-    if player_num == 1
-      relative_moves << [0, 1]
-    elsif player_num == 2
-      relative_moves << [0, -1]
+    if pawn_attack_only == false
+      # the pawn can only move forward, based on player (player1/white goes from bottom to top, player2/black goes from top to bottom)
+      if player_num == 1
+        relative_moves << [0, 1]
+      elsif player_num == 2
+        relative_moves << [0, -1]
+      end
+
+      # if pawn is in starting row, add another starting move where it can move two spaces
+      # TODO: edge case where pawn has gone to the other player side and returned to the home row (without exchanging for another piece?) Highly unlikely
+      starting_coord_y = starting_coord[1].to_i
+
+      if player_num == 1 && starting_coord_y == 2
+        relative_moves << [0, 2]
+      elsif player_num == 2 && starting_coord_y == 7
+        relative_moves << [0, -2]
+      end
+
+      # these are non-attack moves
+      absolute_moves = relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+
+      # First value in array is a 1 square move, second value in the array is a 2 square move
+      # if [0,1]/[0,-1] are invalid, piece is blocked so remove all moves
+      if coord_contains_piece?(absolute_moves[0])
+        absolute_moves.clear
+      # if [0,2]/[0,-2] are invalid but [0,1]/[0,-1] is valid, only remove the former
+      elsif coord_contains_piece?(absolute_moves[1])
+        absolute_moves.pop
+      end
     end
-
-    # if pawn is in starting row, add another starting move where it can move two spaces
-    # TODO: edge case where pawn has gone to the other player side and returned to the home row (without exchanging for another piece?) Highly unlikely
-    starting_coord_y = starting_coord[1].to_i
-
-    if player_num == 1 && starting_coord_y == 2
-      relative_moves << [0, 2]
-    elsif player_num == 2 && starting_coord_y == 7
-      relative_moves << [0, -2]
-    end
-
-    # these are non-attack moves
-    absolute_moves = relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
     
-    # First value in array is a 1 square move, second value in the array is a 2 square move
-    # if [0,1]/[0,-1] are invalid, piece is blocked so remove all moves
-    if coord_contains_piece?(absolute_moves[0])
-      absolute_moves.clear
-
-    # if [0,2]/[0,-2] are invalid but [0,1]/[0,-1] is valid, only remove the former
-    elsif coord_contains_piece?(absolute_moves[1])
-      absolute_moves.pop
-    end
-
     # scan for enemy pieces for standard attack
-    # TODO: clean up code, lots of repetition here
+    relative_attack_moves = []
     if player_num == 1
-      relative_attack_moves = []
       relative_attack_moves << [-1, 1]
       relative_attack_moves << [1, 1]
-      absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
-
-      # select attack move coordinates that contain a piece belonging to the opponent
-      valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == 2 }
-      absolute_moves += valid_absolute_attack_moves
     elsif player_num == 2
-      relative_attack_moves = []
       relative_attack_moves << [-1, -1]
       relative_attack_moves << [1, -1]
-      absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
-
-      # select attack move coordinates that contain a piece belonging to the opponent
-      valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == 1}
-      absolute_moves += valid_absolute_attack_moves
     end
+
+    absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+    # select attack move coordinates that contain a piece belonging to the opponent
+    valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num}
+    absolute_moves += valid_absolute_attack_moves
 
     # scan for "en passant" special attack
 

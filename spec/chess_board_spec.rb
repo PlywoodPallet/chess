@@ -1,6 +1,8 @@
 # Accomplishments
 # Created my first custom matcher for #get_piece test in spec_helper.rb called "be_the_same_chess_piece_as"
 
+# NOTE: player 1 and player 2 tests are no longer neccessary for methods refactored to be player_num agnostic
+
 require_relative '../lib/chess_board.rb'
 require_relative '../lib/chess_piece.rb'
 
@@ -138,6 +140,14 @@ describe ChessBoard do
         pawn_moves = board.get_valid_pawn_moves('c2')
 
         expect(pawn_moves).to eq(['c3','c4']) 
+      end
+
+      # method refactored to be player_num agnostic, player 2 test unnecessary
+      it 'when optional param pawn_attack_only = true, return the attack moves only' do
+        board.move_piece('b7','b3') # move opponent piece as target
+        pawn_moves = board.get_valid_pawn_moves('a2', true)
+
+        expect(pawn_moves).to eq(['b3'])
       end
     end
 
