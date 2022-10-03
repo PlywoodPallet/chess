@@ -211,6 +211,27 @@ class ChessGame
   # if a piece can attack the king, but it can flee into a safe position, the player is in check
   # if a piece can attack the king and it cannot flee into a safe position, the player is in checkmate and the game is over
   def checkmate?
+    kings = []
+    kings << @board.player1_king_coord
+    kings << @board.player2_king_coord
+
+    p kings
+    threatening_pieces = []
+    p threatening_pieces = kings.map { |king_coord| board.get_threatening_pieces(king_coord) }
+
+    player1_threatening_pieces = threatening_pieces[0]
+    p player1_all_possible_moves = player1_threatening_pieces.map { |piece_coord| board.get_valid_moves(piece_coord) }
+
+    # problem here. What of pawn moves? They need to be considered separately. A pawn is different in that its "regular moves" and "attack moves" are different
+    # If this isn't considered, a game state can be falsely determined to have a checkmate from a pawn moving forward but not attacking
+    # idea 1: create a param in board.get_valid_moves that if used on a pawn, calls a different method that only returns attack moves
+
+
+
+
+
+
+
   end
 
   # call a ChessBoard method here
