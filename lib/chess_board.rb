@@ -299,11 +299,7 @@ class ChessBoard
     # select all moves that go to an empty space OR an opponent's piece
     valid_absolute_moves = []
     valid_absolute_attack_moves = []
-    if player_num == 1
-      valid_absolute_moves = absolute_moves.select { |absolute_move| coord_is_empty?(absolute_move)}
 
-      valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == 2}
-    elsif player_num == 2
     valid_absolute_moves = absolute_moves.select { |absolute_move| coord_is_empty?(absolute_move)}
     valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num}
 
@@ -363,6 +359,60 @@ class ChessBoard
   # Consider making a general method for knight and king
   def get_valid_king_moves(starting_coord)
     get_valid_knight_moves(starting_coord)
+  end
+
+  # helper methods for determining check and checkmate
+
+
+  # Scan for opponent pieces using relative_moves of rook, bishop and knight
+  # Need two different algos for rook,bishop vs knight because former doesn't jump, latter does jump
+  # Return the coords of such pieces
+  # Not all pieces are guaranteed to check the king. They are used as candidates for further determination
+  def get_threatening_pieces(starting_coord)
+    piece = get_piece(starting_coord)
+    player_num = piece.player_num
+    opponent_player_num = piece.opponent_player_num
+    
+    # TODO: figure out how to get Ruby static variables working
+    # get the relative moves
+    rook = Rook.new(1)
+    bishop = Bishop.new(1)
+    knight = Knight.new(1)
+
+    rook_bishop_relative_moves = rook.relative_moves + bishop.relative_moves
+    knight_relative_moves = knight.relative_moves
+
+    # note: moves off the board are converted to nil
+    rook_bishop_absolute_moves = rook_bishop_relative_moves.map do |subarray|
+      subarray.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+    end
+
+    knight_absolute_moves = knight_relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+
+    valid_absolute_moves = []
+
+    # taken from #get_valid_rook_moves. Crucial difference is that a valid move is ONLY one that attacks an opponent piece
+    rook_bishop_absolute_moves.each do |subarray|
+      subarray.each do |absolute_move|
+        break if absolute_move.nil? # stop subarray iteration if the move is off the board
+        break if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == player_num # stop iteration if come across own player's piece
+
+        # (1) If it contains an opponent piece, add to valid moves and break out of subarray iteration 
+        if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num
+          valid_absolute_moves << absolute_move
+          break
+        end
+      end
+    end
+
+    # taken from #get_valid_knight_moves. Crucial difference is that a valid move is ONLY one that attacks an opponent piece
+    knight_absolute_moves.each do |absolute_move|
+      if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num
+        valid_absolute_moves << absolute_move
+      end
+    end
+
+    valid_absolute_moves
   end
 
   # given a starting coordinate and relative move (ex [0,1]), return the absolute grid (ex. "d5")
