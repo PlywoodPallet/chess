@@ -201,7 +201,31 @@ class ChessGame
     false
   end
 
-  def check?
+
+  # When a king is under immediate attack, it is said to be in check. A move in response to a check is legal only if it results in a position where the king is no longer in check. This can involve capturing the checking piece; interposing a piece between the checking piece and the king (which is possible only if the attacking piece is a queen, rook, or bishop and there is a square between it and the king); or moving the king to a square where it is not under attack. Castling is not a permissible response to a check
+
+  # The object of the game is to checkmate the opponent; this occurs when the opponent's king is in check, and there is no legal way to get it out of check. It is never legal for a player to make a move that puts or leaves the player's own king in check
+
+  def check_player1?
+    threatening_pieces = []
+    possible_threatening_pieces_targeting_p1 = board.get_threatening_pieces(@board.player1_king_coord)
+
+    player2_possible_attack_moves = possible_threatening_pieces_targeting_p1.map { |piece_coord| board.get_valid_moves(piece_coord, true) }.flatten # pawn_attack_only = true
+
+    return true if player2_possible_attack_moves.include?(@board.player1_king_coord)
+
+    false
+  end
+
+  def check_player2?
+    threatening_pieces = []
+    possible_threatening_pieces_targeting_p2 = board.get_threatening_pieces(@board.player2_king_coord)
+
+    player1_possible_attack_moves = possible_threatening_pieces_targeting_p2.map { |piece_coord| board.get_valid_moves(piece_coord, true) }.flatten # pawn_attack_only = true
+
+    return true if player1_possible_attack_moves.include?(@board.player2_king_coord)
+
+    false
   end
 
   # Checkmate - King is under threat. King may have valid_moves but they all lead to the king being captured
@@ -210,24 +234,11 @@ class ChessGame
   # if no pieces can attack the king, the player is not in check or checkmate
   # if a piece can attack the king, but it can flee into a safe position, the player is in check
   # if a piece can attack the king and it cannot flee into a safe position, the player is in checkmate and the game is over
-  def checkmate?
-    kings = []
-    kings << @board.player1_king_coord
-    kings << @board.player2_king_coord
 
-    p kings
-    threatening_pieces = []
-    p threatening_pieces = kings.map { |king_coord| board.get_threatening_pieces(king_coord) }
-
-    player1_threatening_pieces = threatening_pieces[0]
-    p player1_all_possible_moves = player1_threatening_pieces.map { |piece_coord| board.get_valid_moves(piece_coord) }
-
-    # problem here. What of pawn moves? They need to be considered separately. A pawn is different in that its "regular moves" and "attack moves" are different
+      # problem here. What of pawn moves? They need to be considered separately. A pawn is different in that its "regular moves" and "attack moves" are different
     # If this isn't considered, a game state can be falsely determined to have a checkmate from a pawn moving forward but not attacking
     # idea 1: create a param in board.get_valid_moves that if used on a pawn, calls a different method that only returns attack moves
-
-
-
+  def checkmate?
 
 
 
