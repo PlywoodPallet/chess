@@ -206,24 +206,22 @@ class ChessGame
 
   # The object of the game is to checkmate the opponent; this occurs when the opponent's king is in check, and there is no legal way to get it out of check. It is never legal for a player to make a move that puts or leaves the player's own king in check
 
-  def check_player1?
-    threatening_pieces = []
-    possible_threatening_pieces_targeting_p1 = board.get_threatening_pieces(@board.player1_king_coord)
 
-    player2_possible_attack_moves = possible_threatening_pieces_targeting_p1.map { |piece_coord| board.get_valid_moves(piece_coord, true) }.flatten # pawn_attack_only = true
+  def check?(active_player)
+    king_coord = nil
 
-    return true if player2_possible_attack_moves.include?(@board.player1_king_coord)
+    case active_player
+    when 1
+      king_coord = @board.player1_king_coord
+    when 2
+      king_coord = @board.player2_king_coord
+    end
 
-    false
-  end
+    possible_opponent_pieces_targeting_king = board.get_threatening_pieces(king_coord)
 
-  def check_player2?
-    threatening_pieces = []
-    possible_threatening_pieces_targeting_p2 = board.get_threatening_pieces(@board.player2_king_coord)
+    opponent_possible_attack_moves = possible_opponent_pieces_targeting_king.map { |piece_coord| board.get_valid_moves(piece_coord, true) }.flatten # pawn_attack_only = true
 
-    player1_possible_attack_moves = possible_threatening_pieces_targeting_p2.map { |piece_coord| board.get_valid_moves(piece_coord, true) }.flatten # pawn_attack_only = true
-
-    return true if player1_possible_attack_moves.include?(@board.player2_king_coord)
+    return true if opponent_possible_attack_moves.include?(king_coord)
 
     false
   end
