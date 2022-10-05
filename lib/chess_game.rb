@@ -154,7 +154,7 @@ class ChessGame
     puts "Player #{player_num} chose #{verified_move}"
   end
 
-  def verify_move_choice(move_choice, player_num)
+  def verify_move_choice(move_choice)
     # if a move is chosen, the player doesn't want to choose another piece
     if @player_valid_moves.include?(move_choice)
       @player_redo_selection = false
