@@ -71,9 +71,9 @@ class ChessGame
     while @player_redo_selection == true
       # Ask player to choose a valid piece
       select_piece(active_player)
-      # List valid moves of piece (give an opportunity to choose another piece)
+      # List valid moves of piece
       print_moves
-      # Ask player to chose a valid move for piece
+      # Ask player to chose a valid move for piece (give an opportunity to choose another piece)
       choose_move(active_player)
     end
     # Move piece
