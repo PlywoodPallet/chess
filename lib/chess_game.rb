@@ -70,11 +70,11 @@ class ChessGame
   def player_turn(active_player)
     while @player_redo_selection == true
       # Ask player to choose a valid piece
-      select_piece(active_player)
+      select_piece(active_player, check?(active_player))
       # List valid moves of piece
       print_moves
       # Ask player to chose a valid move for piece (give an opportunity to choose another piece)
-      choose_move(active_player)
+      choose_move(active_player, check?(active_player))
     end
     # Move piece
     move_piece
@@ -82,23 +82,36 @@ class ChessGame
   end
 
   # TODO: Learn how to throw errors
-  def select_piece(player_num)
-    puts "Player #{player_num} enter coordinate of piece to move: "
+  # Function: Skips piece selection when player is under check. Moving the king is the only legal move
+  def select_piece(player_num, check = false)
+    puts "Player #{player_num} enter coordin  ate of piece to move: "
     
     verified_start_coord = ''
-    loop do
-      raw_input = player_input
-      verified_start_coord = verify_start_coord(raw_input, player_num)
 
-      break if verified_start_coord # break if not nil
+    if check == false
+      loop do
+        raw_input = player_input
+        verified_start_coord = verify_start_coord(raw_input, player_num)
 
-      puts 'Input Error!'
+        break if verified_start_coord # break if not nil
+
+        puts 'Input Error!'
+      end
+    elsif check == true && player_num == 1
+      verified_start_coord = @board.player1_king_coord
+    elsif check == true && player_num == 2
+      verified_start_coord = @board.player2_king_coord
     end
 
     @player_starting_coord = verified_start_coord
 
     selected_piece = @board.get_piece(verified_start_coord)
-    puts "You selected #{selected_piece.class} at #{verified_start_coord}"
+
+    if check == true
+      puts "Check! Select a move for king"
+    else
+      puts "You selected #{selected_piece.class} at #{verified_start_coord}"
+    end
   end
 
   def verify_start_coord(start_coord, player_num)
@@ -135,7 +148,10 @@ class ChessGame
     p @player_valid_moves
   end
 
-  def choose_move(player_num)
+  def choose_move(player_num, check = false)
+    
+    puts "Check! Select a move for your king" if check == true
+
     puts "Player #{player_num} enter a move: "
     puts "Enter R to choose a different piece"
     
