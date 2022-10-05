@@ -122,7 +122,7 @@ class ChessGame
   end
 
   # List valid moves of piece 
-  # TODO: (give an opportunity to choose another piece)
+  # TODO: if under check, only get and print valid moves for the king to escape check. If no moves exist, checkmate! Game is over
   def print_moves
 
     # get the valid moves of the piece at selected coord
