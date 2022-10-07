@@ -91,7 +91,7 @@ class ChessGame
     if check == false
       loop do
         raw_input = player_input
-        verified_start_coord = verify_start_coord(raw_input, player_num)
+        verified_start_coord = verify_start_coord(raw_input)
 
         break if verified_start_coord # break if not nil
 
@@ -115,8 +115,10 @@ class ChessGame
     end
   end
 
-  def verify_start_coord(start_coord, player_num)
+  def verify_start_coord(start_coord)
     start_coord = start_coord.to_s
+    piece = get_piece(start_coord)
+    player_num = piece.player_num
 
     # check if coordinate exists on the board
     piece_at_coord = @board.get_piece(start_coord)
@@ -164,8 +166,8 @@ class ChessGame
     
     verified_move = ''
     loop do
-      raw_input = player_input
-      verified_move = verify_move_choice(raw_input, player_num)
+      raw_move = player_input
+      verified_move = verify_move_choice(raw_move)
 
       break if verified_move # break if not nil
 
