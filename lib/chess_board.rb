@@ -371,11 +371,11 @@ class ChessBoard
       # For every possible move, temporarily move the king to the coord
       # then, run get_threatening_pieces
       move_piece(starting_coord, coord)
-      possible_opponent_pieces_targeting_king = get_threatening_pieces(coord)
+      opponent_pieces_targeting_king = get_threatening_pieces(coord)
 
-      opponent_possible_attack_moves = possible_opponent_pieces_targeting_king.map { |piece_coord| get_valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+      opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| get_valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
 
-      legal_king_moves.push(coord) if opponent_possible_attack_moves.include?(coord) == false
+      legal_king_moves.push(coord) if opponent_attack_moves.include?(coord) == false
 
       # restore the state of @board to restore the original position of king and restore any removed pieces
       @board = original_board_state.clone
