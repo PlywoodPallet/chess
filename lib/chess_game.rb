@@ -259,11 +259,24 @@ class ChessGame
       # problem here. What of pawn moves? They need to be considered separately. A pawn is different in that its "regular moves" and "attack moves" are different
     # If this isn't considered, a game state can be falsely determined to have a checkmate from a pawn moving forward but not attacking
     # idea 1: create a param in board.get_valid_moves that if used on a pawn, calls a different method that only returns attack moves
-  def checkmate?
 
+  # NOTE: untested method
+  def checkmate?(active_player)
+    king_coord = nil
 
+    case active_player
+    when 1
+      king_coord = @board.player1_king_coord
+    when 2
+      king_coord = @board.player2_king_coord
+    end
 
+    valid_king_moves = board.get_valid_king_moves_under_check(king_coord)
 
+    # king must be under threat AND have no valid moves left
+    return true if valid_king_moves == [] && check?(active_player)
+
+    false
   end
 
   # call a ChessBoard method here
