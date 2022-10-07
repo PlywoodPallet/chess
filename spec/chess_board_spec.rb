@@ -142,6 +142,20 @@ describe ChessBoard do
         expect(pawn_moves).to eq(['c3','c4']) 
       end
 
+      it 'pawn cannot move forward if blocked by own piece' do
+        board.move_piece('a2', 'b3')
+        pawn_moves = board.get_valid_pawn_moves('b2')
+
+        expect(pawn_moves).to eq([]) 
+      end
+
+      it 'pawn cannot move forward if blocked by opponent piece' do
+        board.move_piece('a7', 'b3')
+        pawn_moves = board.get_valid_pawn_moves('b2')
+
+        expect(pawn_moves).to eq([]) 
+      end
+
       # method refactored to be player_num agnostic, player 2 test unnecessary
       it 'when optional param pawn_attack_only = true, return the attack moves only' do
         board.move_piece('b7','b3') # move opponent piece as target
@@ -159,7 +173,6 @@ describe ChessBoard do
         pawn_moves = board.get_valid_pawn_moves('a6')
 
         expect(pawn_moves).to eq(['a5'])
-        
       end
 
       it 'when pawn is in home row, it can move one or two square forward' do
@@ -180,6 +193,20 @@ describe ChessBoard do
         pawn_moves = board.get_valid_pawn_moves('c7')
 
         expect(pawn_moves).to eq(['c6','c5'])
+      end
+
+      it 'pawn cannot move forward if blocked by own piece' do
+        board.move_piece('a7', 'b6')
+        pawn_moves = board.get_valid_pawn_moves('b7')
+
+        expect(pawn_moves).to eq([]) 
+      end
+
+      it 'pawn cannot move forward if blocked by opponent piece' do
+        board.move_piece('a2', 'b6')
+        pawn_moves = board.get_valid_pawn_moves('b7')
+
+        expect(pawn_moves).to eq([]) 
       end
     end
   end
