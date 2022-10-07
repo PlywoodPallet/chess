@@ -84,7 +84,7 @@ class ChessGame
   # TODO: Learn how to throw errors
   # Function: Skips piece selection when player is under check. Moving the king is the only legal move
   def select_piece(player_num, check = false)
-    puts "Player #{player_num} enter coordin  ate of piece to move: "
+    puts "Player #{player_num} enter coordinate of piece to move: "
     
     verified_start_coord = ''
 
