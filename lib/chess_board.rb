@@ -280,7 +280,8 @@ class ChessBoard
 
     # scan for "en passant" special attack
 
-    absolute_moves
+    # remove moves that would put own king in check
+    remove_moves_that_jeopardize_king(starting_coord, absolute_moves)
   end
 
   def get_valid_knight_moves(starting_coord)
@@ -294,13 +295,12 @@ class ChessBoard
     absolute_moves = relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
 
     # select all moves that go to an empty space OR an opponent's piece
-    valid_absolute_moves = []
-    valid_absolute_attack_moves = []
-
     valid_absolute_moves = absolute_moves.select { |absolute_move| coord_is_empty?(absolute_move)}
     valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num}
 
-    valid_absolute_moves + valid_absolute_attack_moves
+    output = valid_absolute_moves + valid_absolute_attack_moves
+    # remove moves that would put own king in check
+    remove_moves_that_jeopardize_king(starting_coord, output)
   end
 
   # Rook can move multiple squares cannot jump over other pieces
@@ -341,7 +341,8 @@ class ChessBoard
       end
     end
 
-    valid_absolute_moves
+    # remove moves that would put own king in check
+    remove_moves_that_jeopardize_king(starting_coord, valid_absolute_moves)
   end
 
   # Consider making a general method for bishop, rook and queen
