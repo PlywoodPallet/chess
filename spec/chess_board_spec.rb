@@ -403,10 +403,27 @@ describe ChessBoard do
 
         threatening_pieces = board.get_threatening_pieces('d4')
 
-        expect(threatening_pieces).to eq(['d7', 'c4', 'g7', 'a7', 'b5'])
+        expect(threatening_pieces).to eq(['c4', 'b5'])
       end
-
     end
-
   end
+
+  describe '#get_valid_king_moves_under_check' do 
+    context 'player 1' do 
+      subject(:board) { described_class.new }
+
+      it 'when king is checked, only returns moves that will escape check' do 
+        board.move_piece('e1', 'd4') # move king
+        board.move_piece('d2', 'd3') # move own pawn to block
+        board.move_piece('a8', 'c4') # move opponent rook
+        board.move_piece('b8', 'b5') # move opponent bishop
+
+        valid_king_moves = board.get_valid_king_moves_under_check('d4')
+
+        expect(valid_king_moves).to eq(['d5', 'e5', 'e3', 'c4'])
+      end
+    end
+  end
+
+
 end

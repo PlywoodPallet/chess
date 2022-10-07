@@ -398,9 +398,14 @@ class ChessBoard
     bishop = Bishop.new(1)
     knight = Knight.new(1)
 
+    # assemble relative moves of three types of moves. These moves are used to find candidates of threatening pieces
+    # Rook - covers attack moves of king, queen
+    # Bishop - covers the attack moves of a pawn, queen
+    # Knight - only piece that jumps, so it is considered separately
     rook_bishop_relative_moves = rook.relative_moves + bishop.relative_moves
     knight_relative_moves = knight.relative_moves
 
+    # Covert relative moves to absolute moves on the board
     # note: moves off the board are converted to nil
     rook_bishop_absolute_moves = rook_bishop_relative_moves.map do |subarray|
       subarray.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
@@ -408,7 +413,7 @@ class ChessBoard
 
     knight_absolute_moves = knight_relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
 
-    valid_absolute_moves = []
+    possible_opponent_pieces_targeting_coord = []
 
     # taken from #get_valid_rook_moves. Crucial difference is that a valid move is ONLY one that attacks an opponent piece
     rook_bishop_absolute_moves.each do |subarray|
@@ -418,7 +423,7 @@ class ChessBoard
 
         # (1) If it contains an opponent piece, add to valid moves and break out of subarray iteration 
         if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num
-          valid_absolute_moves << absolute_move
+          possible_opponent_pieces_targeting_coord << absolute_move
           break
         end
       end
@@ -427,11 +432,25 @@ class ChessBoard
     # taken from #get_valid_knight_moves. Crucial difference is that a valid move is ONLY one that attacks an opponent piece
     knight_absolute_moves.each do |absolute_move|
       if coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num
-        valid_absolute_moves << absolute_move
+        possible_opponent_pieces_targeting_coord << absolute_move
       end
     end
 
-    valid_absolute_moves
+    # at this point, possible_opponent_pieces_targeting_coord
+    # contains coords of possible opponent pieces that can attack
+    # piece at starting_coord
+
+    # filter possible_opponent_pieces_targeting_coord to get only the
+    # pieces that have a move equal to starting_coord
+    # only get the opponent pieces that attack starting_coord
+    opponent_pieces_targeting_coord = []
+    possible_opponent_pieces_targeting_coord.each do |opponent_coord|
+      # pawn_attack_only = true
+      possible_opponent_moves = get_valid_moves(opponent_coord, true)
+      opponent_pieces_targeting_coord << opponent_coord if possible_opponent_moves.include?(starting_coord)
+    end
+
+    opponent_pieces_targeting_coord
   end
 
   # given a starting coordinate and relative move (ex [0,1]), return the absolute grid (ex. "d5")
