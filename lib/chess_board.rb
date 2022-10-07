@@ -223,6 +223,8 @@ class ChessBoard
   # TODO: (1) "en passant" special attack, (2) pawn promotion, (3) refactor into elegant code
   # Pawns are the only piece can only move in a certain direction, which requires extra complexity
   # "en passant" is a reaction to an opponent pawn's 2 square initial move. Is only available immediately afterwards
+  # pawn_attack_only feature only returns attack moves. This is used to
+  # determine if a pawn is threatening a king, check and checkmate
   def get_valid_pawn_moves(starting_coord, pawn_attack_only = false)
     relative_moves = []
     absolute_moves = []
@@ -356,6 +358,35 @@ class ChessBoard
     get_valid_knight_moves(starting_coord)
   end
 
+  # given a starting_coord of the piece that wants to move
+  # given the absolute_moves_array of mostly valid moves 
+  # determined by get_valid_x_moves methods
+  # only return moves that DO NOT threaten own king
+  def remove_moves_that_jeopardize_king(starting_coord, moves_array)
+    piece = get_piece(starting_coord)
+    player_num = piece.player_num
+    king_coord = get_king_coord_of_player(player_num)
+    
+    original_board_state = @board.clone
+    legal_moves_array = []
+    moves_array.each do |coord|
+      # For every possible move, temporarily move the piece to the coord
+      # then, run get_threatening_pieces
+      move_piece(starting_coord, coord)
+      opponent_pieces_targeting_king = get_threatening_pieces(king_coord)
+
+      opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| get_valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+
+      # Add to legal moves array if the move does not reveal own king to attack by the opponent
+      legal_moves_array.push(coord) if opponent_attack_moves.include?(king_coord) == false
+
+      # restore the state of @board to restore the original position of the piece and other removed opponent pieces
+      @board = original_board_state.clone
+    end
+
+    legal_moves_array
+  end
+
 
   # if the piece has a get_valid_moves coord that attacks the temp king coord, remove the possible move from the coord then move on
   # keep iterating for all possible moves
@@ -472,6 +503,19 @@ class ChessBoard
     return nil if absolute_y < 1 || absolute_y > 8
 
     absolute_x_letter + absolute_y.to_s
+  end
+
+  def get_king_coord_of_player(player_num)
+    king_coord = nil
+
+    case player_num
+    when 1
+      king_coord = player1_king_coord
+    when 2
+      king_coord = player2_king_coord
+    end
+
+    king_coord
   end
 
   # sanity check: print the keys-value pairs in @board

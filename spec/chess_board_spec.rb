@@ -425,5 +425,38 @@ describe ChessBoard do
     end
   end
 
+  describe '#remove_moves_that_jeopardize_king' do 
+    context 'player 1' do 
+      subject(:board) { described_class.new }
+
+      it 'remove moves of rook that threaten own king' do 
+        board.move_piece('e1', 'e4') # move king
+        board.move_piece('a1', 'd4') # move rook
+        board.move_piece('a8', 'c4') # move opponent rook to threaten king
+        board.move_piece('b8', 'b5') # move opponent knight to threaten king
+
+        rook_moves = board.get_valid_moves('d4')
+
+        valid_rook_moves = board.remove_moves_that_jeopardize_king('d4', rook_moves)
+
+        expect(valid_rook_moves).to eq(['c4'])
+      end
+
+      it 'if no moves of rook jeopardize own king, do not change input array' do 
+        board.move_piece('a2', 'e4') # move pawn out of way so rook can move
+
+        rook_moves = board.get_valid_moves('a1') # rook
+
+        valid_rook_moves = board.remove_moves_that_jeopardize_king('a1', rook_moves)
+
+        expect(valid_rook_moves).to eq(['a2', 'a3', 'a4', 'a5', 'a6', 'a7'])
+      end
+
+
+    end
+  end
+
+
+
 
 end
