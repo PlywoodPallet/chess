@@ -3,19 +3,15 @@ require_relative 'lib/chess_board'
 require_relative 'lib/chess_piece'
 require_relative 'lib/string' # console font styles
 
-board = ChessBoard.new
+
+game = ChessGame.new
+
+board = game.board
+
+board.move_piece('e1', 'a4')
+
 board.print_board
-board.move_piece('e1', 'a3')
-board.move_piece('e8', 'a6')
 
-p board.player1_king_coord
-p board.player2_king_coord
+p board.get_valid_king_moves('a4')
 
-# param1 = 'a1'
-# param2 = ['a2', 'b2']
-
-# board.print_board(param1, param2)
-
-# game = ChessGame.new
-# game.play_game
-
+# p board.get_piece('a4')

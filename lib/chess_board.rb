@@ -286,7 +286,7 @@ class ChessBoard
 
   def get_valid_knight_moves(starting_coord)
     piece = get_piece(starting_coord)
-    player_num = piece.player_num
+    # player_num = piece.player_num
     opponent_player_num = piece.opponent_player_num
     # get the relative moves from the piece
     relative_moves = piece.relative_moves
