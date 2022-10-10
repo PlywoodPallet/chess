@@ -280,8 +280,10 @@ class ChessBoard
 
     # scan for "en passant" special attack
 
+    absolute_moves
+
     # remove moves that would put own king in check
-    remove_moves_that_jeopardize_king(starting_coord, absolute_moves)
+    # remove_moves_that_jeopardize_king(starting_coord, absolute_moves)
   end
 
   def get_valid_knight_moves(starting_coord)
@@ -299,8 +301,10 @@ class ChessBoard
     valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num}
 
     output = valid_absolute_moves + valid_absolute_attack_moves
+    
+    output
     # remove moves that would put own king in check
-    remove_moves_that_jeopardize_king(starting_coord, output)
+    # remove_moves_that_jeopardize_king(starting_coord, output)
   end
 
   # Rook can move multiple squares cannot jump over other pieces
@@ -341,8 +345,10 @@ class ChessBoard
       end
     end
 
+    valid_absolute_moves
+
     # remove moves that would put own king in check
-    remove_moves_that_jeopardize_king(starting_coord, valid_absolute_moves)
+    # remove_moves_that_jeopardize_king(starting_coord, valid_absolute_moves)
   end
 
   # Consider making a general method for bishop, rook and queen
@@ -366,7 +372,7 @@ class ChessBoard
   def remove_moves_that_jeopardize_king(starting_coord, moves_array)
     piece = get_piece(starting_coord)
     player_num = piece.player_num
-    king_coord = get_king_coord_of_player(player_num)
+    # king_coord = get_king_coord_of_player(player_num) original location
     
     original_board_state = @board.clone
     legal_moves_array = []
@@ -374,6 +380,7 @@ class ChessBoard
       # For every possible move, temporarily move the piece to the coord
       # then, run get_threatening_pieces
       move_piece(starting_coord, coord)
+      king_coord = get_king_coord_of_player(player_num) # moved from original location to allow method to run if starting_coord = king position
       opponent_pieces_targeting_king = get_threatening_pieces(king_coord)
 
       opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| get_valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true

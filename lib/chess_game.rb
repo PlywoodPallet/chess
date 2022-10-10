@@ -37,7 +37,6 @@
 # pieces are denoted by the file its in such as "pawn in f-file"
 
 require_relative '../lib/chess_board'
-require 'pry-byebug'
 
 class ChessGame
   attr_accessor :board # remove, for debugging only
