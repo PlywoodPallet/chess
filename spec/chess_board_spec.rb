@@ -379,12 +379,13 @@ describe ChessBoard do
         expect(king_moves).to eq(['e4', 'f4', 'f3', 'd3', 'd4'])
       end
 
-      it 'attacks opponent pieces' do 
-        board.move_piece('e1', 'e6')
+      it 'attacks opponent pieces, avoids being attacked' do 
+        board.move_piece('e1', 'd4') # king
+        board.move_piece('a7', 'd5') # opponent pawn
 
-        king_moves = board.get_valid_king_moves('e6')
+        king_moves = board.get_valid_king_moves('d4')
 
-        expect(king_moves).to eq(['f6', 'f5', 'e5', 'd5', 'd6', 'e7', 'f7', 'd7'])
+        expect(king_moves).to eq(["e5", "e3", "d3", "c3", "c5", "d5"])
       end
 
     end
@@ -392,11 +393,11 @@ describe ChessBoard do
       subject(:board) { described_class.new }
 
       it 'moves in rows and columns, does not go out of bounds' do
-        board.move_piece('e8', 'a4')
+        board.move_piece('e8', 'a5')
 
-        king_moves = board.get_valid_king_moves('a4')
+        king_moves = board.get_valid_king_moves('a5')
 
-        expect(king_moves).to eq(['a5', 'b5', 'b4', 'b3', 'a3'])
+        expect(king_moves).to eq(["a6", "b6", "b5", "b4", "a4"])
       end
 
       it 'does not attack friendy pieces' do 
@@ -407,12 +408,13 @@ describe ChessBoard do
         expect(king_moves).to eq(['f6', 'f5', 'e5', 'd5', 'd6'])
       end
 
-      it 'attacks opponent pieces' do 
-        board.move_piece('e8', 'e3')
+      it 'attacks opponent pieces, avoids being attacked' do 
+        board.move_piece('e8', 'd5') # king
+        board.move_piece('a2', 'd4') # opponent pawn
 
-        king_moves = board.get_valid_king_moves('e3')
+        king_moves = board.get_valid_king_moves('d5')
 
-        expect(king_moves).to eq(['e4', 'f4', 'f3', 'd3', 'd4', 'f2', 'e2', 'd2'])
+        expect(king_moves).to eq(["d6", "e6", "e4", "c4", "c6", "d4"])
       end
     end
   end
