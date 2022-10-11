@@ -360,9 +360,32 @@ class ChessBoard
     get_valid_rook_moves(starting_coord)
   end
 
+  # NOTE: Implementing this method for debugging purposes only
+  # NOTE: This method should call #get_valid_knight_moves
   # Consider making a general method for knight and king
-  def get_valid_king_moves(starting_coord)
-    get_valid_knight_moves(starting_coord)
+  def get_valid_king_moves(starting_coord, attack_only = false)
+    # get_valid_knight_moves(starting_coord)
+    piece = get_piece(starting_coord)
+    # player_num = piece.player_num
+    opponent_player_num = piece.opponent_player_num
+    # get the relative moves from the piece
+    relative_moves = piece.relative_moves
+
+    # convert relatives moves to absolute moves based on starting coord
+    absolute_moves = relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+
+    # select all moves that go to an empty space OR an opponent's piece
+    valid_absolute_moves = absolute_moves.select { |absolute_move| coord_is_empty?(absolute_move)}
+    valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num}
+
+    output = valid_absolute_moves + valid_absolute_attack_moves
+    # output
+
+    # return output if attack_only == false
+
+    # remove moves that would put own king in check
+    remove_moves_that_jeopardize_king(starting_coord, output)
+    # return remove_moves_that_jeopardize_king(starting_coord, output) if attack_only == true
   end
 
   # given a starting_coord of the piece that wants to move
@@ -381,7 +404,7 @@ class ChessBoard
       # then, run get_threatening_pieces
       move_piece(starting_coord, coord)
       king_coord = get_king_coord_of_player(player_num) # moved from original location to allow method to run if starting_coord = king position
-      opponent_pieces_targeting_king = get_threatening_pieces(king_coord)
+      opponent_pieces_targeting_king = get_threatening_pieces(king_coord, player_num)
 
       opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| get_valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
 
@@ -504,21 +527,7 @@ class ChessBoard
       end
     end
 
-    # at this point, possible_opponent_pieces_targeting_coord
-    # contains coords of possible opponent pieces that can attack
-    # piece at starting_coord
-
-    # filter possible_opponent_pieces_targeting_coord to get only the
-    # pieces that have a move equal to starting_coord
-    # only get the opponent pieces that attack starting_coord
-    opponent_pieces_targeting_coord = []
-    possible_opponent_pieces_targeting_coord.each do |opponent_coord|
-      # pawn_attack_only = true
-      possible_opponent_moves = get_valid_moves(opponent_coord, true)
-      opponent_pieces_targeting_coord << opponent_coord if possible_opponent_moves.include?(starting_coord)
-    end
-
-    opponent_pieces_targeting_coord
+    possible_opponent_pieces_targeting_coord
   end
 
   # given a starting coordinate and relative move (ex [0,1]), return the absolute grid (ex. "d5")
@@ -553,6 +562,10 @@ class ChessBoard
     end
 
     king_coord
+  end
+
+  def get_opponent_player_num(player_num)
+    player_num == 1 ? 2 : 1
   end
 
   # sanity check: print the keys-value pairs in @board
