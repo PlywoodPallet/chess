@@ -302,9 +302,9 @@ class ChessBoard
 
     output = valid_absolute_moves + valid_absolute_attack_moves
     
-    output
+    # output
     # remove moves that would put own king in check
-    # remove_moves_that_jeopardize_king(starting_coord, output)
+    remove_moves_that_jeopardize_king(starting_coord, output)
   end
 
   # Rook can move multiple squares cannot jump over other pieces
