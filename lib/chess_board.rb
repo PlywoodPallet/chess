@@ -426,11 +426,40 @@ class ChessBoard
   # Need two different algos for rook,bishop vs knight because former doesn't jump, latter does jump
   # Return the coords of such pieces
   # Not all pieces are guaranteed to check the king. They are used as candidates for further determination
-  def get_threatening_pieces(starting_coord)
-    piece = get_piece(starting_coord)
-    player_num = piece.player_num
-    opponent_player_num = piece.opponent_player_num
-    
+  def get_threatening_pieces(starting_coord, player_num = nil)
+    piece = nil
+    opponent_player_num = nil
+
+    # the optional parameter of player_num is needed for now
+    # TODO: refactor all get_threatening_pieces calls so player_num is specified, then remove default value of player_num and if/else statement
+    if player_num.nil?
+      piece = get_piece(starting_coord)
+      player_num = piece.player_num
+      opponent_player_num = piece.opponent_player_num
+    else
+      opponent_player_num = get_opponent_player_num(player_num)
+    end
+
+    possible_opponent_pieces_targeting_coord = possible_opponent_pieces_targeting_coord(starting_coord, player_num, opponent_player_num)
+
+    # at this point, possible_opponent_pieces_targeting_coord
+    # contains coords of possible opponent pieces that can attack
+    # piece at starting_coord
+
+    # filter possible_opponent_pieces_targeting_coord to get only the
+    # pieces that have a move equal to starting_coord
+    # only get the opponent pieces that attack starting_coord
+    opponent_pieces_targeting_coord = []
+    possible_opponent_pieces_targeting_coord.each do |opponent_coord|
+      # pawn_attack_only = true
+      possible_opponent_moves = get_valid_moves(opponent_coord, true)
+      opponent_pieces_targeting_coord << opponent_coord if possible_opponent_moves.include?(starting_coord)
+    end
+
+    opponent_pieces_targeting_coord
+  end
+
+  def possible_opponent_pieces_targeting_coord(starting_coord, player_num, opponent_player_num)
     # TODO: figure out how to get Ruby static variables working
     # get the relative moves
     rook = Rook.new(1)
