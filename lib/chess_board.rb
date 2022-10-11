@@ -199,23 +199,32 @@ class ChessBoard
     false
   end
 
-  # this method should be in ChessBoard rather than ChessGame because valid moves need to take other pieces into consideration
-  def get_valid_moves(starting_coord, pawn_attack_only = false)
+  # legal moves
+  # remove any moves that would jeopardize own king
+  # pawn_attack_only may be an unused parameter
+  # TODO: rspec tests
+  def valid_moves(starting_coord, pawn_attack_only = false)
+    moves_array = estimate_moves(starting_coord)
+    remove_moves_that_jeopardize_king(starting_coord, moves_array)
+  end
+
+  # estimate moves
+  def estimate_moves(starting_coord, pawn_attack_only = false)
 
     piece = get_piece(starting_coord)
 
     # if piece is a pawn do this code (Pawn)
-    return get_valid_pawn_moves(starting_coord, pawn_attack_only) if piece.instance_of?(Pawn)
+    return estimate_pawn_moves(starting_coord, pawn_attack_only) if piece.instance_of?(Pawn)
     # if piece can jump over other pieces, do this code (Knight)
-    return get_valid_knight_moves(starting_coord) if piece.instance_of?(Knight)
+    return estimate_knight_moves(starting_coord) if piece.instance_of?(Knight)
     # if piece cannot jump over other pieces but can move in rows,col (Rook)
-    return get_valid_rook_moves(starting_coord) if piece.instance_of?(Rook)
+    return estimate_rook_moves(starting_coord) if piece.instance_of?(Rook)
     # if piece cannot jump over other pieces but can move in diagonals (Bishop)
-    return get_valid_bishop_moves(starting_coord) if piece.instance_of?(Bishop)
+    return estimate_bishop_moves(starting_coord) if piece.instance_of?(Bishop)
     # if piece cannot jump over other pieces but can move in rows,col and diagonals (Queen)
-    return get_valid_queen_moves(starting_coord) if piece.instance_of?(Queen)
+    return estimate_queen_moves(starting_coord) if piece.instance_of?(Queen)
     # if piece is a king, do this code (King)
-    return get_valid_king_moves(starting_coord) if piece.instance_of?(King)
+    return estimate_king_moves(starting_coord) if piece.instance_of?(King)
     
     puts 'Error: Chess piece not recognized'
   end
@@ -225,7 +234,7 @@ class ChessBoard
   # "en passant" is a reaction to an opponent pawn's 2 square initial move. Is only available immediately afterwards
   # pawn_attack_only feature only returns attack moves. This is used to
   # determine if a pawn is threatening a king, check and checkmate
-  def get_valid_pawn_moves(starting_coord, pawn_attack_only = false)
+  def estimate_pawn_moves(starting_coord, pawn_attack_only = false)
     relative_moves = []
     absolute_moves = []
     piece = get_piece(starting_coord)
@@ -286,7 +295,7 @@ class ChessBoard
     # remove_moves_that_jeopardize_king(starting_coord, absolute_moves)
   end
 
-  def get_valid_knight_moves(starting_coord)
+  def estimate_knight_moves(starting_coord)
     piece = get_piece(starting_coord)
     # player_num = piece.player_num
     opponent_player_num = piece.opponent_player_num
@@ -310,7 +319,7 @@ class ChessBoard
   # Rook can move multiple squares cannot jump over other pieces
   # Rook.relative_moves has a different data structure. Each subarray contains dimension (up,down,left,right). Each subarray goes from 1-square move to 8-square move. The method checks 1 move first, then 2nd move, etc. If one move contains a piece, the iteration stops and all other moves are not considered. This prevents rooks from jumping over pieces
   
-  def get_valid_rook_moves(starting_coord)
+  def estimate_rook_moves(starting_coord)
     piece = get_piece(starting_coord)
     player_num = piece.player_num
     opponent_player_num = piece.opponent_player_num
@@ -352,18 +361,18 @@ class ChessBoard
   end
 
   # Consider making a general method for bishop, rook and queen
-  def get_valid_bishop_moves(starting_coord)
-    get_valid_rook_moves(starting_coord)
+  def estimate_bishop_moves(starting_coord)
+    estimate_rook_moves(starting_coord)
   end
 
-  def get_valid_queen_moves(starting_coord)
-    get_valid_rook_moves(starting_coord)
+  def estimate_queen_moves(starting_coord)
+    estimate_rook_moves(starting_coord)
   end
 
   # NOTE: Implementing this method for debugging purposes only
   # NOTE: This method should call #get_valid_knight_moves
   # Consider making a general method for knight and king
-  def get_valid_king_moves(starting_coord)
+  def estimate_king_moves(starting_coord)
     # get_valid_knight_moves(starting_coord)
     piece = get_piece(starting_coord)
     # player_num = piece.player_num
@@ -403,7 +412,7 @@ class ChessBoard
       king_coord = get_king_coord_of_player(player_num) # moved from original location to allow method to run if starting_coord = king position
       opponent_pieces_targeting_king = get_threatening_pieces(king_coord, player_num)
 
-      opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| get_valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+      opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| estimate_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
 
       # Add to legal moves array if the move does not reveal own king to attack by the opponent
       legal_moves_array.push(coord) if opponent_attack_moves.include?(king_coord) == false
@@ -422,7 +431,7 @@ class ChessBoard
 
   # TODO: taken code from ChessGame.check? Might be worth creating a separate method to avoid repetition
   def get_valid_king_moves_under_check(starting_coord)
-    king_moves = get_valid_knight_moves(starting_coord)
+    king_moves = estimate_knight_moves(starting_coord)
 
     legal_king_moves = []
     original_board_state = @board.clone
@@ -432,7 +441,7 @@ class ChessBoard
       move_piece(starting_coord, coord)
       opponent_pieces_targeting_king = get_threatening_pieces(coord)
 
-      opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| get_valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+      opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| estimate_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
 
       legal_king_moves.push(coord) if opponent_attack_moves.include?(coord) == false
 
@@ -472,7 +481,7 @@ class ChessBoard
     opponent_pieces_targeting_coord = []
     possible_opponent_pieces_targeting_coord.each do |opponent_coord|
       # pawn_attack_only = true
-      possible_opponent_moves = get_valid_moves(opponent_coord, true)
+      possible_opponent_moves = estimate_moves(opponent_coord, true)
       opponent_pieces_targeting_coord << opponent_coord if possible_opponent_moves.include?(starting_coord)
     end
 

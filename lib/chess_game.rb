@@ -114,6 +114,7 @@ class ChessGame
     end
   end
 
+  # TODO: This an other methods in ChessGame use estimate_moves, would valid_moves be more appropriate?
   def verify_start_coord(start_coord)
     start_coord = start_coord.to_s
     piece = get_piece(start_coord)
@@ -131,7 +132,7 @@ class ChessGame
     return nil if piece_player_num != player_num
 
     # check if piece has any available moves
-    return nil if board.get_valid_moves(start_coord) == []
+    return nil if board.estimate_moves(start_coord) == []
 
     start_coord
   end
@@ -146,7 +147,7 @@ class ChessGame
     else
       # get the valid moves of the piece at selected coord
       # store moves for subsequent user choice
-      @player_valid_moves = board.get_valid_moves(@player_starting_coord)
+      @player_valid_moves = board.estimate_moves(@player_starting_coord)
     end
 
     @board.print_board(@player_starting_coord, @player_valid_moves)
@@ -243,7 +244,7 @@ class ChessGame
 
     opponent_pieces_targeting_king = board.get_threatening_pieces(king_coord)
 
-    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| board.get_valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| board.estimate_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
 
     return true if opponent_attack_moves.include?(king_coord)
 

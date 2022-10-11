@@ -102,34 +102,34 @@ describe ChessBoard do
     end
   end
 
-  # #get_valid_pawn_moves
+  # #estimate_pawn_moves
   # each test needs to be tested for player 1 and 2
   # pawn can only move forward based on player
   # when pawn is on home row, it can move one or two squares forward
   # pawn can attack opponent piece diagonally
   # pawn cannot attack diagonally if piece is owned by the same player
   # Note: to debug test use board.print_board to print the state of the board
-  # TODO: add tests once #get_valid_pawn_moves TODO's are finished (additional functionality)
-  describe '#get_valid_pawn_moves' do
+  # TODO: add tests once #estimate_pawn_moves TODO's are finished (additional functionality)
+  describe '#estimate_pawn_moves' do
     context 'player 1' do
       subject(:board) { described_class.new }
       
       it 'pawn can only move forward' do
         board.move_piece('a2', 'a3') # move a pawn out of home row
-        pawn_moves = board.get_valid_pawn_moves('a3')
+        pawn_moves = board.estimate_pawn_moves('a3')
 
         expect(pawn_moves).to eq(['a4'])
       end
 
       it 'when pawn is in home row, it can move one or two square forward' do
-        pawn_moves = board.get_valid_pawn_moves('b2')
+        pawn_moves = board.estimate_pawn_moves('b2')
 
         expect(pawn_moves).to eq(['b3','b4'])
       end
 
       it 'in addition to regular moves, pawn can attack opponent piece diagonally if available' do
         board.move_piece('e7', 'e3') # move opponent piece into position
-        pawn_moves = board.get_valid_pawn_moves('f2')
+        pawn_moves = board.estimate_pawn_moves('f2')
 
         expect(pawn_moves).to eq(['f3','f4','e3']) # returns regular moves first, then attack moves
         
@@ -137,21 +137,21 @@ describe ChessBoard do
 
       it 'pawn cannot attack own piece diagonally' do
         board.move_piece('d2', 'd3') # move own piece into position
-        pawn_moves = board.get_valid_pawn_moves('c2')
+        pawn_moves = board.estimate_pawn_moves('c2')
 
         expect(pawn_moves).to eq(['c3','c4']) 
       end
 
       it 'pawn cannot move forward if blocked by own piece' do
         board.move_piece('a2', 'b3')
-        pawn_moves = board.get_valid_pawn_moves('b2')
+        pawn_moves = board.estimate_pawn_moves('b2')
 
         expect(pawn_moves).to eq([]) 
       end
 
       it 'pawn cannot move forward if blocked by opponent piece' do
         board.move_piece('a7', 'b3')
-        pawn_moves = board.get_valid_pawn_moves('b2')
+        pawn_moves = board.estimate_pawn_moves('b2')
 
         expect(pawn_moves).to eq([]) 
       end
@@ -159,7 +159,7 @@ describe ChessBoard do
       # method refactored to be player_num agnostic, player 2 test unnecessary
       it 'when optional param pawn_attack_only = true, return the attack moves only' do
         board.move_piece('b7','b3') # move opponent piece as target
-        pawn_moves = board.get_valid_pawn_moves('a2', true)
+        pawn_moves = board.estimate_pawn_moves('a2', true)
 
         expect(pawn_moves).to eq(['b3'])
       end
@@ -170,41 +170,41 @@ describe ChessBoard do
 
       it 'pawn can only move forward' do
         board.move_piece('a7', 'a6') # move a pawn out of home row
-        pawn_moves = board.get_valid_pawn_moves('a6')
+        pawn_moves = board.estimate_pawn_moves('a6')
 
         expect(pawn_moves).to eq(['a5'])
       end
 
       it 'when pawn is in home row, it can move one or two square forward' do
-        pawn_moves = board.get_valid_pawn_moves('b7')
+        pawn_moves = board.estimate_pawn_moves('b7')
 
         expect(pawn_moves).to eq(['b6','b5'])
       end
 
       it 'in addition to regular moves, pawn can attack opponent piece diagonally if available' do
         board.move_piece('e2', 'e6') # move opponent piece into position
-        pawn_moves = board.get_valid_pawn_moves('f7')
+        pawn_moves = board.estimate_pawn_moves('f7')
 
         expect(pawn_moves).to eq(['f6','f5','e6']) # returns regular moves first, then attack moves
       end
 
       it 'pawn cannot attack own piece diagonally' do
         board.move_piece('d7', 'd6') # move own piece into position
-        pawn_moves = board.get_valid_pawn_moves('c7')
+        pawn_moves = board.estimate_pawn_moves('c7')
 
         expect(pawn_moves).to eq(['c6','c5'])
       end
 
       it 'pawn cannot move forward if blocked by own piece' do
         board.move_piece('a7', 'b6')
-        pawn_moves = board.get_valid_pawn_moves('b7')
+        pawn_moves = board.estimate_pawn_moves('b7')
 
         expect(pawn_moves).to eq([]) 
       end
 
       it 'pawn cannot move forward if blocked by opponent piece' do
         board.move_piece('a2', 'b6')
-        pawn_moves = board.get_valid_pawn_moves('b7')
+        pawn_moves = board.estimate_pawn_moves('b7')
 
         expect(pawn_moves).to eq([]) 
       end
@@ -215,12 +215,12 @@ describe ChessBoard do
   # test regular moves/does not go out of bounds
   # test attack moves on opponent's pieces
   # test that it cannot attack own pieces
-  describe '#get_valid_knight_moves' do
+  describe '#estimate_knight_moves' do
     context 'player 1' do
       subject(:board) { described_class.new }
 
       it 'returns normal, non-attack moves and does not go out of bounds. It does not attack own pieces' do
-        knight_moves = board.get_valid_knight_moves('b1')
+        knight_moves = board.estimate_knight_moves('b1')
 
         expect(knight_moves).to eq(['c3', 'a3'])
       end
@@ -228,7 +228,7 @@ describe ChessBoard do
       it 'returns attack moves onto opponents pieces in addition to normal moves' do
         board.move_piece('b1', 'c6') # move piece into position
 
-        knight_moves = board.get_valid_knight_moves('c6')
+        knight_moves = board.estimate_knight_moves('c6')
 
         expect(knight_moves).to eq(['e5', 'd4', 'b4', 'a5', 'd8', 'e7', 'a7', 'b8'])
       end
@@ -238,7 +238,7 @@ describe ChessBoard do
       subject(:board) { described_class.new }
 
       it 'returns normal, non-attack moves and does not go out of bounds. It does not attack own pieces' do 
-        knight_moves = board.get_valid_knight_moves('b8')
+        knight_moves = board.estimate_knight_moves('b8')
 
         expect(knight_moves).to eq(['c6', 'a6'])
       end
@@ -246,7 +246,7 @@ describe ChessBoard do
       it 'returns attack moves onto opponents pieces in addition to normal moves' do
         board.move_piece('b8', 'c3') # move piece into position
 
-        knight_moves = board.get_valid_knight_moves('c3')
+        knight_moves = board.estimate_knight_moves('c3')
 
         expect(knight_moves).to eq(['d5', 'e4', 'a4', 'b5', 'e2', 'd1', 'b1', 'a2'])
       end
@@ -257,14 +257,14 @@ describe ChessBoard do
   # test regular moves/does not go out of bounds
   # test attack moves on opponent's pieces
   # test that it cannot attack own pieces
-  describe '#get_valid_rook_moves' do
+  describe '#estimate_rook_moves' do
     context 'player 1' do
       subject(:board) { described_class.new }
 
       it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
         board.move_piece('a1', 'd4')
 
-        rook_moves = board.get_valid_rook_moves('d4')
+        rook_moves = board.estimate_rook_moves('d4')
 
         # attacks opponent piece: d7
         # does not attack friendly piece: d2 not on the list
@@ -278,7 +278,7 @@ describe ChessBoard do
       it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
         board.move_piece('a8', 'd4')
 
-        rook_moves = board.get_valid_rook_moves('d4')
+        rook_moves = board.estimate_rook_moves('d4')
 
         # attacks opponent piece: d2
         # does not attack friendly piece: d7 not on the list
@@ -291,14 +291,14 @@ describe ChessBoard do
   # test regular moves/does not go out of bounds
   # test attack moves on opponent's pieces
   # test that it cannot attack own pieces
-  describe '#get_valid_bishop_moves' do
+  describe '#estimate_bishop_moves' do
     context 'player 1' do
       subject(:board) { described_class.new }
 
       it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
         board.move_piece('c1', 'd4')
 
-        bishop_moves = board.get_valid_bishop_moves('d4')
+        bishop_moves = board.estimate_bishop_moves('d4')
 
         # attacks opponent piece: a7, g7
         # does not attack friendly piece: b2,f2 ommitted
@@ -312,7 +312,7 @@ describe ChessBoard do
       it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
         board.move_piece('c8', 'd4')
 
-        bishop_moves = board.get_valid_bishop_moves('d4')
+        bishop_moves = board.estimate_bishop_moves('d4')
 
         # attacks opponent piece: f2, b2
         # does not attack friendly piece: a7, g7 ommitted
@@ -325,14 +325,14 @@ describe ChessBoard do
   # test regular moves/does not go out of bounds
   # test attack moves on opponent's pieces
   # test that it cannot attack own pieces
-  describe '#get_valid_queen_moves' do
+  describe '#estimate_queen_moves' do
     context 'player 1' do
       subject(:board) { described_class.new }
 
       it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
         board.move_piece('d1', 'd4')
 
-        queen_moves = board.get_valid_queen_moves('d4')
+        queen_moves = board.estimate_queen_moves('d4')
 
         # attacks opponent piece: d7, a7, g7
         # does not attack friendly piece: d2, b2, f2 ommitted
@@ -346,7 +346,7 @@ describe ChessBoard do
       it 'moves in rows and columns, does not go out of bounds, attacks opponent pieces and does not attack friendly pieces' do
         board.move_piece('d8', 'd4')
 
-        queen_moves = board.get_valid_queen_moves('d4')
+        queen_moves = board.estimate_queen_moves('d4')
 
         # attacks opponent piece: d2, a2, f2
         # does not attack friendly piece:  d7, a7, g7
@@ -359,14 +359,14 @@ describe ChessBoard do
   # test regular moves/does not go out of bounds
   # test attack moves on opponent's pieces
   # test that it cannot attack own pieces
-  describe '#get_valid_king_moves' do
+  describe '#estimate_king_moves' do
     context 'player 1' do
       subject(:board) { described_class.new }
 
       it 'moves in rows and columns, does not go out of bounds' do
         board.move_piece('e1', 'a4')
 
-        king_moves = board.get_valid_king_moves('a4')
+        king_moves = board.estimate_king_moves('a4')
 
         expect(king_moves).to eq(['a5', 'b5', 'b4', 'b3', 'a3'])
       end
@@ -374,7 +374,7 @@ describe ChessBoard do
       it 'does not attack friendy pieces' do 
         board.move_piece('e1', 'e3')
 
-        king_moves = board.get_valid_king_moves('e3')
+        king_moves = board.estimate_king_moves('e3')
 
         expect(king_moves).to eq(['e4', 'f4', 'f3', 'd3', 'd4'])
       end
@@ -383,7 +383,7 @@ describe ChessBoard do
         board.move_piece('e1', 'd4') # king
         board.move_piece('a7', 'd5') # opponent pawn
 
-        king_moves = board.get_valid_king_moves('d4')
+        king_moves = board.estimate_king_moves('d4')
 
         expect(king_moves).to eq(["e5", "e3", "d3", "c3", "c5", "d5"])
       end
@@ -395,7 +395,7 @@ describe ChessBoard do
       it 'moves in rows and columns, does not go out of bounds' do
         board.move_piece('e8', 'a5')
 
-        king_moves = board.get_valid_king_moves('a5')
+        king_moves = board.estimate_king_moves('a5')
 
         expect(king_moves).to eq(["a6", "b6", "b5", "b4", "a4"])
       end
@@ -403,7 +403,7 @@ describe ChessBoard do
       it 'does not attack friendy pieces' do 
         board.move_piece('e8', 'e6')
 
-        king_moves = board.get_valid_king_moves('e6')
+        king_moves = board.estimate_king_moves('e6')
 
         expect(king_moves).to eq(['f6', 'f5', 'e5', 'd5', 'd6'])
       end
@@ -412,7 +412,7 @@ describe ChessBoard do
         board.move_piece('e8', 'd5') # king
         board.move_piece('a2', 'd4') # opponent pawn
 
-        king_moves = board.get_valid_king_moves('d5')
+        king_moves = board.estimate_king_moves('d5')
 
         expect(king_moves).to eq(["d6", "e6", "e4", "c4", "c6", "d4"])
       end
@@ -464,7 +464,7 @@ describe ChessBoard do
         board.move_piece('a8', 'c4') # move opponent rook to threaten king
         board.move_piece('b8', 'b5') # move opponent knight to threaten king
 
-        rook_moves = board.get_valid_moves('d4')
+        rook_moves = board.estimate_moves('d4')
 
         valid_rook_moves = board.remove_moves_that_jeopardize_king('d4', rook_moves)
 
@@ -474,7 +474,7 @@ describe ChessBoard do
       it 'Rook: if no moves jeopardize own king, do not change input array' do 
         board.move_piece('a2', 'e4') # move pawn out of way so rook can move
 
-        rook_moves = board.get_valid_moves('a1') # rook
+        rook_moves = board.estimate_moves('a1') # rook
 
         valid_rook_moves = board.remove_moves_that_jeopardize_king('a1', rook_moves)
 
@@ -487,7 +487,7 @@ describe ChessBoard do
         board.move_piece('a8', 'c4') # move opponent rook to threaten king
         board.move_piece('b8', 'b5') # move opponent knight to threaten king
         
-        bishop_moves = board.get_valid_moves('d4')
+        bishop_moves = board.estimate_moves('d4')
 
         valid_bishop_moves = board.remove_moves_that_jeopardize_king('d4', bishop_moves)
 
@@ -497,7 +497,7 @@ describe ChessBoard do
       it 'Bishop: if no moves jeopardize own king, do not change input array' do 
         board.move_piece('d2', 'e4') # move pawn out of way so bishop can move
 
-        bishop_moves = board.get_valid_moves('c1') # bishop
+        bishop_moves = board.estimate_moves('c1') # bishop
 
         valid_bishop_moves = board.remove_moves_that_jeopardize_king('c1', bishop_moves)
 
@@ -510,7 +510,7 @@ describe ChessBoard do
         board.move_piece('a8', 'c4') # move opponent rook to threaten king
         board.move_piece('b8', 'b5') # move opponent knight to threaten king
         
-        knight_moves = board.get_valid_moves('d4')
+        knight_moves = board.estimate_moves('d4')
 
         valid_knight_moves = board.remove_moves_that_jeopardize_king('d4', knight_moves)
 
@@ -519,7 +519,7 @@ describe ChessBoard do
 
       it 'Knight: if no moves jeopardize own king, do not change input array' do 
 
-        knight_moves = board.get_valid_moves('b1') # knight
+        knight_moves = board.estimate_moves('b1') # knight
 
         valid_knight_moves = board.remove_moves_that_jeopardize_king('c1', knight_moves)
 
