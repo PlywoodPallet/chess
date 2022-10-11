@@ -363,7 +363,7 @@ class ChessBoard
   # NOTE: Implementing this method for debugging purposes only
   # NOTE: This method should call #get_valid_knight_moves
   # Consider making a general method for knight and king
-  def get_valid_king_moves(starting_coord, attack_only = false)
+  def get_valid_king_moves(starting_coord)
     # get_valid_knight_moves(starting_coord)
     piece = get_piece(starting_coord)
     # player_num = piece.player_num
