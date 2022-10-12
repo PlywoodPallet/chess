@@ -454,7 +454,9 @@ describe ChessBoard do
     end
   end
 
-  describe '#remove_moves_that_jeopardize_king' do 
+  # #valid_moves calls #remove_moves_that_jeopardize_king
+  # this method is testing both methods
+  describe '#valid_moves / #remove_moves_that_jeopardize_king' do 
     context 'player 1' do 
       subject(:board) { described_class.new }
 
@@ -464,9 +466,7 @@ describe ChessBoard do
         board.move_piece('a8', 'c4') # move opponent rook to threaten king
         board.move_piece('b8', 'b5') # move opponent knight to threaten king
 
-        rook_moves = board.estimate_moves('d4')
-
-        valid_rook_moves = board.remove_moves_that_jeopardize_king('d4', rook_moves)
+        valid_rook_moves = board.valid_moves('d4')
 
         expect(valid_rook_moves).to eq(['c4'])
       end
@@ -474,9 +474,7 @@ describe ChessBoard do
       it 'Rook: if no moves jeopardize own king, do not change input array' do 
         board.move_piece('a2', 'e4') # move pawn out of way so rook can move
 
-        rook_moves = board.estimate_moves('a1') # rook
-
-        valid_rook_moves = board.remove_moves_that_jeopardize_king('a1', rook_moves)
+        valid_rook_moves = board.valid_moves('a1')
 
         expect(valid_rook_moves).to eq(['a2', 'a3', 'a4', 'a5', 'a6', 'a7'])
       end
@@ -486,10 +484,8 @@ describe ChessBoard do
         board.move_piece('c1', 'd4') # move bishop
         board.move_piece('a8', 'c4') # move opponent rook to threaten king
         board.move_piece('b8', 'b5') # move opponent knight to threaten king
-        
-        bishop_moves = board.estimate_moves('d4')
 
-        valid_bishop_moves = board.remove_moves_that_jeopardize_king('d4', bishop_moves)
+        valid_bishop_moves = board.valid_moves('d4')
 
         expect(valid_bishop_moves).to eq([])
       end
@@ -497,9 +493,7 @@ describe ChessBoard do
       it 'Bishop: if no moves jeopardize own king, do not change input array' do 
         board.move_piece('d2', 'e4') # move pawn out of way so bishop can move
 
-        bishop_moves = board.estimate_moves('c1') # bishop
-
-        valid_bishop_moves = board.remove_moves_that_jeopardize_king('c1', bishop_moves)
+        valid_bishop_moves = board.valid_moves('c1')
 
         expect(valid_bishop_moves).to eq(['d2', 'e3', 'f4', 'g5', 'h6'])
       end
@@ -509,30 +503,17 @@ describe ChessBoard do
         board.move_piece('b1', 'd4') # move knight
         board.move_piece('a8', 'c4') # move opponent rook to threaten king
         board.move_piece('b8', 'b5') # move opponent knight to threaten king
-        
-        knight_moves = board.estimate_moves('d4')
 
-        valid_knight_moves = board.remove_moves_that_jeopardize_king('d4', knight_moves)
+        valid_knight_moves = board.valid_moves('d4')
 
         expect(valid_knight_moves).to eq([])
       end
 
       it 'Knight: if no moves jeopardize own king, do not change input array' do 
-
-        knight_moves = board.estimate_moves('b1') # knight
-
-        valid_knight_moves = board.remove_moves_that_jeopardize_king('c1', knight_moves)
+        valid_knight_moves = board.valid_moves('b1')
 
         expect(valid_knight_moves).to eq(['c3', 'a3'])
       end
-
-
-
-
     end
   end
-
-
-
-
 end
