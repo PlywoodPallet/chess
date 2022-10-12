@@ -132,7 +132,7 @@ class ChessGame
     return nil if piece_player_num != player_num
 
     # check if piece has any available moves
-    return nil if board.estimate_moves(start_coord) == []
+    return nil if board.valid_moves(start_coord) == []
 
     start_coord
   end
@@ -147,7 +147,7 @@ class ChessGame
     else
       # get the valid moves of the piece at selected coord
       # store moves for subsequent user choice
-      @player_valid_moves = board.estimate_moves(@player_starting_coord)
+      @player_valid_moves = board.valid_moves(@player_starting_coord)
     end
 
     @board.print_board(@player_starting_coord, @player_valid_moves)
