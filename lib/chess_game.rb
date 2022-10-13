@@ -285,4 +285,8 @@ class ChessGame
   def print_board
     @board.print_board
   end
+
+  def get_king_coord_of_player(player_num)
+    @board.get_king_coord_of_player(player_num)
+  end
 end
