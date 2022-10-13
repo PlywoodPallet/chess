@@ -192,6 +192,8 @@ class ChessBoard
     false
   end
 
+  # TODO: Most methods below need to be moved to a new MoveValidator class
+
   # legal moves
   # remove any moves that would jeopardize own king
   # pawn_attack_only may be an unused parameter
