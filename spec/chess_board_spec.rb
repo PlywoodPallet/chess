@@ -383,7 +383,7 @@ describe ChessBoard do
         board.move_piece('e1', 'd4') # king
         board.move_piece('a7', 'd5') # opponent pawn
 
-        king_moves = board.estimate_king_moves('d4')
+        king_moves = board.valid_moves('d4') # finds king moves, but also removes moves that threaten own king
 
         expect(king_moves).to eq(["e5", "e3", "d3", "c3", "c5", "d5"])
       end
@@ -412,7 +412,7 @@ describe ChessBoard do
         board.move_piece('e8', 'd5') # king
         board.move_piece('a2', 'd4') # opponent pawn
 
-        king_moves = board.estimate_king_moves('d5')
+        king_moves = board.valid_moves('d5') # finds king moves, but also removes moves that threaten own king
 
         expect(king_moves).to eq(["d6", "e6", "e4", "c4", "c6", "d4"])
       end

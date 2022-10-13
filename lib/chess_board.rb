@@ -201,6 +201,8 @@ class ChessBoard
   end
 
   # estimate moves
+  # these methods will return moves that will jeopardize own king
+  # these methods are needed to prevent infinite loops involving #remove_moves_that_jeopardize_king
   def estimate_moves(starting_coord, pawn_attack_only = false)
     piece = get_piece(starting_coord)
 
@@ -369,10 +371,6 @@ class ChessBoard
     valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num}
 
     output = valid_absolute_moves + valid_absolute_attack_moves
-    # output
-
-    # remove moves that would put own king in check
-    remove_moves_that_jeopardize_king(starting_coord, output)
   end
 
   # given a starting_coord of the piece that wants to move
