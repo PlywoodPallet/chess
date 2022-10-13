@@ -283,6 +283,12 @@ class ChessGame
     false
   end
 
+  # Stalemate - both players have no legal moves and neither are under check
+  def stalemate?(active_player)
+
+  end
+  
+
   # call a ChessBoard method here
   def print_board
     @board.print_board
