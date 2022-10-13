@@ -233,14 +233,7 @@ class ChessGame
 
 
   def check?(active_player)
-    king_coord = nil
-
-    case active_player
-    when 1
-      king_coord = @board.player1_king_coord
-    when 2
-      king_coord = @board.player2_king_coord
-    end
+    king_coord = get_king_coord_of_player(active_player)
 
     opponent_pieces_targeting_king = board.get_threatening_pieces(king_coord, active_player)
 
@@ -264,14 +257,7 @@ class ChessGame
 
   # NOTE: untested method
   def checkmate?(active_player)
-    king_coord = nil
-
-    case active_player
-    when 1
-      king_coord = @board.player1_king_coord
-    when 2
-      king_coord = @board.player2_king_coord
-    end
+    king_coord = get_king_coord_of_player(active_player)
 
     valid_king_moves = board.valid_moves(king_coord)
     check?(active_player)
