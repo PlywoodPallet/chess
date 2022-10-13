@@ -115,12 +115,13 @@ class ChessGame
 
   # TODO: This an other methods in ChessGame use estimate_moves, would valid_moves be more appropriate?
   def verify_start_coord(start_coord)
+    # convert input to string
     start_coord = start_coord.to_s
-    piece = @board.get_piece(start_coord)
-    player_num = piece.player_num
 
-    # check if coordinate exists on the board
     piece_at_coord = @board.get_piece(start_coord)
+    player_num = piece_at_coord.player_num
+
+    # check if coordinate exists on the board    
     return nil if piece_at_coord.nil?
 
     # check if piece exists at the coord
