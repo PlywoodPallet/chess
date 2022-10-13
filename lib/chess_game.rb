@@ -237,6 +237,9 @@ class ChessGame
   def game_over? (active_player)
     return true if checkmate?(active_player)
 
+    # return true if stalemate?(active_player)
+    # retirm true if resignation?(active_player)
+
     false
   end
 
