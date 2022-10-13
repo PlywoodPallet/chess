@@ -39,7 +39,7 @@
 require_relative '../lib/chess_board'
 
 class ChessGame
-  attr_accessor :board # remove, for debugging only
+  attr_accessor :chess_board # remove, for debugging only
 
   def initialize
     @active_player = 1 # Player 1 always starts the game
@@ -50,7 +50,7 @@ class ChessGame
     @player_redo_selection = true
     @game_over_condition = nil
 
-    @board = ChessBoard.new
+    @chess_board = ChessBoard.new
   end
 
   def play_game
@@ -110,14 +110,14 @@ class ChessGame
       end
     # if player is under check, skip piece selection and chose their king
     elsif check == true && player_num == 1
-      verified_start_coord = @board.player1_king_coord
+      verified_start_coord = @chess_board.player1_king_coord
     elsif check == true && player_num == 2
-      verified_start_coord = @board.player2_king_coord
+      verified_start_coord = @chess_board.player2_king_coord
     end
 
     @player_starting_coord = verified_start_coord
 
-    selected_piece = @board.get_piece(verified_start_coord)
+    selected_piece = @chess_board.get_piece(verified_start_coord)
 
     if check == true
       puts "Check! Select a move for king"
@@ -130,14 +130,14 @@ class ChessGame
     # convert input to string
     start_coord = start_coord.to_s
 
-    piece_at_coord = @board.get_piece(start_coord)
+    piece_at_coord = @chess_board.get_piece(start_coord)
     player_num = piece_at_coord.player_num
 
     # check if coordinate exists on the board    
     return nil if piece_at_coord.nil?
 
     # check if piece exists at the coord
-    return nil if piece_at_coord == @board.blank_value
+    return nil if piece_at_coord == @chess_board.blank_value
     
     # check if piece belongs to player
     piece_player_num = piece_at_coord.player_num
@@ -157,7 +157,7 @@ class ChessGame
     # #valid_moves works for king under check, as well as all other pieces
     # get_king_moves_under_check is depreciated
     @player_valid_moves = board.valid_moves(@player_starting_coord)
-    @board.print_board(@player_starting_coord, @player_valid_moves)
+    @chess_board.print_board(@player_starting_coord, @player_valid_moves)
 
     # print moves for user
     p @player_valid_moves
@@ -291,10 +291,10 @@ class ChessGame
 
   # call a ChessBoard method here
   def print_board
-    @board.print_board
+    @chess_board.print_board
   end
 
   def get_king_coord_of_player(player_num)
-    @board.get_king_coord_of_player(player_num)
+    @chess_board.get_king_coord_of_player(player_num)
   end
 end
