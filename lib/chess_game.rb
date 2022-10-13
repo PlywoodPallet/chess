@@ -78,7 +78,7 @@ class ChessGame
       # Ask player to choose a valid piece
       select_piece(active_player, check?(active_player))
       # List valid moves of piece
-      print_moves(check?(active_player))
+      print_moves(active_player, check?(active_player))
       # Ask player to chose a valid move for piece (give an opportunity to choose another piece)
       choose_move(active_player, check?(active_player))
     end
@@ -145,17 +145,13 @@ class ChessGame
 
   # List valid moves of piece 
   # TODO: if under check, only get and print valid moves for the king to escape check. If no moves exist, checkmate! Game is over
-  def print_moves(check = false)
-    # if under check, assume @player_starting_coord points to king (#select_piece)
-    # run a special version -> get_valid_king_moves_under_check
-    if check == true
-      @player_valid_moves = board.get_valid_king_moves_under_check(@player_starting_coord)
-    else
-      # get the valid moves of the piece at selected coord
-      # store moves for subsequent user choice
-      @player_valid_moves = board.valid_moves(@player_starting_coord)
-    end
+  def print_moves(active_player, check = false)
+    # if under check, change  @player_starting_coord points the current player's king
+    @player_starting_coord = get_king_coord_of_player(active_player) if check == true
 
+    # #valid_moves works for king under check, as well as all other pieces
+    # get_king_moves_under_check is depreciated
+    @player_valid_moves = board.valid_moves(@player_starting_coord)
     @board.print_board(@player_starting_coord, @player_valid_moves)
 
     # print moves for user
