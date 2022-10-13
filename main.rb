@@ -5,13 +5,9 @@ require_relative 'lib/string' # console font styles
 
 
 game = ChessGame.new
-
 board = game.board
 
-board.move_piece('e1', 'a4')
+game.play_game
 
-board.print_board
 
-p board.get_valid_king_moves('a4')
-
-# p board.get_piece('a4')
+# DID I CREATE A TEST FOR THIS? I think the problem here is that get_threatening_pieces assumes the player_num/opponent_player_num. player_num needs to be a parameter so I can find the threatening pieces for a consistent player 
