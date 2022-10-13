@@ -69,12 +69,5 @@ describe ChessGame do
 
       expect(check).to eq(false)
     end
-
-
   end
-
-
-
-
-
 end
