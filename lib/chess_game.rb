@@ -56,7 +56,7 @@ class ChessGame
   def play_game
     puts "Greeting message"
     print_board
-    turn_order until game_over?
+    turn_order until game_over?(@active_player)
     puts "Final message"
   end
 
@@ -220,9 +220,15 @@ class ChessGame
   # Player resign - player is able to enter option during piece choice
   # Checkmate
   # Stalemate - player has no legal move and not in check
-  # Dead position - neither player is able to checkmate. Such as only two kings are on the board (research all possibilities - hope its a short list)
+  # SKIP IMPLEMENTATION: Dead position - neither player is able to checkmate. Such as only two kings are on the board (research all possibilities - hope its a short list)
 
-  def game_over?
+  # TODO: Create another instance variable that stores the game over type (checkmate, stalemate, resign)
+
+  # TODO: rspec game_over? ends the game and returns the correct victory condition and winner (p1 or p2)
+
+  def game_over? (active_player)
+    return true if checkmate?(active_player)
+
     false
   end
 
