@@ -434,6 +434,16 @@ describe ChessBoard do
 
         expect(threatening_pieces).to eq(['c4', 'b5'])
       end
+
+
+      it 'Bug checker: When one king could but doesnt attack the other king, an infinite loop isnt triggered' do
+        board.move_piece('e2', 'f3') # move pawn out of the way
+        board.move_piece('e7', 'f6') # move pawn out of the way
+
+        threatening_pieces_to_king = board.get_threatening_pieces('e1')
+
+        expect(threatening_pieces_to_king).to eq([])
+      end
     end
   end
 
