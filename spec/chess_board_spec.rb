@@ -437,11 +437,12 @@ describe ChessBoard do
     end
   end
 
+  # Depreciated
   describe '#get_valid_king_moves_under_check' do 
     context 'player 1' do 
       subject(:board) { described_class.new }
 
-      it 'when king is checked, only returns moves that will escape check' do 
+      xit 'when king is checked, only returns moves that will escape check' do 
         board.move_piece('e1', 'd4') # move king
         board.move_piece('d2', 'd3') # move own pawn to block
         board.move_piece('a8', 'c4') # move opponent rook

@@ -427,33 +427,6 @@ class ChessBoard
     legal_moves_array
   end
 
-
-  # if the piece has a get_valid_moves coord that attacks the temp king coord, remove the possible move from the coord then move on
-  # keep iterating for all possible moves
-  # return array of legal kind moves
-
-  # TODO: taken code from ChessGame.check? Might be worth creating a separate method to avoid repetition
-  def get_valid_king_moves_under_check(starting_coord)
-    king_moves = estimate_knight_moves(starting_coord)
-
-    legal_king_moves = []
-    original_board_state = @board.clone
-    king_moves.each do |coord|
-      # For every possible move, temporarily move the king to the coord
-      # then, run get_threatening_pieces
-      move_piece(starting_coord, coord)
-      opponent_pieces_targeting_king = get_threatening_pieces(coord)
-
-      opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| estimate_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
-
-      legal_king_moves.push(coord) if opponent_attack_moves.include?(coord) == false
-
-      # restore the state of @board to restore the original position of king and restore any removed pieces
-      @board = original_board_state.clone
-    end
-    legal_king_moves
-  end
-
   # Scan for opponent pieces using relative_moves of rook, bishop and knight
   # Need two different algos for rook,bishop vs knight because former doesn't jump, latter does jump
   # Return the coords of such pieces
@@ -589,6 +562,35 @@ class ChessBoard
       end
       puts # new line
     end
+  end
+
+
+  # Depreciated. #get_threatening_pieces works with king_coord input
+
+    # if the piece has a get_valid_moves coord that attacks the temp king coord, remove the possible move from the coord then move on
+  # keep iterating for all possible moves
+  # return array of legal kind moves
+
+  # TODO: taken code from ChessGame.check? Might be worth creating a separate method to avoid repetition
+  def get_valid_king_moves_under_check(starting_coord)
+    king_moves = estimate_knight_moves(starting_coord)
+
+    legal_king_moves = []
+    original_board_state = @board.clone
+    king_moves.each do |coord|
+      # For every possible move, temporarily move the king to the coord
+      # then, run get_threatening_pieces
+      move_piece(starting_coord, coord)
+      opponent_pieces_targeting_king = get_threatening_pieces(coord)
+
+      opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| estimate_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+
+      legal_king_moves.push(coord) if opponent_attack_moves.include?(coord) == false
+
+      # restore the state of @board to restore the original position of king and restore any removed pieces
+      @board = original_board_state.clone
+    end
+    legal_king_moves
   end
 
 end
