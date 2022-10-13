@@ -53,9 +53,17 @@ class ChessGame
   end
 
   def play_game
-    puts "Greeting message"
+    print_greeting_message
     print_board
     turn_order until game_over?(@active_player)
+    print_final_message
+  end
+
+  def print_greeting_message
+    puts "Greeting message"
+  end
+
+  def print_final_message
     puts "Final message"
   end
 
