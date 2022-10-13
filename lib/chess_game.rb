@@ -44,7 +44,6 @@ class ChessGame
   def initialize
     @active_player = 1 # Player 1 always starts the game
     
-    @player_num = nil
     @player_starting_coord = nil
     @player_valid_moves = []
     @player_ending_coord = nil
