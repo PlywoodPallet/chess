@@ -48,6 +48,7 @@ class ChessGame
     @player_valid_moves = []
     @player_ending_coord = nil
     @player_redo_selection = true
+    @game_over_condition = nil
 
     @board = ChessBoard.new
   end
@@ -65,6 +66,11 @@ class ChessGame
 
   def print_final_message
     puts "Final message"
+    # @active_player is loser, toggle so it is the winner
+    toggle_active_player(@active_player)
+
+    # Print game_over_condition and winner
+    puts "#{@game_over_condition}! Player #{@active_player} wins"
   end
 
   def turn_order
@@ -226,7 +232,10 @@ class ChessGame
   # TODO: rspec game_over? ends the game and returns the correct victory condition and winner (p1 or p2)
 
   def game_over? (active_player)
-    return true if checkmate?(active_player)
+    if checkmate?(active_player)
+      @game_over_condition = "Checkmate"
+      return true
+    end
 
     # return true if stalemate?(active_player)
     # retirm true if resignation?(active_player)
