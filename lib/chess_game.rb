@@ -217,11 +217,8 @@ class ChessGame
   
   # Switch the active player between 1 and 2
   def toggle_active_player(active_player)
-    if active_player == 1
-      @active_player = 2
-    else
-      @active_player = 1
-    end
+    @active_player = 2 if active_player == 1
+    @active_player = 1 if active_player == 2
   end
 
   # Game over conditions
