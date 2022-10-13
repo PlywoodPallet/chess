@@ -20,11 +20,6 @@ class ChessBoard
   def initialize
     @blank_value = ' ' # needed for print_board to display correctly and so empty values aren't nil
 
-
-
-    # Cons 
-    # Knights Travails written for a 2d array - can use a lookup 2d array that converts between coordinate key "a3" and y,x coordinates
-    # Major/minor diagonal algo in Connect Four project written for 2d array
     @board = Hash.new # default value is nil so moves off the board can be detected
 
     @bg_colors = ['bg_white', 'bg_bright_black']
@@ -117,8 +112,6 @@ class ChessBoard
   # https://en.wikipedia.org/wiki/Chess
   # Board alignment - "queen starts on own color". White queen starts on white square, etc
   # TODO: center chess piece in square
-  # TODO: add two parameters and background-highlighting function
-  # selected_piece is for highlighting the piece selected by user at coordinate (color1)
   # valid_moves is for highlighting the valid moves of the selected piece at coordinate array (color2)
   def print_board (selected_piece_coord = nil, valid_moves = nil)
     print_col_label
@@ -209,7 +202,6 @@ class ChessBoard
 
   # estimate moves
   def estimate_moves(starting_coord, pawn_attack_only = false)
-
     piece = get_piece(starting_coord)
 
     # if piece is a pawn do this code (Pawn)
@@ -289,9 +281,6 @@ class ChessBoard
     # scan for "en passant" special attack
 
     absolute_moves
-
-    # remove moves that would put own king in check
-    # remove_moves_that_jeopardize_king(starting_coord, absolute_moves)
   end
 
   def estimate_knight_moves(starting_coord)
@@ -308,11 +297,7 @@ class ChessBoard
     valid_absolute_moves = absolute_moves.select { |absolute_move| coord_is_empty?(absolute_move)}
     valid_absolute_attack_moves = absolute_moves.select { |absolute_move| coord_contains_piece?(absolute_move) && get_piece(absolute_move).player_num == opponent_player_num}
 
-    output = valid_absolute_moves + valid_absolute_attack_moves
-    
-    output
-    # remove moves that would put own king in check
-    # remove_moves_that_jeopardize_king(starting_coord, output)
+    valid_absolute_moves + valid_absolute_attack_moves
   end
 
   # Rook can move multiple squares cannot jump over other pieces
@@ -354,9 +339,6 @@ class ChessBoard
     end
 
     valid_absolute_moves
-
-    # remove moves that would put own king in check
-    # remove_moves_that_jeopardize_king(starting_coord, valid_absolute_moves)
   end
 
   # Consider making a general method for bishop, rook and queen
@@ -571,7 +553,6 @@ class ChessBoard
   # keep iterating for all possible moves
   # return array of legal kind moves
 
-  # TODO: taken code from ChessGame.check? Might be worth creating a separate method to avoid repetition
   def get_valid_king_moves_under_check(starting_coord)
     king_moves = estimate_knight_moves(starting_coord)
 

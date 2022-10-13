@@ -150,7 +150,6 @@ class ChessGame
   end
 
   # List valid moves of piece 
-  # TODO: if under check, only get and print valid moves for the king to escape check. If no moves exist, checkmate! Game is over
   def print_moves(active_player, check = false)
     # if under check, change  @player_starting_coord points the current player's king
     @player_starting_coord = get_king_coord_of_player(active_player) if check == true
@@ -272,7 +271,6 @@ class ChessGame
     # If this isn't considered, a game state can be falsely determined to have a checkmate from a pawn moving forward but not attacking
     # idea 1: create a param in board.get_valid_moves that if used on a pawn, calls a different method that only returns attack moves
 
-  # NOTE: untested method
   def checkmate?(active_player)
     king_coord = get_king_coord_of_player(active_player)
 
