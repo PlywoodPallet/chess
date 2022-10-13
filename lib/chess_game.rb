@@ -242,9 +242,9 @@ class ChessGame
       king_coord = @board.player2_king_coord
     end
 
-    opponent_pieces_targeting_king = board.get_threatening_pieces(king_coord)
+    opponent_pieces_targeting_king = board.get_threatening_pieces(king_coord, active_player)
 
-    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| board.estimate_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| board.valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
 
     return true if opponent_attack_moves.include?(king_coord)
 
@@ -273,7 +273,8 @@ class ChessGame
       king_coord = @board.player2_king_coord
     end
 
-    valid_king_moves = board.get_valid_king_moves_under_check(king_coord)
+    valid_king_moves = board.valid_moves(king_coord)
+    check?(active_player)
 
     # king must be under threat AND have no valid moves left
     return true if valid_king_moves == [] && check?(active_player)
