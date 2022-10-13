@@ -397,6 +397,7 @@ class ChessBoard
   # given the absolute_moves_array of mostly valid moves 
   # determined by get_valid_x_moves methods
   # only return moves that DO NOT threaten own king
+  # NOTE: this method works if the starting_coord is the king, will determine which moves are valid
   def remove_moves_that_jeopardize_king(starting_coord, moves_array)
     piece = get_piece(starting_coord)
     player_num = piece.player_num
@@ -416,7 +417,10 @@ class ChessBoard
       # Add to legal moves array if the move does not reveal own king to attack by the opponent
       legal_moves_array.push(coord) if opponent_attack_moves.include?(king_coord) == false
 
-      # restore the state of @board to restore the original position of the piece and other removed opponent pieces
+      # move piece back to original position, important if the piece is king
+      # so the playerx_king_coord is updated
+      move_piece(coord, starting_coord)
+      # restore the state of @board to restore possibly removed opponent pieces
       @board = original_board_state.clone
     end
 
