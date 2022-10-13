@@ -87,7 +87,6 @@ class ChessGame
     @player_redo_selection = true # reset back to default value to prevent an infinite loop
   end
 
-  # TODO: Learn how to throw errors
   # Function: Skips piece selection when player is under check. Moving the king is the only legal move
   def select_piece(player_num, check = false)
     puts "Player #{player_num} enter coordinate of piece to move: "
@@ -121,7 +120,6 @@ class ChessGame
     end
   end
 
-  # TODO: This an other methods in ChessGame use estimate_moves, would valid_moves be more appropriate?
   def verify_start_coord(start_coord)
     # convert input to string
     start_coord = start_coord.to_s
