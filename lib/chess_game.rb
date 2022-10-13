@@ -207,7 +207,7 @@ class ChessGame
   # Ask player to chose a valid move for piece
   # Move piece
   def move_piece
-    board.move_piece(@player_starting_coord, @player_ending_coord)
+    @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
   end
 
   def player_input
@@ -251,9 +251,9 @@ class ChessGame
   def check?(active_player)
     king_coord = get_king_coord_of_player(active_player)
 
-    opponent_pieces_targeting_king = board.get_threatening_pieces(king_coord, active_player)
+    opponent_pieces_targeting_king = @chess_board.get_threatening_pieces(king_coord, active_player)
 
-    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| board.valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| @chess_board.valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
 
     return true if opponent_attack_moves.include?(king_coord)
 
@@ -274,7 +274,7 @@ class ChessGame
   def checkmate?(active_player)
     king_coord = get_king_coord_of_player(active_player)
 
-    valid_king_moves = board.valid_moves(king_coord)
+    valid_king_moves = @chess_board.valid_moves(king_coord)
     check?(active_player)
 
     # king must be under threat AND have no valid moves left
