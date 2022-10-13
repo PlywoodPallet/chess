@@ -20,6 +20,7 @@ class ChessBoard
   def initialize
     @blank_value = ' ' # needed for print_board to display correctly and so empty values aren't nil
 
+    # String coordinate -> ChessPiece object
     @board = Hash.new # default value is nil so moves off the board can be detected
 
     @bg_colors = ['bg_white', 'bg_bright_black']
