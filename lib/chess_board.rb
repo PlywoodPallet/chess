@@ -193,6 +193,18 @@ class ChessBoard
     false
   end
 
+  # Clears all pieces except the coords in array
+  # exceptions_array = array of strings that store coords to keep
+  # Needed for testing
+  def clear_board(exceptions_array = nil)
+    @board.each do |coord, piece|
+      unless exceptions_array.include?(coord)
+        @board[coord] = @blank_value
+      end
+    end
+  end
+
+
   # TODO: Most methods below need to be moved to a new MoveValidator class
 
   # legal moves
