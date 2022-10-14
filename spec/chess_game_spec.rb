@@ -71,7 +71,48 @@ describe ChessGame do
     end
   end
 
+  describe '#stalemate?' do
+    subject(:game) { described_class.new }
+    it 'situation 1: returns true when player (p2) has no legal moves' do 
+      board = game.chess_board
+
+      board.clear_board(['e8', 'e1', 'd1']) # keep p1 king, queen and p2 king
+      board.move_piece('e8','h1') # move p2 king
+      board.move_piece('e1','a8') # move p1 king
+      board.move_piece('d1','f2') # move p1 queen
+
+      stalemate = game.stalemate?(2) # test for player 2
+
+      expect(stalemate).to eq(true)
+
+    end
+
+    it 'situation 1: returns false when player (p1) has moves' do 
+      # use the default state of the board
+      board = game.chess_board
+
+      board.move_piece('e1', 'd4') # move king into position
+      board.move_piece('d2', 'd3') # block king with own pawn
+      board.move_piece('a8', 'c4') # move opponent rook to threaten king
+      board.move_piece('b8', 'b5') # move opponent knight to threaten king
+
+      stalemate = game.stalemate?(1) # test for player 1
+
+      expect(stalemate).to eq(false)
+    end
+
+    it 'situation 2: returns false on starting player board' do 
+      # use the default state of the board
+      board = game.chess_board
+
+      stalemate = game.stalemate?(1) # test for player 1
+
+      expect(stalemate).to eq(false)
+    end
+  end
+
   # TODO: Use rspec to play the game rather than setting up the board manually
+  # TODO: test statlemate
   describe '#game_over? / #print_final_message' do
     subject(:game) { described_class.new }
     xit 'When P1 is checkmated, declare the victory condition and P2 as the winner' do
