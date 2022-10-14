@@ -188,7 +188,7 @@ class ChessGame
 
   def verify_move_choice(move_choice)
     # if a move is chosen, the player doesn't want to choose another piece
-    if @player_valid_moves.include?(move_choice)
+    if @player_valid_moves.include?(move_choice.downcase)
       @player_redo_selection = false
       return move_choice
     # if "R" is chosen, the player wants to redo their choice
