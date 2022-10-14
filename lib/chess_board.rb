@@ -542,8 +542,9 @@ class ChessBoard
 
     # iterate through @chess_board.board coords (key, not value) and run #valid_moves
     @board.each do |coord, piece|
+      next if piece == @blank_value
+      
       moves = valid_moves(coord)
-
       if moves == []
         next
       else
