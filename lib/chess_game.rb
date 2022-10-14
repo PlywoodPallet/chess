@@ -66,8 +66,8 @@ class ChessGame
 
   def print_final_message
     puts "Final message"
-    # @active_player is loser, toggle so it is the winner
-    toggle_active_player(@active_player)
+    # @active_player is loser due to #turn_order, toggle so it is the winner
+    toggle_active_player(@active_player) if @game_over_condition == "Checkmate"
 
     # Print game_over_condition and winner
     puts "#{@game_over_condition}! Player #{@active_player} wins"
@@ -83,19 +83,24 @@ class ChessGame
     while @player_redo_selection == true
       # Ask player to choose a valid piece
       select_piece(active_player, check?(active_player))
+
+      break if @game_over_condition == "Resigned"
+
       # List valid moves of piece
       print_moves(active_player, check?(active_player))
       # Ask player to chose a valid move for piece (give an opportunity to choose another piece)
       choose_move(active_player, check?(active_player))
     end
+
     # Move piece
-    move_piece
+    move_piece unless @game_over_condition == "Resigned"
     @player_redo_selection = true # reset back to default value to prevent an infinite loop
   end
 
   # Function: Skips piece selection when player is under check. Moving the king is the only legal move
   def select_piece(player_num, check = false)
     puts "Player #{player_num} enter coordinate of piece to move: "
+    puts "Enter RESIGN to end the game" unless check == true
     
     verified_start_coord = ''
 
@@ -121,12 +126,17 @@ class ChessGame
 
     if check == true
       puts "Check! Select a move for king"
-    else
+    elsif @game_over_condition != 'Resigned'
       puts "You selected #{selected_piece.class} at #{verified_start_coord}"
     end
   end
 
   def verify_start_coord(start_coord)
+    # this must be at the top because start_coord is not a valid piece
+    if start_coord.upcase == 'RESIGN'
+      @game_over_condition = 'Resigned'
+      return start_coord # only used to stop the method here
+    end
 
     piece_at_coord = @chess_board.get_piece(start_coord)
     player_num = piece_at_coord.player_num
@@ -143,8 +153,6 @@ class ChessGame
 
     # check if piece has any available moves
     return nil if @chess_board.valid_moves(start_coord) == []
-
-    @game_over_condition = 'Resigned' if move_choice.upcase == 'RESIGN'
 
     start_coord
   end
@@ -229,6 +237,8 @@ class ChessGame
   # TODO: rspec game_over? ends the game and returns the correct victory condition and winner (p1 or p2)
 
   def game_over? (active_player)
+    return true if @game_over_condition == "Resigned"
+    
     if checkmate?(active_player)
       @game_over_condition = "Checkmate"
       return true
@@ -238,8 +248,6 @@ class ChessGame
       @game_over_condition = "Stalemate"
       return true
     end
-
-    # retirm true if resignation?(active_player)
 
     false
   end
