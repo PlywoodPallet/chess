@@ -545,17 +545,19 @@ class ChessBoard
     player_num == 1 ? 2 : 1
   end
 
+  # for a certain player:
   # return true if all pieces have no moves left
   # return false if any piece has at least one valid move
   # for determining stalemate in ChessGame
-  def any_available_moves?
+  def no_valid_moves?(player_num)
     # boolean no_valid_moves = true by default
     no_valid_moves = true
 
     # iterate through @chess_board.board coords (key, not value) and run #valid_moves
     @board.each do |coord, piece|
       next if piece == @blank_value
-      
+      next if piece.player_num != player_num
+
       moves = valid_moves(coord)
       if moves == []
         next
