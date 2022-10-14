@@ -142,7 +142,9 @@ class ChessGame
     return nil if piece_player_num != player_num
 
     # check if piece has any available moves
-    return nil if board.valid_moves(start_coord) == []
+    return nil if @chess_board.valid_moves(start_coord) == []
+
+    @game_over_condition = 'Resigned' if move_choice.upcase == 'RESIGN'
 
     start_coord
   end
@@ -154,7 +156,7 @@ class ChessGame
 
     # #valid_moves works for king under check, as well as all other pieces
     # get_king_moves_under_check is depreciated
-    @player_valid_moves = board.valid_moves(@player_starting_coord)
+    @player_valid_moves = @chess_board.valid_moves(@player_starting_coord)
     @chess_board.print_board(@player_starting_coord, @player_valid_moves)
 
     # print moves for user
