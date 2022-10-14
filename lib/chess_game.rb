@@ -236,7 +236,11 @@ class ChessGame
       return true
     end
 
-    # return true if stalemate?(active_player)
+    if stalemate?(active_player)
+      @game_over_condition = "Stalemate"
+      return true
+    end
+
     # retirm true if resignation?(active_player)
 
     false
