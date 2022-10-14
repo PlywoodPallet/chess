@@ -127,8 +127,6 @@ class ChessGame
   end
 
   def verify_start_coord(start_coord)
-    # convert input to string
-    start_coord = start_coord.to_s
 
     piece_at_coord = @chess_board.get_piece(start_coord)
     player_num = piece_at_coord.player_num
@@ -210,8 +208,9 @@ class ChessGame
     @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
   end
 
+  # convert input to string
   def player_input
-    gets.chomp
+    gets.chomp.to_s
   end
   
   # Switch the active player between 1 and 2
