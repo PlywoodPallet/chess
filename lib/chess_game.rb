@@ -167,7 +167,7 @@ class ChessGame
     puts "Check! Select a move for your king" if check == true
 
     puts "Player #{player_num} enter a move: "
-    puts "Enter R to choose a different piece"
+    puts "Enter REDO to choose a different piece" unless check == true
     
     verified_move = ''
     loop do
@@ -189,15 +189,12 @@ class ChessGame
     if @player_valid_moves.include?(move_choice.downcase)
       @player_redo_selection = false
       return move_choice
-    # if "R" is chosen, the player wants to redo their choice
-    elsif move_choice.upcase == 'R'
+    # if "REDO" is chosen, the player wants to redo their choice
+    # this is only valid if player is not under check
+    elsif move_choice.upcase == 'REDO' && check(@active_player) == false
       @player_redo_selection = true
       return move_choice
     end
-
-    # return move_choice if @player_valid_moves.include?(move_choice)
-
-    # return move_choice if move_choice.upcase == 'R'
 
     nil
   end
