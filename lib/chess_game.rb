@@ -61,13 +61,13 @@ class ChessGame
   end
 
   def print_greeting_message
-    puts "Greeting message"
+    puts 'Greeting message'
   end
 
   def print_final_message
-    puts "Final message"
+    puts 'Final message'
     # @active_player is loser due to #turn_order, toggle so it is the winner
-    toggle_active_player(@active_player) if @game_over_condition == "Checkmate"
+    toggle_active_player(@active_player) if @game_over_condition == 'Checkmate'
 
     # Print game_over_condition and winner
     puts "#{@game_over_condition}! Player #{@active_player} wins"
@@ -84,7 +84,7 @@ class ChessGame
       # Ask player to choose a valid piece
       select_piece(active_player, check?(active_player))
 
-      break if @game_over_condition == "Resigned"
+      break if @game_over_condition == 'Resigned'
 
       # List valid moves of piece
       print_moves(active_player, check?(active_player))
@@ -93,14 +93,14 @@ class ChessGame
     end
 
     # Move piece
-    move_piece unless @game_over_condition == "Resigned"
+    move_piece unless @game_over_condition == 'Resigned'
     @player_redo_selection = true # reset back to default value to prevent an infinite loop
   end
 
   # Function: Skips piece selection when player is under check. Moving the king is the only legal move
   def select_piece(player_num, check = false)
     puts "Player #{player_num} enter coordinate of piece to move: "
-    puts "Enter RESIGN to end the game" unless check == true
+    puts 'Enter RESIGN to end the game' unless check == true
     
     verified_start_coord = ''
 
@@ -125,7 +125,7 @@ class ChessGame
     selected_piece = @chess_board.get_piece(verified_start_coord)
 
     if check == true
-      puts "Check! Select a move for king"
+      puts 'Check! Select a move for king'
     elsif @game_over_condition != 'Resigned'
       puts "You selected #{selected_piece.class} at #{verified_start_coord}"
     end
@@ -174,10 +174,10 @@ class ChessGame
   def choose_move(player_num, check = false)
     
     # if under check, declare it to user
-    puts "Check! Select a move for your king" if check == true
+    puts 'Check! Select a move for your king' if check == true
 
     puts "Player #{player_num} enter a move: "
-    puts "Enter REDO to choose a different piece" unless check == true
+    puts 'Enter REDO to choose a different piece' unless check == true
     
     verified_move = ''
     loop do
@@ -237,15 +237,15 @@ class ChessGame
   # TODO: rspec game_over? ends the game and returns the correct victory condition and winner (p1 or p2)
 
   def game_over? (active_player)
-    return true if @game_over_condition == "Resigned"
+    return true if @game_over_condition == 'Resigned'
     
     if checkmate?(active_player)
-      @game_over_condition = "Checkmate"
+      @game_over_condition = 'Checkmate'
       return true
     end
 
     if stalemate?(active_player)
-      @game_over_condition = "Stalemate"
+      @game_over_condition = 'Stalemate'
       return true
     end
 
