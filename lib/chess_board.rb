@@ -533,6 +533,29 @@ class ChessBoard
     player_num == 1 ? 2 : 1
   end
 
+  # return true if all pieces have no moves left
+  # return false if any piece has at least one valid move
+  # for determining stalemate in ChessGame
+  def any_available_moves?
+    # boolean no_valid_moves = true by default
+    no_valid_moves = true
+
+    # iterate through @chess_board.board coords (key, not value) and run #valid_moves
+    @board.each do |coord, piece|
+      moves = valid_moves(coord)
+
+      if moves == []
+        next
+      else
+        # if any iterations return valid_moves that are not =[], switch to false
+        no_valid_moves = false
+        break # stop iteration for efficiency
+      end
+    end
+
+    no_valid_moves
+  end
+
   # sanity check: print the keys-value pairs in @board
   # for debugging only
   def sanity_check
