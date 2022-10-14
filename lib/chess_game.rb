@@ -285,7 +285,10 @@ class ChessGame
 
   # Stalemate - both players have no legal moves and neither are under check
   def stalemate?(active_player)
-
+    # if #check is false and no_valid_moves = true, return true
+    return true if check?(active_player) == false && @chess_board.no_valid_moves?(active_player)
+    
+    false
   end
   
 
