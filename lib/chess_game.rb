@@ -65,7 +65,6 @@ class ChessGame
   end
 
   def print_final_message
-    puts 'Final message'
     # @active_player is loser due to #turn_order, toggle so it is the winner
     toggle_active_player(@active_player) if @game_over_condition == 'Checkmate'
 
