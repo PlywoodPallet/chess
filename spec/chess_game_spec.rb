@@ -23,6 +23,20 @@ describe ChessGame do
       expect(check).to eq(true)
     end
 
+    it 'returns true when king is threatened by only pawns' do 
+      board = game.chess_board
+
+      board.clear_board(['e1', 'e8', 'a7', 'b7', 'c7', 'd7', 'e7'])
+
+      board.move_piece('e1', 'a1') # move king
+      board.move_piece('a7', 'a2') # move opponent pawn
+      board.move_piece('b7', 'b2') # move opponent pawn
+
+      check = game.check?(1)
+
+      expect(check).to eq(true)
+    end
+
     it 'returns false when king is safe' do 
       # use the default state of the board
       check = game.check?(1)
@@ -46,7 +60,20 @@ describe ChessGame do
       checkmate = game.checkmate?(1)
 
       expect(checkmate).to eq(true)
+    end
 
+    it 'returns true when king is under threat (by pawns only) and has no legal moves' do 
+      board = game.chess_board
+
+      board.move_piece('e1', 'a1') # move king
+      board.move_piece('a7', 'a2') # move opponent pawn
+      board.move_piece('b7', 'b2') # move opponent pawn
+      board.move_piece('c7', 'a3') # move opponent pawn
+      board.move_piece('d7', 'b3') # move opponent pawn
+
+      checkmate = game.checkmate?(1)
+
+      expect(checkmate).to eq(true)
     end
 
     it 'returns false when king is under check' do 
