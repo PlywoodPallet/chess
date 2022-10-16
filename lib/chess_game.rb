@@ -37,6 +37,7 @@
 # pieces are denoted by the file its in such as "pawn in f-file"
 
 require_relative '../lib/chess_board'
+require_relative '../lib/move_validator'
 
 class ChessGame
   attr_accessor :chess_board # remove, for debugging only
@@ -51,6 +52,8 @@ class ChessGame
     @game_over_condition = nil
 
     @chess_board = ChessBoard.new
+
+    @move_validator = MoveValidator.new(@chess_board)
   end
 
   def play_game
@@ -151,7 +154,7 @@ class ChessGame
     return nil if piece_player_num != player_num
 
     # check if piece has any available moves
-    return nil if @chess_board.valid_moves(start_coord) == []
+    return nil if @move_validator.valid_moves(start_coord) == []
 
     start_coord
   end
@@ -163,7 +166,7 @@ class ChessGame
 
     # #valid_moves works for king under check, as well as all other pieces
     # get_king_moves_under_check is depreciated
-    @player_valid_moves = @chess_board.valid_moves(@player_starting_coord)
+    @player_valid_moves = @move_validator.valid_moves(@player_starting_coord)
     @chess_board.print_board(@player_starting_coord, @player_valid_moves)
 
     # print moves for user
@@ -210,7 +213,7 @@ class ChessGame
 
   # Move piece
   def move_piece
-    @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
+    @move_validator.move_piece(@player_starting_coord, @player_ending_coord)
   end
 
   # convert input to string
@@ -259,9 +262,9 @@ class ChessGame
   def check?(active_player)
     king_coord = get_king_coord_of_player(active_player)
 
-    opponent_pieces_targeting_king = @chess_board.get_threatening_pieces(king_coord, active_player)
+    opponent_pieces_targeting_king = @move_validator.get_threatening_pieces(king_coord, active_player)
 
-    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| @chess_board.valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| @move_validator.valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
 
     return true if opponent_attack_moves.include?(king_coord)
 
@@ -282,7 +285,8 @@ class ChessGame
   def checkmate?(active_player)
     king_coord = get_king_coord_of_player(active_player)
 
-    valid_king_moves = @chess_board.valid_moves(king_coord)
+    # TODO: Do I need pawn_attack_only = true?
+    p valid_king_moves = @move_validator.valid_moves(king_coord)
     check?(active_player)
 
     # king must be under threat AND have no valid moves left
@@ -294,7 +298,7 @@ class ChessGame
   # Stalemate - both players have no legal moves and neither are under check
   def stalemate?(active_player)
     # if #check is false and no_valid_moves = true, return true
-    return true if check?(active_player) == false && @chess_board.no_valid_moves?(active_player)
+    return true if check?(active_player) == false && @move_validator.no_valid_moves?(active_player)
     
     false
   end
