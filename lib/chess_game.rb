@@ -157,7 +157,10 @@ class ChessGame
     return nil if piece_player_num != player_num
 
     # check if piece has any available moves
-    return nil if @move_validator.valid_moves(start_coord) == []
+    if @move_validator.valid_moves(start_coord) == []
+      puts 'Piece as no valid moves'
+      return nil 
+    end
 
     start_coord
   end
