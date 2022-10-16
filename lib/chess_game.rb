@@ -40,7 +40,7 @@ require_relative '../lib/chess_board'
 require_relative '../lib/move_validator'
 
 class ChessGame
-  attr_accessor :chess_board # remove, for debugging only
+  attr_accessor :chess_board
 
   def initialize
     @active_player = 1 # Player 1 always starts the game
