@@ -258,7 +258,7 @@ class ChessGame
     nil
   end
 
-  # convert input to string
+  # get player input then convert to string
   def player_input
     gets.chomp.to_s
   end
