@@ -66,6 +66,7 @@ class ChessGame
     puts 'Greeting message'
   end
 
+  # TODO: Test output for checkmate, stalemate, resignation
   def print_final_message
     # @active_player is loser due to #turn_order, toggle so it is the winner
     toggle_active_player(@active_player) if @game_over_condition == 'Checkmate'
