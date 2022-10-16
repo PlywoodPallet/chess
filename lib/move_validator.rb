@@ -11,7 +11,6 @@ class MoveValidator
 
   # legal moves
   # remove any moves that would jeopardize own king
-  # pawn_attack_only may be an unused parameter
   def valid_moves(starting_coord, pawn_attack_only = false)
     moves_array = estimate_moves(starting_coord, pawn_attack_only)
     remove_moves_that_jeopardize_king(starting_coord, moves_array)
