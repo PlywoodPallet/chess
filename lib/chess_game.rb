@@ -205,7 +205,7 @@ class ChessGame
       return move_choice
     # if "REDO" is chosen, the player wants to redo their choice
     # this is only valid if player is not under check
-    elsif move_choice.upcase == 'REDO' && check(@active_player) == false
+    elsif move_choice.upcase == 'REDO' && check?(@active_player) == false
       @player_redo_selection = true
       return move_choice
     end
