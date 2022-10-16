@@ -7,6 +7,9 @@ require_relative 'lib/string' # console font styles
 # Accomplishments
 # Broke a lot of tests when designing remove_moves_jeopardize_king. Fixed by doing a major refactor of valid_moves. Split into valid_moves and estimate_moves
 # LOTS of edge cases!
+# Skipped en passant and castling. Much more Odin project left to do and didn't want to waste time implementing this. 
+# Usability - user has ability to redo piece selection. When a piece is selected, the possible moves are highlighted on the board
+# Making the command line interface look good was not a priority. This task is rarely done in the real world, except for debugging
 
 
 game = ChessGame.new
