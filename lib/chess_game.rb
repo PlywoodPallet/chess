@@ -106,6 +106,7 @@ class ChessGame
   def select_piece(player_num, check = false)
     verified_start_coord = ''
 
+    # only ask player to choose a piece if they are NOT under check
     if check == false
       loop do
         puts "Player #{player_num} enter coordinate of piece to move: "
