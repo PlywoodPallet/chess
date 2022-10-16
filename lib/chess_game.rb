@@ -93,8 +93,11 @@ class ChessGame
       choose_move(active_player, check?(active_player))
     end
 
-    # Move piece
-    move_piece unless @game_over_condition == 'Resigned'
+    unless @game_over_condition == 'Resigned'
+      # Move piece
+      move_piece 
+      pawn_promotion(@active_player) if @move_validator.promotable?(@player_ending_coord)
+    end
     @player_redo_selection = true # reset back to default value to prevent an infinite loop
   end
 
@@ -215,6 +218,48 @@ class ChessGame
     @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
   end
 
+  def pawn_promotion(active_player)
+    puts "Promote Pawn in #{@player_ending_coord}"
+    puts "Enter a piece to promote to (Queen, Knight, Rook, Bishop):"
+
+    promotion_choice = ''
+    loop do
+      promotion_choice = verify_promotion_choice(player_input)
+
+      break if promotion_choice # break if not nil
+
+      puts 'Input Error!'
+    end
+
+    piece = nil
+
+    case promotion_choice.upcase
+    when 'QUEEN'
+      piece = Queen.new(active_player)
+    when 'KNIGHT'
+      piece = Knight.new(active_player)
+    when 'ROOK'
+      piece = Rook.new(active_player)
+    when 'BISHOP'
+      piece = Bishop.new(active_player)
+    else
+      puts 'Error in piece promotion'
+    end
+
+
+    @chess_board.set_piece_at_coord(@player_ending_coord, piece)
+    puts "Pawn in #{@player_ending_coord} was promoted to #{piece.class}"
+  end
+
+
+  def verify_promotion_choice(player_input)
+    valid_promotion_choices = ['QUEEN', 'KNIGHT', 'ROOK', 'BISHOP']
+
+    return player_input if valid_promotion_choices.include?(player_input.upcase)
+
+    nil
+  end
+
   # convert input to string
   def player_input
     gets.chomp.to_s
@@ -301,7 +346,6 @@ class ChessGame
     
     false
   end
-  
 
   # call a ChessBoard method here
   def print_board
