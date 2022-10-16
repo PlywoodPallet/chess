@@ -286,7 +286,7 @@ class ChessGame
     king_coord = get_king_coord_of_player(active_player)
 
     # TODO: Do I need pawn_attack_only = true?
-    p valid_king_moves = @move_validator.valid_moves(king_coord)
+    valid_king_moves = @move_validator.valid_moves(king_coord)
     check?(active_player)
 
     # king must be under threat AND have no valid moves left
