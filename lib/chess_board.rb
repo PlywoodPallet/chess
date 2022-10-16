@@ -15,7 +15,7 @@ require_relative '../lib/chess_piece'
 require_relative '../lib/string' # console font styles
 
 class ChessBoard
-  attr_reader :blank_value, :player1_king_coord, :player2_king_coord
+  attr_reader :board, :blank_value, :player1_king_coord, :player2_king_coord
 
   def initialize
     @blank_value = ' ' # needed for print_board to display correctly and so empty values aren't nil
@@ -171,6 +171,17 @@ class ChessBoard
     # Track the coordinates of each players king
     if piece.instance_of?(King)
       piece.player_num == 1 ? @player1_king_coord = end_coord : @player2_king_coord = end_coord
+      # puts "Player #{piece.player_num} king has moved to #{end_coord}"
+    end
+  end
+  
+  # needed for piece restoration function in #remove_moves_that_jeopardize_king
+  def set_piece_at_coord(coord, piece)
+    @board[coord] = piece
+
+    # Track the coordinates of each players king
+    if piece.instance_of?(King)
+      piece.player_num == 1 ? @player1_king_coord = coord : @player2_king_coord = coord
       # puts "Player #{piece.player_num} king has moved to #{end_coord}"
     end
   end
