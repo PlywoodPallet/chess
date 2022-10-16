@@ -160,4 +160,24 @@ describe ChessGame do
       expect { game.print_final_message }.to output(correct_message).to_stdout
     end
   end
+
+  describe '#pawn_promotion? / MoveValidator#promotable?' do
+    subject(:game) { described_class.new }
+    xit 'When pawn has reach end of board, it must be promoted' do
+      board = game.chess_board
+      
+      board.move_piece('a2', 'a7') # move p1 pawn one move away from promotion
+      board.move_piece('f7', 'a2') # move p2 pawn one move away from promotion
+      
+
+      # TODO: Do some code here to play the game and enter the correct moves to promote each piece
+
+      game.play_game
+
+      correct_message = ""
+
+      # TODO: how to test for output? rspec says .to output() is depreciated
+      expect { game.print_final_message }.to output(correct_message).to_stdout
+    end
+  end
 end
