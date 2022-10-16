@@ -52,7 +52,6 @@ class ChessGame
     @game_over_condition = nil
 
     @chess_board = ChessBoard.new
-
     @move_validator = MoveValidator.new(@chess_board)
   end
 
