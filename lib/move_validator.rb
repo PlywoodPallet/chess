@@ -366,6 +366,18 @@ class MoveValidator
     no_valid_moves
   end
 
+  def promotable?(coord)
+    piece = @chess_board.get_piece(coord)
+    player_num = piece.player_num
 
+    # Check is piece is a Pawn
+    return false unless piece.instance_of?(Pawn)
 
+    # check if the player's pawn has made it to the end
+    row = coord[1].to_i
+    return true if player_num == 1 && row == 8
+    return true if player_num == 2 && row == 1
+
+    false
+  end
 end
