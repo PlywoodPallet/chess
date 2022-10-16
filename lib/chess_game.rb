@@ -163,16 +163,16 @@ class ChessGame
 
   # List valid moves of piece 
   def print_moves(active_player, check = false)
+    system('clear')
+
     # if under check, change  @player_starting_coord points the current player's king
     @player_starting_coord = get_king_coord_of_player(active_player) if check == true
 
     # #valid_moves works for king under check, as well as all other pieces
     # get_king_moves_under_check is depreciated
     @player_valid_moves = @move_validator.valid_moves(@player_starting_coord)
+    # the simpler method print_board exists, but I want to show explicitly which parameters are being used
     @chess_board.print_board(@player_starting_coord, @player_valid_moves)
-
-    # print moves for user
-    p @player_valid_moves
   end
 
   def choose_move(player_num, check = false)
@@ -180,7 +180,7 @@ class ChessGame
     # if under check, declare it to user
     puts 'Check! Select a move for your king' if check == true
 
-    puts "Player #{player_num} enter a move: "
+    puts "Player #{player_num} enter a move: #{@player_valid_moves}"
     puts 'Enter REDO to choose a different piece' unless check == true
     
     verified_move = ''
