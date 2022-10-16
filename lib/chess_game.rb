@@ -104,19 +104,23 @@ class ChessGame
 
   # Function: Skips piece selection when player is under check. Moving the king is the only legal move
   def select_piece(player_num, check = false)
-    puts "Player #{player_num} enter coordinate of piece to move: "
-    puts 'Enter RESIGN to end the game' unless check == true
-    
     verified_start_coord = ''
 
     if check == false
       loop do
+        puts "Player #{player_num} enter coordinate of piece to move: "
+        puts 'Enter RESIGN to end the game'
+
         raw_input = player_input
         verified_start_coord = verify_start_coord(raw_input)
 
-        break if verified_start_coord # break if not nil
+        # break if not nil AND if piece at coord has moves
+        break if verified_start_coord && verified_start_coord != 'nomoves'
 
-        puts 'Input Error!'
+        system('clear')
+        print_board
+        print 'Input Error! '
+        puts 'Piece has no valid moves' if verified_start_coord == 'nomoves'
       end
     # if player is under check, skip piece selection and chose their king
     elsif check == true && player_num == 1
@@ -127,9 +131,9 @@ class ChessGame
 
     @player_starting_coord = verified_start_coord
 
-    selected_piece = @chess_board.get_piece(verified_start_coord)
-
-    puts "You selected #{selected_piece.class} at #{verified_start_coord}" unless @game_over_condition == 'Resigned'
+    # This line no longer necessary, #print_moves will show this visually 
+    # selected_piece = @chess_board.get_piece(verified_start_coord)
+    # puts "You selected #{selected_piece.class} at #{verified_start_coord}" unless @game_over_condition == 'Resigned'
   end
 
   def verify_start_coord(start_coord)
@@ -149,13 +153,10 @@ class ChessGame
     
     # check if piece belongs to player
     piece_player_num = piece_at_coord.player_num
-    return nil if piece_player_num != player_num
+    return nil if piece_player_num != @active_player
 
     # check if piece has any available moves
-    if @move_validator.valid_moves(start_coord) == []
-      puts 'Piece as no valid moves'
-      return nil 
-    end
+    return 'nomoves' if @move_validator.valid_moves(start_coord) == []
 
     start_coord
   end
