@@ -581,49 +581,4 @@ class ChessBoard
 
     no_valid_moves
   end
-
-
-
-  # Deprecated
-
-  # sanity check: print the keys-value pairs in @board
-  # for debugging only
-  def sanity_check
-    (1..8).reverse_each do |number|
-      ('a'..'h').each do |letter|
-        print "#{letter}#{number}:" 
-        print @board["#{letter}#{number}"]
-        
-        print '  ' # space in between items
-      end
-      puts # new line
-    end
-  end
-
-  #  #get_threatening_pieces works with king_coord input
-    # if the piece has a get_valid_moves coord that attacks the temp king coord, remove the possible move from the coord then move on
-  # keep iterating for all possible moves
-  # return array of legal kind moves
-
-  def get_valid_king_moves_under_check(starting_coord)
-    king_moves = estimate_knight_moves(starting_coord)
-
-    legal_king_moves = []
-    original_board_state = @board.clone
-    king_moves.each do |coord|
-      # For every possible move, temporarily move the king to the coord
-      # then, run get_threatening_pieces
-      move_piece(starting_coord, coord)
-      opponent_pieces_targeting_king = get_threatening_pieces(coord)
-
-      opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| estimate_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
-
-      legal_king_moves.push(coord) if opponent_attack_moves.include?(coord) == false
-
-      # restore the state of @board to restore the original position of king and restore any removed pieces
-      @board = original_board_state.clone
-    end
-    legal_king_moves
-  end
-
 end
