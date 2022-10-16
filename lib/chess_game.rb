@@ -246,11 +246,9 @@ class ChessGame
       puts 'Error in piece promotion'
     end
 
-
     @chess_board.set_piece_at_coord(@player_ending_coord, piece)
     puts "Pawn in #{@player_ending_coord} was promoted to #{piece.class}"
   end
-
 
   def verify_promotion_choice(player_input)
     valid_promotion_choices = ['QUEEN', 'KNIGHT', 'ROOK', 'BISHOP']
@@ -280,7 +278,6 @@ class ChessGame
   # TODO: Create another instance variable that stores the game over type (checkmate, stalemate, resign)
 
   # TODO: rspec game_over? ends the game and returns the correct victory condition and winner (p1 or p2)
-
   def game_over? (active_player)
     return true if @game_over_condition == 'Resigned'
     
@@ -297,12 +294,9 @@ class ChessGame
     false
   end
 
-
   # When a king is under immediate attack, it is said to be in check. A move in response to a check is legal only if it results in a position where the king is no longer in check. This can involve capturing the checking piece; interposing a piece between the checking piece and the king (which is possible only if the attacking piece is a queen, rook, or bishop and there is a square between it and the king); or moving the king to a square where it is not under attack. Castling is not a permissible response to a check
 
   # The object of the game is to checkmate the opponent; this occurs when the opponent's king is in check, and there is no legal way to get it out of check. It is never legal for a player to make a move that puts or leaves the player's own king in check
-
-
   def check?(active_player)
     king_coord = get_king_coord_of_player(active_player)
 
