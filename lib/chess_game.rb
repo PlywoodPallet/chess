@@ -208,7 +208,6 @@ class ChessGame
     nil
   end
 
-  # Ask player to chose a valid move for piece
   # Move piece
   def move_piece
     @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
