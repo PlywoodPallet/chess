@@ -453,4 +453,52 @@ describe MoveValidator do
     end
   end
 
+  describe '#promotable?' do
+    context 'player 1' do 
+    let(:board) { ChessBoard.new }
+    subject(:validator) { described_class.new(board) }
+      it 'returns true when p2 pawn has reached the end of board' do
+        board.move_piece('a2', 'a8')
+        promotable = validator.promotable?('a8')
+
+        expect(promotable).to be(true)
+      end
+
+      it 'returns false when p2 pawn has not reached end' do 
+        promotable = validator.promotable?('a2')
+
+        expect(promotable).to be(false)
+      end
+
+      it 'returns false when piece is not a pawn' do 
+        promotable = validator.promotable?('a1')
+
+        expect(promotable).to be(false)
+      end
+    end
+
+    context 'player 2' do
+    let(:board) { ChessBoard.new }
+    subject(:validator) { described_class.new(board) }
+      it 'returns true when p2 pawn has reached the end of board' do
+        board.move_piece('a7', 'a1')
+        promotable = validator.promotable?('a1')
+
+        expect(promotable).to be(true)
+      end
+
+      it 'returns false when p2 pawn has not reached end' do 
+        promotable = validator.promotable?('a7')
+
+        expect(promotable).to be(false)
+      end
+
+      it 'returns false when piece is not a pawn' do 
+        promotable = validator.promotable?('a8')
+
+        expect(promotable).to be(false)
+      end
+    end
+  end
+
 end
