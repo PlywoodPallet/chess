@@ -571,6 +571,10 @@ class ChessBoard
     no_valid_moves
   end
 
+
+
+  # Deprecated
+
   # sanity check: print the keys-value pairs in @board
   # for debugging only
   def sanity_check
@@ -585,9 +589,7 @@ class ChessBoard
     end
   end
 
-
-  # Depreciated. #get_threatening_pieces works with king_coord input
-
+  #  #get_threatening_pieces works with king_coord input
     # if the piece has a get_valid_moves coord that attacks the temp king coord, remove the possible move from the coord then move on
   # keep iterating for all possible moves
   # return array of legal kind moves
