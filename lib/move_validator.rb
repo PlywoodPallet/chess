@@ -5,8 +5,6 @@ require_relative '../lib/chess_piece'
 class MoveValidator
   def initialize (chess_board)
     @chess_board = chess_board
-
-
   end
 
   # legal moves
