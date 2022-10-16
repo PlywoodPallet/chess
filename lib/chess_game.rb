@@ -212,7 +212,7 @@ class ChessGame
 
   # Move piece
   def move_piece
-    @move_validator.move_piece(@player_starting_coord, @player_ending_coord)
+    @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
   end
 
   # convert input to string
