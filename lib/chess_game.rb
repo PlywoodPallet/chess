@@ -129,11 +129,7 @@ class ChessGame
 
     selected_piece = @chess_board.get_piece(verified_start_coord)
 
-    if check == true
-      puts 'Check! Select a move for king'
-    elsif @game_over_condition != 'Resigned'
-      puts "You selected #{selected_piece.class} at #{verified_start_coord}"
-    end
+    puts "You selected #{selected_piece.class} at #{verified_start_coord}" unless @game_over_condition == 'Resigned'
   end
 
   def verify_start_coord(start_coord)
