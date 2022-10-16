@@ -224,8 +224,6 @@ class MoveValidator
       @chess_board.move_piece(coord, starting_coord)
       # if a piece previously existed at coord, restore it
       @chess_board.set_piece_at_coord(coord, piece_at_coord) if piece_at_coord != nil
-
-      @chess_board.print_board
     end
 
     legal_moves_array
