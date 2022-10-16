@@ -1,6 +1,7 @@
 require_relative 'lib/chess_game'
 require_relative 'lib/chess_board'
 require_relative 'lib/chess_piece'
+require_relative 'lib/move_validator'
 require_relative 'lib/string' # console font styles
 
 # Accomplishments
