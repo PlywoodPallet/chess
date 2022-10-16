@@ -144,7 +144,6 @@ class ChessGame
     end
 
     piece_at_coord = @chess_board.get_piece(start_coord)
-    player_num = piece_at_coord.player_num
 
     # check if coordinate exists on the board    
     return nil if piece_at_coord.nil?
