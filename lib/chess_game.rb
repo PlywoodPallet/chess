@@ -92,6 +92,9 @@ class ChessGame
       print_moves(active_player, check?(active_player))
       # Ask player to chose a valid move for piece (give an opportunity to choose another piece)
       choose_move(active_player, check?(active_player))
+
+      # redudant, if resign chosen then @player_redo_selection == false
+      # break if @game_over_condition == 'Resigned'
     end
 
     unless @game_over_condition == 'Resigned'
@@ -177,12 +180,14 @@ class ChessGame
   end
 
   def choose_move(player_num, check = false)
-    
     # if under check, declare it to user
-    puts 'Check! Select a move for your king' if check == true
+    print 'Check! ' if check == true
 
     puts "Player #{player_num} enter a move: #{@player_valid_moves}"
+    # do not allow player to redo selection if under check
     puts 'Enter REDO to choose a different piece' unless check == true
+    # if player is under check, allow player to resign (was skipped in #select_piece)
+    puts 'Enter RESIGN to end the game' if check == true
     
     verified_move = ''
     loop do
@@ -200,14 +205,18 @@ class ChessGame
   end
 
   def verify_move_choice(move_choice)
-    # if a move is chosen, the player doesn't want to choose another piece
-    if @player_valid_moves.include?(move_choice.downcase)
+    if move_choice.upcase == 'RESIGN'
+      @game_over_condition = 'Resigned'
       @player_redo_selection = false
-      return move_choice
+      return move_choice # only used to stop the method here
     # if "REDO" is chosen, the player wants to redo their choice
     # this is only valid if player is not under check
     elsif move_choice.upcase == 'REDO' && check?(@active_player) == false
       @player_redo_selection = true
+      return move_choice
+    # if a valid move is chosen, the player doesn't want to choose another piece
+    elsif @player_valid_moves.include?(move_choice.downcase)
+      @player_redo_selection = false
       return move_choice
     end
 
