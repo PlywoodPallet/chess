@@ -199,8 +199,9 @@ class ChessGame
       puts 'Input Error!'
     end
 
-    @player_ending_coord = verified_move
+    system("clear")
 
+    @player_ending_coord = verified_move
     puts "Player #{player_num} chose #{verified_move}"
   end
 
