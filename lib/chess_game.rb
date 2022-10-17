@@ -257,6 +257,8 @@ class ChessGame
       puts 'Error in piece promotion'
     end
 
+    system("clear")
+
     @chess_board.set_piece_at_coord(@player_ending_coord, piece)
     puts "Pawn in #{@player_ending_coord} was promoted to #{piece.class}"
   end
