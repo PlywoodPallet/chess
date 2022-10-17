@@ -13,7 +13,6 @@ class ChessPiece
   attr_reader :player_num, :icon, :relative_moves
 
   # player is nil by default
-  # TODO: Refactor player to player_num for consistency with chessboard methods
   def initialize(player_num = nil)
     @player_num = player_num
     @icon_colors = ['bright_white', 'black'] # player 1, player 2
