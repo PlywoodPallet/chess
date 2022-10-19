@@ -105,7 +105,7 @@ class ChessGame
       move_piece 
       pawn_promotion(@active_player) if @move_validator.promotable?(@player_ending_coord)
     end
-    @player_redo_selection = true # reset back to default value to prevent an infinite loop
+    @player_redo_selection = true # reset back to default value for the next player
   end
 
   # Function: Skips piece selection when player is under check. Moving the king is the only legal move
