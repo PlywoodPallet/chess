@@ -13,6 +13,15 @@ require_relative 'lib/string' # console font styles
 # Found a code snippet online that adds to String class with commands to change console text and bg color, made print_board more readable than using ANSI console
 # Early design decision of storing the board as a hash made debugging much easier!
 
+# Further work
+# Make a nice Readme.md
+# Use design patterns to standarize methods and DRY: https://www.amazon.com/Design-Patterns-Ruby-Russ-Olsen/dp/0321490452
+# Pawn - En passant attack
+# Castle/King - Castling
+# GameRecorder which stores each move (algebraic notation)
+# Player 2 automated so that it picks a random move
+# Import a ruby chess agent to be the automatic player 2
+# Create a GameMessages module to take a lot of code out of ChessGame to make it more readable
 
 game = ChessGame.new
 board = game.chess_board
