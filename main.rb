@@ -14,7 +14,10 @@ require_relative 'lib/string' # console font styles
 # Early design decision of storing the board as a hash made debugging much easier!
 
 # Further work
+# Replit live version
 # Make a nice Readme.md
+#    Consider making post-project thoughts section or similar
+#    https://github.com/JonathanYiv/chess
 # Use design patterns to standarize methods and DRY: https://www.amazon.com/Design-Patterns-Ruby-Russ-Olsen/dp/0321490452
 # Pawn - En passant attack
 # Castle/King - Castling
