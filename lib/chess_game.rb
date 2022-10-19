@@ -74,6 +74,8 @@ class ChessGame
     # @active_player is loser due to #turn_order, toggle so it is the winner
     toggle_active_player(@active_player) if @game_over_condition == 'Checkmate'
 
+    save_game if @game_over_condition == 'Saved'
+
     # Print game_over_condition and winner
     puts "#{@game_over_condition}! Player #{@active_player} wins"
   end
@@ -90,6 +92,7 @@ class ChessGame
       select_piece(active_player, check?(active_player))
 
       break if @game_over_condition == 'Resigned'
+      break if @game_over_condition == 'Saved'
 
       # List valid moves of piece
       print_moves(active_player, check?(active_player))
@@ -100,7 +103,7 @@ class ChessGame
       # break if @game_over_condition == 'Resigned'
     end
 
-    unless @game_over_condition == 'Resigned'
+    unless @game_over_condition == 'Resigned' || @game_over_condition == 'Saved'
       # Move piece
       move_piece 
       pawn_promotion(@active_player) if @move_validator.promotable?(@player_ending_coord)
@@ -117,6 +120,7 @@ class ChessGame
       loop do
         puts "Player #{player_num} enter coordinate of piece to move: "
         puts 'Enter RESIGN to end the game'
+        puts 'Enter SAVE to save and quit the game'
 
         raw_input = player_input
         verified_start_coord = verify_start_coord(raw_input)
@@ -147,6 +151,9 @@ class ChessGame
     # this must be at the top because start_coord is not a valid piece
     if start_coord.upcase == 'RESIGN'
       @game_over_condition = 'Resigned'
+      return start_coord # only used to stop the method here
+    elsif start_coord.upcase == 'SAVE'
+      @game_over_condition = 'Saved'
       return start_coord # only used to stop the method here
     end
 
@@ -296,6 +303,7 @@ class ChessGame
   # TODO: rspec game_over? ends the game and returns the correct victory condition and winner (p1 or p2)
   def game_over? (active_player)
     return true if @game_over_condition == 'Resigned'
+    return true if @game_over_condition == 'Saved'
     
     if checkmate?(active_player)
       @game_over_condition = 'Checkmate'
