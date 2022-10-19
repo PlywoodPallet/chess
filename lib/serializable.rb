@@ -2,14 +2,14 @@
 # taken from: https://github.com/rlmoser99/ruby_chess/blob/master/lib/serializer.rb
 
 # Contains methods to save or load a game
-module Serializer
+module Serializable
   def save_game
     Dir.mkdir 'saved_games' unless Dir.exist? 'saved_games'
     filename = create_filename
     File.open("saved_games/#{filename}", 'w+') do |file|
       Marshal.dump(self, file)
     end
-    puts "Game was saved as \e[36m#{filename}\e[0m"
+    puts "Game was saved as #{filename}"
     @player_count = 0
   rescue SystemCallError => e
     puts "Error while writing to file #{filename}."
@@ -42,9 +42,9 @@ module Serializer
   end
 
   def print_saved_games(game_list)
-    puts "\e[36m[#]\e[0m File Name(s)"
+    puts "File Name(s)"
     game_list.each_with_index do |name, index|
-      puts "\e[36m[#{index + 1}]\e[0m #{name}"
+      puts "#{index + 1}] #{name}"
     end
   end
 
