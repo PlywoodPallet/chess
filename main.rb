@@ -11,6 +11,7 @@ require_relative 'lib/string' # console font styles
 # Usability - user has ability to redo piece selection. When a piece is selected, the possible moves are highlighted on the board
 # Making the command line interface look good was not a priority. This task is rarely done in the real world, except for debugging
 # Found a code snippet online that adds to String class with commands to change console text and bg color, made print_board more readable than using ANSI console
+# Early design decision of storing the board as a hash made debugging much easier!
 
 
 game = ChessGame.new
