@@ -38,8 +38,11 @@
 
 require_relative '../lib/chess_board'
 require_relative '../lib/move_validator'
+require_relative '../lib/serializable'
 
 class ChessGame
+  include Serializable
+
   attr_accessor :chess_board
 
   def initialize
