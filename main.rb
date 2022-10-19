@@ -26,13 +26,42 @@ require_relative 'lib/chess_piece'
 require_relative 'lib/move_validator'
 require_relative 'lib/string' # console font styles
 
-p Dir.exist? 'saved_games'
-p Dir.entries('saved_games/.')
-p Dir.empty?('saved_games')
-p Dir.empty?('empty_directory')
+extend Serializable
 
+def save_game_player_input
+  verified_save_choice = ''
+  loop do
+    puts 'Saved game detected, would you like to restore it? (Yes/No)'
+    verified_save_choice = verify_player_input(player_input)
 
-# game = ChessGame.new
-# game.play_game
+    # break if not nil
+    break if verified_save_choice
+  end
+  verified_save_choice
+end
 
-load_game.play
+def verify_player_input(raw_input)
+  return raw_input if raw_input.upcase == 'YES' || raw_input.upcase == 'NO'
+  return 'yes' if raw_input.upcase == 'Y' # add these options for usability
+  return 'no' if raw_input.upcase == 'N'
+  nil
+end
+
+# get player input then convert to string
+def player_input
+  gets.chomp.to_s
+end
+
+# If a saved game is detected
+if Dir.exist?('saved_games') && !Dir.empty?('saved_games')
+  save_choice = save_game_player_input
+  if save_choice.upcase == 'YES' || save_choice.upcase == 'Y'
+    load_game.play_game
+  else
+    game = ChessGame.new
+    game.play_game
+  end
+else
+  game = ChessGame.new
+  game.play_game
+end
