@@ -53,15 +53,18 @@ class ChessGame
     @player_ending_coord = nil
     @player_redo_selection = true
     @game_over_condition = nil
+    @player_save_game = false
 
     @chess_board = ChessBoard.new
     @move_validator = MoveValidator.new(@chess_board)
   end
 
   def play_game
-    print_greeting_message
+    # if this is a restored saved game, reset this var so the game doesn't immediately end
+    @player_save_game = false if @player_save_game == true
+
     print_board # print starting board
-    turn_order until game_over?(@active_player)
+    turn_order until game_over?(@active_player) || @player_save_game == true
     print_final_message
   end
 
@@ -70,10 +73,8 @@ class ChessGame
     # @active_player is loser due to #turn_order, toggle so it is the winner
     toggle_active_player(@active_player) if @game_over_condition == 'Checkmate'
 
-    save_game if @game_over_condition == 'Saved'
-
-    # Print game_over_condition and winner
-    puts "#{@game_over_condition}! Player #{@active_player} wins"
+    # Print game_over_condition and winner. Do not print anything if game is being saved
+    puts "#{@game_over_condition}! Player #{@active_player} wins" unless @player_save_game == true
   end
 
   def turn_order
@@ -88,7 +89,10 @@ class ChessGame
       select_piece(active_player, check?(active_player))
 
       break if @game_over_condition == 'Resigned'
-      break if @game_over_condition == 'Saved'
+      if @player_save_game == true
+        save_game
+        break
+      end
 
       # List valid moves of piece
       print_moves(active_player, check?(active_player))
@@ -99,7 +103,7 @@ class ChessGame
       # break if @game_over_condition == 'Resigned'
     end
 
-    unless @game_over_condition == 'Resigned' || @game_over_condition == 'Saved'
+    unless @game_over_condition == 'Resigned' || @player_save_game == true
       # Move piece
       move_piece 
       pawn_promotion(@active_player) if @move_validator.promotable?(@player_ending_coord)
@@ -149,7 +153,7 @@ class ChessGame
       @game_over_condition = 'Resigned'
       return start_coord # only used to stop the method here
     elsif start_coord.upcase == 'SAVE'
-      @game_over_condition = 'Saved'
+      @player_save_game = true
       return start_coord # only used to stop the method here
     end
 
@@ -299,7 +303,6 @@ class ChessGame
   # TODO: rspec game_over? ends the game and returns the correct victory condition and winner (p1 or p2)
   def game_over? (active_player)
     return true if @game_over_condition == 'Resigned'
-    return true if @game_over_condition == 'Saved'
     
     if checkmate?(active_player)
       @game_over_condition = 'Checkmate'
