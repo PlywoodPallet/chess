@@ -4,6 +4,38 @@ require_relative '../lib/chess_piece'
 require_relative '../lib/chess_game'
 
 describe ChessGame do
+  describe '#verify_start_coord' do
+    subject(:game) { described_class.new }
+
+    it 'player resignation' do 
+      output = game.verify_start_coord('RESIGN')
+      expect(output).to eq('RESIGN')
+    end
+    it 'player save' do 
+      output = game.verify_start_coord('SAVE')
+      expect(output).to eq('SAVE')
+    end
+    it 'return input if coord contains a piece with valid moves and belongs to player (p1)' do 
+      output = game.verify_start_coord('a2') # p1 pawn
+      expect(output).to eq('a2')
+    end
+    it 'return string nomoves if coord contains a piece with no valid moves' do
+      output = game.verify_start_coord('a1') # p1 rook
+      expect(output).to eq('nomoves')
+    end
+    it 'return nil if coord does not exist' do 
+      output = game.verify_start_coord('a111111') # p1 rook
+      expect(output).to eq(nil)
+    end
+    it 'return nil if no piece at coord' do 
+      output = game.verify_start_coord('a5') # blank space
+      expect(output).to eq(nil)
+    end
+    it 'return nil piece does not belong to player (p1)' do 
+      output = game.verify_start_coord('a7') # p2 pawn
+      expect(output).to eq(nil)
+    end
+  end
   describe '#check?' do
     subject(:game) { described_class.new }
     it 'returns true when king is threatened' do 
