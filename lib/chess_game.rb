@@ -199,8 +199,9 @@ class ChessGame
     puts "Player #{player_num} enter a move: #{@player_valid_moves}"
     # do not allow player to redo selection if under check
     puts 'Enter REDO to choose a different piece' unless check == true
-    # if player is under check, allow player to resign (was skipped in #select_piece)
+    # if player is under check, allow player to resign or save (was skipped in #select_piece)
     puts 'Enter RESIGN to end the game' if check == true
+    puts 'Enter SAVE to save and quit the game' if check == true
     
     verified_move = ''
     loop do
@@ -219,9 +220,12 @@ class ChessGame
   end
 
   def verify_move_choice(move_choice)
-    if move_choice.upcase == 'RESIGN'
+    if move_choice.upcase == 'RESIGN' && check?(@active_player)
       @game_over_condition = 'Resigned'
       @player_redo_selection = false
+      return move_choice # only used to stop the method here
+    elsif move_choice.upcase == 'SAVE' && check?(@active_player)
+      @player_save_game = true
       return move_choice # only used to stop the method here
     # if "REDO" is chosen, the player wants to redo their choice
     # this is only valid if player is not under check
@@ -366,7 +370,7 @@ class ChessGame
   end
 
   # call ChessBoard methods here
-  
+
   def print_board
     @chess_board.print_board
   end
