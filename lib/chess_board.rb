@@ -163,6 +163,7 @@ class ChessBoard
   end
 
   # Move a piece on the board. No error checking
+  # Captures are done by replacing one piece with another
   def move_piece(start_coord, end_coord)
     piece = get_piece(start_coord)
     @board[start_coord] = @blank_value

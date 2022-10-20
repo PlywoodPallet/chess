@@ -62,8 +62,9 @@ class ChessGame
   def play_game
     # if this is a restored saved game, reset this var so the game doesn't immediately end
     @player_save_game = false if @player_save_game == true
-
-    print_board # print starting board
+    # print starting board
+    print_board
+    # keep playing the game until the game is over or player chooses to save game
     turn_order until game_over?(@active_player) || @player_save_game == true
     print_final_message
   end
@@ -87,6 +88,7 @@ class ChessGame
       # Ask player to choose a valid piece
       select_piece(active_player, check?(active_player))
 
+      # Stop player turn if the player chooses to resign or save
       break if @game_over_condition == 'Resigned'
       if @player_save_game == true
         save_game
@@ -141,10 +143,6 @@ class ChessGame
     end
 
     @player_starting_coord = verified_start_coord
-
-    # This line no longer necessary, #print_moves will show this visually 
-    # selected_piece = @chess_board.get_piece(verified_start_coord)
-    # puts "You selected #{selected_piece.class} at #{verified_start_coord}" unless @game_over_condition == 'Resigned'
   end
 
   def verify_start_coord(start_coord)
@@ -158,13 +156,10 @@ class ChessGame
     end
 
     piece_at_coord = @chess_board.get_piece(start_coord)
-
     # check if coordinate exists on the board    
     return nil if piece_at_coord.nil?
-
     # check if piece exists at the coord
     return nil if piece_at_coord == @chess_board.blank_value
-    
     # check if piece belongs to player
     piece_player_num = piece_at_coord.player_num
     return nil if piece_player_num != @active_player
@@ -234,7 +229,7 @@ class ChessGame
     nil
   end
 
-  # Move piece
+  # Move piece chosen piece to end
   def move_piece
     @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
   end
@@ -253,7 +248,6 @@ class ChessGame
     end
 
     piece = nil
-
     case promotion_choice.upcase
     when 'QUEEN'
       piece = Queen.new(active_player)
@@ -298,9 +292,7 @@ class ChessGame
   # Stalemate - player has no legal move and not in check
   # SKIP IMPLEMENTATION: Dead position - neither player is able to checkmate. Such as only two kings are on the board (research all possibilities - hope its a short list)
 
-  # TODO: Create another instance variable that stores the game over type (checkmate, stalemate, resign)
 
-  # TODO: rspec game_over? ends the game and returns the correct victory condition and winner (p1 or p2)
   def game_over? (active_player)
     return true if @game_over_condition == 'Resigned'
     
@@ -325,7 +317,8 @@ class ChessGame
 
     opponent_pieces_targeting_king = @move_validator.get_threatening_pieces(king_coord, active_player)
 
-    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| @move_validator.valid_moves(piece_coord, true) }.flatten.uniq # pawn_attack_only = true
+    # pawn_attack_only = true
+    opponent_attack_moves = opponent_pieces_targeting_king.map { |piece_coord| @move_validator.valid_moves(piece_coord, true) }.flatten.uniq 
 
     return true if opponent_attack_moves.include?(king_coord)
 
@@ -346,8 +339,8 @@ class ChessGame
   def checkmate?(active_player)
     king_coord = get_king_coord_of_player(active_player)
 
-    # TODO: Do I need pawn_attack_only = true?
-    valid_king_moves = @move_validator.valid_moves(king_coord)
+    # pawn_attack_only = true
+    valid_king_moves = @move_validator.valid_moves(king_coord, true)
     check?(active_player)
 
     # king must be under threat AND have no valid moves left
@@ -364,7 +357,8 @@ class ChessGame
     false
   end
 
-  # call a ChessBoard method here
+  # call ChessBoard methods here
+  
   def print_board
     @chess_board.print_board
   end
