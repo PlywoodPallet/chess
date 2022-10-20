@@ -68,7 +68,6 @@ class ChessGame
     print_final_message
   end
 
-  # TODO: Test output for checkmate, stalemate, resignation
   def print_final_message
     # @active_player is loser due to #turn_order, toggle so it is the winner
     toggle_active_player(@active_player) if @game_over_condition == 'Checkmate'
@@ -103,6 +102,7 @@ class ChessGame
       # break if @game_over_condition == 'Resigned'
     end
 
+    # Prevent piece selection if the player has resigned or chosen to save the game
     unless @game_over_condition == 'Resigned' || @player_save_game == true
       # Move piece
       move_piece 
