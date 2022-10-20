@@ -119,22 +119,7 @@ class ChessGame
 
     # only ask player to choose a piece if they are NOT under check
     if check == false
-      loop do
-        puts "Player #{player_num} enter coordinate of piece to move: "
-        puts 'Enter RESIGN to end the game'
-        puts 'Enter SAVE to save and quit the game'
-
-        raw_input = player_input
-        verified_start_coord = verify_start_coord(raw_input)
-
-        # break if not nil AND if piece at coord has moves
-        break if verified_start_coord && verified_start_coord != 'nomoves'
-
-        system('clear')
-        print_board
-        print 'Input Error! '
-        puts 'Piece has no valid moves' if verified_start_coord == 'nomoves'
-      end
+      verified_start_coord = ask_for_start_coord(player_num)
     # if player is under check, skip piece selection and chose their king
     elsif check == true && player_num == 1
       verified_start_coord = @chess_board.player1_king_coord
@@ -143,6 +128,29 @@ class ChessGame
     end
 
     @player_starting_coord = verified_start_coord
+  end
+
+  def ask_for_start_coord(player_num)
+    verified_start_coord = ''
+    loop do
+      # this prompt is here because if player is under check, do not give option to choose a piece. An option to resign and save appears in movement selection
+      puts "Player #{player_num} enter coordinate of piece to move: "
+      puts 'Enter RESIGN to end the game'
+      puts 'Enter SAVE to save and quit the game'
+
+      raw_input = player_input
+      verified_start_coord = verify_start_coord(raw_input)
+
+      # break if not nil AND if piece at coord has moves
+      break if verified_start_coord && verified_start_coord != 'nomoves'
+
+      system('clear')
+      print_board
+      puts 'Input Error! '
+      puts 'Piece has no valid moves' if verified_start_coord == 'nomoves'
+    end
+
+    verified_start_coord
   end
 
   def verify_start_coord(start_coord)
