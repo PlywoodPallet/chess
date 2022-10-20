@@ -4,10 +4,6 @@ require_relative '../lib/chess_piece'
 require_relative '../lib/chess_game'
 
 describe ChessGame do
-
-  #TODO test all conditions of #verify_start_coord
-  #TODO test select_move and choose_move with the check? function. Use the test from #check to recreate check? == true
-
   describe '#check?' do
     subject(:game) { described_class.new }
     it 'returns true when king is threatened' do 
