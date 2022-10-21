@@ -23,7 +23,8 @@ class ChessBoard
     # String coordinate -> ChessPiece object
     @board = Hash.new # default value is nil so moves off the board can be detected
 
-    @bg_colors = ['bg_white', 'bg_bright_black']
+    @bg_colors = ['bg_white', 'bg_bright_black'] # row 8 first square, r8 second square
+    @icon_colors = ['bright_white', 'black'] # player 1, player 2
 
     # When a player chooses a piece to move, bg color of that piece
     @highlighed_piece_bg_color = 'bg_cyan'
@@ -52,6 +53,10 @@ class ChessBoard
   # TODO: Can I practice using a lamda or proc here?
   # White = player 1, Black = player 2
   def initialize_player_pieces(player_num)
+    # Determine icon color
+    icon_color = player_num == 1 ? @icon_colors[0] : @icon_colors[1]
+
+    # Initialize pawns
     back_row = nil
     pawn_row = nil
 
@@ -69,39 +74,39 @@ class ChessBoard
     # White: 8x Pawn - a2 to h2
     # Black: 8x Pawn - a7 to h7
     ('a'..'h').each do |letter|
-      a_pawn = Pawn.new(player_num)
+      a_pawn = Pawn.new(player_num, icon_color)
       @board["#{letter}#{pawn_row}"] = a_pawn
     end
 
     # White: 2x Rook - a1, h1
     # Black: 2x Rook - a8, h8
     ['a', 'h'].each do |letter|
-      a_rook = Rook.new(player_num)
+      a_rook = Rook.new(player_num, icon_color)
       @board["#{letter}#{back_row}"] = a_rook
     end
 
     # White: 2x Knight - b1, g1
     # Black: 2x Knight - b8, g8
     ['b', 'g'].each do |letter|
-      a_knight = Knight.new(player_num)
+      a_knight = Knight.new(player_num, icon_color)
       @board["#{letter}#{back_row}"] = a_knight
     end
 
     # White: 2x Bishop - c1, f1
     # Black: 2x Bishop - c8, f8
     ['c', 'f'].each do |letter|
-      a_bishop = Bishop.new(player_num)
+      a_bishop = Bishop.new(player_num, icon_color)
       @board["#{letter}#{back_row}"] = a_bishop
     end
 
     # White: 1x Queen - d1
     # Black: 1x Queen - d8
-    queen = Queen.new(player_num)
+    queen = Queen.new(player_num, icon_color)
     @board["d#{back_row}"] = queen
 
     # White: 1x King - e1
     # Black: 1x King - e8
-    king = King.new(player_num)
+    king = King.new(player_num, icon_color)
     king_coord = "e#{back_row}"
     @board[king_coord] = king
     # initialize the variables that track the position of each players king

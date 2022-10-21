@@ -13,19 +13,15 @@ class ChessPiece
   attr_reader :player_num, :icon, :relative_moves
 
   # player is nil by default
-  def initialize(player_num = nil)
+  def initialize(player_num = nil, icon_color = nil)
     @player_num = player_num
-    @icon_colors = ['bright_white', 'black'] # player 1, player 2
+    @icon_color = icon_color
   end
 
   # important for Chess_Board.print_board
   # change icon color based on player
   def to_s
-    # Player 1 = white (37)
-    # Player 2 = black (30)
-    @player_num == 1 ? @icon.to_s.send(@icon_colors[0]) : @icon.to_s.send(@icon_colors[1])
-    
-    # "\e[#{icon_color}m #{@icon}\e[0m"
+    @icon.to_s.send(@icon_color)
   end
 
   # return the player number of the opponent
@@ -39,16 +35,16 @@ end
 # removed @relative_moves because pawns can only move forward. The logic involved is in ChessBoard#get_valid_pawn_moves
 # TODO: castling feature
 class Pawn < ChessPiece
-  def initialize(player_num = nil)
-    super
+  def initialize(player_num = nil, icon_color = nil)
+    super(player_num, icon_color)
     
     @icon = "\u265F"
   end
 end
 
 class Knight < ChessPiece
-  def initialize(player_num = nil)
-    super
+  def initialize(player_num = nil, icon_color = nil)
+    super(player_num, icon_color)
     
     @icon = "\u265E"
     @relative_moves = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]]
@@ -56,8 +52,8 @@ class Knight < ChessPiece
 end
 
 class Rook < ChessPiece
-  def initialize(player_num = nil)
-    super
+  def initialize(player_num = nil, icon_color = nil)
+    super(player_num, icon_color)
     
     @icon = "\u265C"
     @relative_moves = build_relative_moves #NOTE: different array structure
@@ -90,8 +86,8 @@ end
   # 4 [[-1, 1] to [-8, 8]]
   # output = [[subarray1], [subarray2], [subarray3], [subarray4]]
 class Bishop < ChessPiece
-  def initialize(player = nil)
-    super
+  def initialize(player = nil, icon_color = nil)
+    super(player_num, icon_color)
     
     @icon = "\u265D"
     @relative_moves = build_relative_moves
@@ -110,8 +106,8 @@ class Bishop < ChessPiece
 end
 
 class Queen < ChessPiece
-  def initialize(player = nil)
-    super
+  def initialize(player = nil, icon_color = nil)
+    super(player_num, icon_color)
     
     @icon = "\u265B"
     @relative_moves = build_relative_moves
@@ -129,8 +125,8 @@ class Queen < ChessPiece
 end
 
 class King < ChessPiece
-  def initialize(player_num = nil)
-    super
+  def initialize(player_num = nil, icon_color = nil)
+    super(player_num, icon_color)
     @hasCastled = false
     
     @icon = "\u265A"
