@@ -2,6 +2,7 @@
 require_relative '../lib/chess_board'
 require_relative '../lib/chess_piece'
 require_relative '../lib/chess_game'
+require_relative '../lib/move_validator'
 
 describe ChessGame do
   describe '#verify_start_coord' do
@@ -36,6 +37,79 @@ describe ChessGame do
       expect(output).to eq(nil)
     end
   end
+
+  describe '#verify_move_choice' do
+    subject(:game) { described_class.new }
+    
+    def player_select_piece(coord)
+      move_validator = game.move_validator
+
+      player_starting_coord = coord
+      player_valid_moves = move_validator.valid_moves(player_starting_coord)
+
+      game.instance_variable_set(:@player_valid_moves, player_valid_moves)
+    end
+
+    context 'player not under check' do
+      it 'disallows player to resign' do
+        output = game.verify_move_choice('RESIGN')
+        expect(output).to eq(nil)
+      end
+      it 'disallows player to save' do
+        output = game.verify_move_choice('SAVE')
+        expect(output).to eq(nil)
+      end
+      it 'allows player to redo' do
+        output = game.verify_move_choice('REDO')
+        expect(output).to eq('REDO')
+      end
+      it 'allows player to choose a valid move for a piece (p1)' do
+        player_select_piece('a2') # p1 pawn
+        output = game.verify_move_choice('a3') # a3 and a4 are valid
+        expect(output).to eq('a3')
+      end
+      it 'disallows player to choose a invalid move (p1)' do
+        player_select_piece('a2') # p1 pawn
+        output = game.verify_move_choice('a6') # a3 and a4 are valid
+        expect(output).to eq(nil)
+      end
+    end
+
+    context 'player under check' do
+      before do
+        # place player under check
+        board = game.chess_board
+        board.move_piece('e1', 'd4') # move king to d4
+        board.move_piece('d2', 'd3') # block king with own pawn
+        board.move_piece('a8', 'c4') # move opponent rook to threaten king
+        board.move_piece('b8', 'b5') # move opponent knight to threaten king
+      end
+      it 'allows player to resign' do
+        output = game.verify_move_choice('RESIGN')
+        expect(output).to eq('RESIGN')
+      end
+      it 'allows player to save' do
+        output = game.verify_move_choice('SAVE')
+        expect(output).to eq('SAVE')
+      end
+      it 'disallows player to redo' do
+        output = game.verify_move_choice('REDO')
+        expect(output).to eq(nil)
+      end
+      it 'allows player to choose a valid move for king (p1)' do
+        player_select_piece('d4') # p1 king
+        output = game.verify_move_choice('d5') # valid moves ["d5", "e5", "e3", "c4"]
+        expect(output).to eq('d5')
+      end
+      it 'disallows player to choose a invalid move (p1)' do
+        player_select_piece('d4') # p1 king
+        output = game.verify_move_choice('a1') # a3 and a4 are valid
+        expect(output).to eq(nil)
+      end
+    end
+  end
+
+
   describe '#check?' do
     subject(:game) { described_class.new }
     it 'returns true when king is threatened' do 
