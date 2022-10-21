@@ -64,7 +64,6 @@ class ChessBoard
       pawn_row = 7
     else
       puts 'Invalid player number'
-      # Learn how to throw errors
     end
 
     # White: 8x Pawn - a2 to h2
