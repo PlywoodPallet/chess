@@ -8,6 +8,7 @@
 # Early design decision of storing the board as a hash made debugging much easier!
 
 # Further work - Immediate
+# Move relative_moves from ChessPiece to MoveValidator
 # Make tests that play the game using rspec mocks and doubles
 # Create a GameMessages module to take a lot of code out of ChessGame to make it more readable
 # Other de-spaghettification
