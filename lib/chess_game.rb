@@ -43,7 +43,7 @@ require_relative '../lib/serializable'
 class ChessGame
   include Serializable
 
-  attr_accessor :chess_board
+  attr_accessor :chess_board, :move_validator
 
   def initialize
     @active_player = 1 # Player 1 always starts the game
