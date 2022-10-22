@@ -216,7 +216,6 @@ class ChessGame
     system("clear")
 
     @player_ending_coord = verified_move
-    puts "Player #{player_num} chose #{verified_move}"
   end
 
   def verify_move_choice(move_choice)
@@ -244,6 +243,9 @@ class ChessGame
   # Move piece chosen piece to end
   def move_piece
     @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
+    
+    piece = @chess_board.get_piece(@player_ending_coord)
+    puts "Player #{@active_player} moved #{piece.class.name} from #{@player_starting_coord} to #{@player_ending_coord}"
   end
 
   def pawn_promotion(active_player)
