@@ -86,7 +86,7 @@ end
   # 4 [[-1, 1] to [-8, 8]]
   # output = [[subarray1], [subarray2], [subarray3], [subarray4]]
 class Bishop < ChessPiece
-  def initialize(player = nil, icon_color = nil)
+  def initialize(player_num = nil, icon_color = nil)
     super(player_num, icon_color)
     
     @icon = "\u265D"
@@ -106,7 +106,7 @@ class Bishop < ChessPiece
 end
 
 class Queen < ChessPiece
-  def initialize(player = nil, icon_color = nil)
+  def initialize(player_num = nil, icon_color = nil)
     super(player_num, icon_color)
     
     @icon = "\u265B"

@@ -6,6 +6,7 @@
 # Making the command line interface look good was not a priority. This task is rarely done in the real world, except for debugging
 # Found a code snippet online that adds to String class with commands to change console text and bg color, made print_board more readable than using ANSI console
 # Early design decision of storing the board as a hash made debugging much easier!
+# Royally messed up. Pushed code with bugs to remote (seemly minor change broke something - was minor so I pushed it). Learned how to use git reflog and git checkout to go back into time when code worked to start debugging
 
 # Further work - Immediate
 # Move relative_moves from ChessPiece to MoveValidator
