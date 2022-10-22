@@ -13,6 +13,7 @@ class MoveValidator
     @queen_relative_moves = build_relative_queen_moves
   end
 
+  # Rook.relative_moves has a different data structure. Each subarray contains dimension (up,down,left,right). Each subarray goes from 1-square move to 8-square move. The method checks 1 move first, then 2nd move, etc. If one move contains a piece, the iteration stops and all other moves are not considered. This prevents rooks from jumping over pieces
   def build_relative_rook_moves
     relative_moves = []
 
@@ -24,6 +25,7 @@ class MoveValidator
     relative_moves
   end
 
+  # same data structure as rook
   def build_relative_bishop_moves
     relative_moves = []
 
@@ -35,6 +37,7 @@ class MoveValidator
     relative_moves
   end
 
+  # Queen moves are a combination of rook and bishop
   def build_relative_queen_moves
     build_relative_rook_moves + build_relative_bishop_moves
   end
@@ -163,15 +166,21 @@ class MoveValidator
     valid_absolute_moves + valid_absolute_attack_moves
   end
 
-  # Rook can move multiple squares cannot jump over other pieces
-  # Rook.relative_moves has a different data structure. Each subarray contains dimension (up,down,left,right). Each subarray goes from 1-square move to 8-square move. The method checks 1 move first, then 2nd move, etc. If one move contains a piece, the iteration stops and all other moves are not considered. This prevents rooks from jumping over pieces
-  
-  def estimate_rook_moves(starting_coord)
+  def estimate_rook_bishop_queen_moves(starting_coord)
     piece = @chess_board.get_piece(starting_coord)
     player_num = piece.player_num
     opponent_player_num = piece.opponent_player_num
-    # get the relative moves from the piece
-    relative_moves = piece.relative_moves
+    relative_moves = nil
+    piece_type = piece.class.name
+
+    case piece_type
+    when 'Rook'
+      relative_moves = @rook_relative_moves
+    when 'Bishop'
+      relative_moves = @bishop_relative_moves
+    when 'Queen'
+      relative_moves = @queen_relative_moves
+    end
 
     # note: moves off the board are converted to nil
     absolute_moves = relative_moves.map do |subarray|
@@ -204,13 +213,18 @@ class MoveValidator
     valid_absolute_moves
   end
 
+  # Rook can move multiple squares cannot jump over other pieces
+  def estimate_rook_moves(starting_coord)
+    estimate_rook_bishop_queen_moves(starting_coord)
+  end
+
   # Consider making a general method for bishop, rook and queen
   def estimate_bishop_moves(starting_coord)
-    estimate_rook_moves(starting_coord)
+    estimate_rook_bishop_queen_moves(starting_coord)
   end
 
   def estimate_queen_moves(starting_coord)
-    estimate_rook_moves(starting_coord)
+    estimate_rook_bishop_queen_moves(starting_coord)
   end
 
   # Consider making a general method for knight and king
