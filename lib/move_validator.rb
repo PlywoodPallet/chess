@@ -96,8 +96,6 @@ class MoveValidator
     valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| @chess_board.coord_contains_piece?(absolute_move) && @chess_board.get_piece(absolute_move).player_num == opponent_player_num}
     absolute_moves += valid_absolute_attack_moves
 
-    # scan for "en passant" special attack
-
     absolute_moves
   end
 
@@ -168,8 +166,6 @@ class MoveValidator
     estimate_rook_moves(starting_coord)
   end
 
-  # NOTE: Implementing this method for debugging purposes only
-  # NOTE: This method should call #get_valid_knight_moves
   # Consider making a general method for knight and king
   def estimate_king_moves(starting_coord)
     # get_valid_knight_moves(starting_coord)
