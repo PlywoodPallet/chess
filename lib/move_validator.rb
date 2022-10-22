@@ -6,11 +6,37 @@ class MoveValidator
   def initialize (chess_board)
     @chess_board = chess_board
 
-    @knight_relative_moves = nil
-    @rook_relative_moves = nil
-    @bishop_relative_moves = nil
-    @queen_relative_moves = nil
-    @knight_relative_moves = nil
+    @knight_relative_moves = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]]
+    @king_relative_moves = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
+    @rook_relative_moves = build_relative_rook_moves
+    @bishop_relative_moves = build_relative_bishop_moves
+    @queen_relative_moves = build_relative_queen_moves
+  end
+
+  def build_relative_rook_moves
+    relative_moves = []
+
+    relative_moves << (1..8).collect { |num| [num, 0] }
+    relative_moves << (1..8).collect { |num| [0, num] }
+    relative_moves << (1..8).collect { |num| [-num, 0] }
+    relative_moves << (1..8).collect { |num| [0, -num] }
+
+    relative_moves
+  end
+
+  def build_relative_bishop_moves
+    relative_moves = []
+
+    relative_moves << (1..8).collect { |num| [num, num] }
+    relative_moves << (1..8).collect { |num| [num, -num] }
+    relative_moves << (1..8).collect { |num| [-num, -num] }
+    relative_moves << (1..8).collect { |num| [-num, num] }
+
+    relative_moves
+  end
+
+  def build_relative_queen_moves
+    build_relative_rook_moves + build_relative_bishop_moves
   end
 
   # legal moves
