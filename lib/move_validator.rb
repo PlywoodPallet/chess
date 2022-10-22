@@ -152,11 +152,9 @@ class MoveValidator
     piece = @chess_board.get_piece(starting_coord)
     # player_num = piece.player_num
     opponent_player_num = piece.opponent_player_num
-    # get the relative moves from the piece
-    relative_moves = piece.relative_moves
 
     # convert relatives moves to absolute moves based on starting coord
-    absolute_moves = relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+    absolute_moves = @knight_relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
 
     # select all moves that go to an empty space OR an opponent's piece
     valid_absolute_moves = absolute_moves.select { |absolute_move| @chess_board.coord_is_empty?(absolute_move)}
