@@ -5,6 +5,12 @@ require_relative '../lib/chess_piece'
 class MoveValidator
   def initialize (chess_board)
     @chess_board = chess_board
+
+    @knight_relative_moves = nil
+    @rook_relative_moves = nil
+    @bishop_relative_moves = nil
+    @queen_relative_moves = nil
+    @knight_relative_moves = nil
   end
 
   # legal moves
@@ -51,22 +57,7 @@ class MoveValidator
     opponent_player_num = piece.opponent_player_num
 
     if pawn_attack_only == false
-      # the pawn can only move forward, based on player (player1/white goes from bottom to top, player2/black goes from top to bottom)
-      if player_num == 1
-        relative_moves << [0, 1]
-      elsif player_num == 2
-        relative_moves << [0, -1]
-      end
-
-      # if pawn is in starting row, add another starting move where it can move two spaces
-      # TODO: edge case where pawn has gone to the other player side and returned to the home row (without exchanging for another piece?) Highly unlikely
-      starting_coord_y = starting_coord[1].to_i
-
-      if player_num == 1 && starting_coord_y == 2
-        relative_moves << [0, 2]
-      elsif player_num == 2 && starting_coord_y == 7
-        relative_moves << [0, -2]
-      end
+      relative_moves = get_pawn_relative_moves(starting_coord)
 
       # these are non-attack moves
       absolute_moves = relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
@@ -82,6 +73,43 @@ class MoveValidator
     end
     
     # scan for enemy pieces for standard attack
+    relative_attack_moves = get_pawn_relative_attack_moves(starting_coord)
+    absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+    # select attack move coordinates that contain a piece belonging to the opponent
+    valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| @chess_board.coord_contains_piece?(absolute_move) && @chess_board.get_piece(absolute_move).player_num == opponent_player_num}
+    
+    absolute_moves + valid_absolute_attack_moves
+  end
+
+  def get_pawn_relative_moves(starting_coord)
+    relative_moves = []
+    piece = @chess_board.get_piece(starting_coord)
+    player_num = piece.player_num
+
+    # the pawn can only move forward, based on player (player1/white goes from bottom to top, player2/black goes from top to bottom)
+    if player_num == 1
+      relative_moves << [0, 1]
+    elsif player_num == 2
+      relative_moves << [0, -1]
+    end
+
+    # if pawn is in starting row, add another starting move where it can move two spaces
+    # TODO: edge case where pawn has gone to the other player side and returned to the home row (without exchanging for another piece?) Highly unlikely
+    starting_coord_y = starting_coord[1].to_i
+
+    if player_num == 1 && starting_coord_y == 2
+      relative_moves << [0, 2]
+    elsif player_num == 2 && starting_coord_y == 7
+      relative_moves << [0, -2]
+    end
+
+    relative_moves
+  end
+
+  def get_pawn_relative_attack_moves(starting_coord)
+    piece = @chess_board.get_piece(starting_coord)
+    player_num = piece.player_num
+    # scan for enemy pieces for standard attack
     relative_attack_moves = []
     if player_num == 1
       relative_attack_moves << [-1, 1]
@@ -91,12 +119,7 @@ class MoveValidator
       relative_attack_moves << [1, -1]
     end
 
-    absolute_attack_moves = relative_attack_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
-    # select attack move coordinates that contain a piece belonging to the opponent
-    valid_absolute_attack_moves = absolute_attack_moves.select { |absolute_move| @chess_board.coord_contains_piece?(absolute_move) && @chess_board.get_piece(absolute_move).player_num == opponent_player_num}
-    absolute_moves += valid_absolute_attack_moves
-
-    absolute_moves
+    relative_attack_moves
   end
 
   def estimate_knight_moves(starting_coord)
