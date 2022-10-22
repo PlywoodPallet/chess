@@ -7,6 +7,7 @@
 # Found a code snippet online that adds to String class with commands to change console text and bg color, made print_board more readable than using ANSI console
 # Early design decision of storing the board as a hash made debugging much easier!
 # Royally messed up. Pushed code with bugs to remote (seemly minor change broke something - was minor so I pushed it). Learned how to use git reflog and git checkout to go back into time when code worked to start debugging
+# I didn't use TDD, but writing unit tests was important for creating a project this size. As the complexity increased during development, A seemingly simple change in one part of code can create bugs in places that seemed unrelated or places I would have not thought to look if I had to debug without tests
 
 # Further work - Immediate
 # Move relative_moves from ChessPiece to MoveValidator
