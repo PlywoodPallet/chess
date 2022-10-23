@@ -319,18 +319,11 @@ class MoveValidator
   end
 
   def possible_opponent_pieces_targeting_coord(starting_coord, player_num, opponent_player_num)
-    # TODO: figure out how to get Ruby static variables working
-    # get the relative moves
-    rook = Rook.new(1)
-    bishop = Bishop.new(1)
-    knight = Knight.new(1)
-
     # assemble relative moves of three types of moves. These moves are used to find candidates of threatening pieces
     # Rook - covers attack moves of king, queen
     # Bishop - covers the attack moves of a pawn, queen
     # Knight - only piece that jumps, so it is considered separately
-    rook_bishop_relative_moves = rook.relative_moves + bishop.relative_moves
-    knight_relative_moves = knight.relative_moves
+    rook_bishop_relative_moves = @rook_relative_moves + @bishop_relative_moves
 
     # Covert relative moves to absolute moves on the board
     # note: moves off the board are converted to nil
@@ -338,7 +331,7 @@ class MoveValidator
       subarray.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
     end
 
-    knight_absolute_moves = knight_relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
+    knight_absolute_moves = @knight_relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
 
     possible_opponent_pieces_targeting_coord = []
 
