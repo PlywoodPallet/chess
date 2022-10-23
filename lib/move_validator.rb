@@ -14,6 +14,13 @@ class MoveValidator
   end
 
   # Rook.relative_moves has a different data structure. Each subarray contains dimension (up,down,left,right). Each subarray goes from 1-square move to 8-square move. The method checks 1 move first, then 2nd move, etc. If one move contains a piece, the iteration stops and all other moves are not considered. This prevents rooks from jumping over pieces
+    # relative_moves for Rook classes have a different array structure
+  # [1, 2, 3, 4]
+  # 1 [[1, 0] to [8, 0]] (move in row)
+  # 2 [[0, 1] to [0, 8]] (move in col)
+  # 3 [[-1, 0] to [-8, 0]]
+  # 4 [[0, -1] to [0, -8]]
+  # output = [[subarray1], [subarray2], [subarray3], [subarray4]]
   def build_relative_rook_moves
     relative_moves = []
 
@@ -25,7 +32,14 @@ class MoveValidator
     relative_moves
   end
 
-  # same data structure as rook
+
+    # relative_moves for Bishop class has a different array structure
+  # [1, 2, 3, 4]
+  # 1 [[1, 1] to [8, 8]]
+  # 2 [[1, -1] to [8, -8]]
+  # 3 [[-1, -1] to [-8, -8]]
+  # 4 [[-1, 1] to [-8, 8]]
+  # output = [[subarray1], [subarray2], [subarray3], [subarray4]]
   def build_relative_bishop_moves
     relative_moves = []
 
