@@ -47,7 +47,6 @@ class Knight < ChessPiece
     super(player_num, icon_color)
     
     @icon = "\u265E"
-    @relative_moves = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]]
   end
 end
 
@@ -56,52 +55,16 @@ class Rook < ChessPiece
     super(player_num, icon_color)
     
     @icon = "\u265C"
-    @relative_moves = build_relative_moves #NOTE: different array structure
   end
 
-  # relative_moves for Rook classes have a different array structure
-  # [1, 2, 3, 4]
-  # 1 [[1, 0] to [8, 0]] (move in row)
-  # 2 [[0, 1] to [0, 8]] (move in col)
-  # 3 [[-1, 0] to [-8, 0]]
-  # 4 [[0, -1] to [0, -8]]
-  # output = [[subarray1], [subarray2], [subarray3], [subarray4]]
-  def build_relative_moves
-    relative_moves = []
 
-    relative_moves << (1..8).collect { |num| [num, 0] }
-    relative_moves << (1..8).collect { |num| [0, num] }
-    relative_moves << (1..8).collect { |num| [-num, 0] }
-    relative_moves << (1..8).collect { |num| [0, -num] }
-
-    relative_moves
-  end
 end
 
-  # relative_moves for Bishop class has a different array structure
-  # [1, 2, 3, 4]
-  # 1 [[1, 1] to [8, 8]]
-  # 2 [[1, -1] to [8, -8]]
-  # 3 [[-1, -1] to [-8, -8]]
-  # 4 [[-1, 1] to [-8, 8]]
-  # output = [[subarray1], [subarray2], [subarray3], [subarray4]]
 class Bishop < ChessPiece
   def initialize(player_num = nil, icon_color = nil)
     super(player_num, icon_color)
     
     @icon = "\u265D"
-    @relative_moves = build_relative_moves
-  end
-
-  def build_relative_moves
-    relative_moves = []
-
-    relative_moves << (1..8).collect { |num| [num, num] }
-    relative_moves << (1..8).collect { |num| [num, -num] }
-    relative_moves << (1..8).collect { |num| [-num, -num] }
-    relative_moves << (1..8).collect { |num| [-num, num] }
-
-    relative_moves
   end
 end
 
@@ -110,17 +73,6 @@ class Queen < ChessPiece
     super(player_num, icon_color)
     
     @icon = "\u265B"
-    @relative_moves = build_relative_moves
-  end
-
-  # TODO: Change Rook.build_relative_moves and Bishop_build_relative_moves into static methods that can be directly called here
-  # Queen has the combined moves of Rook and Bishop
-  def build_relative_moves
-    # player number doesn't matter
-    rook = Rook.new(1) 
-    bishop = Bishop.new(1)
-
-    rook.relative_moves + bishop.relative_moves
   end
 end
 
