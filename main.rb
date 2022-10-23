@@ -74,3 +74,11 @@ else
   game = ChessGame.new
   game.play_game
 end
+
+# game = ChessGame.new
+# board = game.chess_board
+# validator = game.move_validator
+# board.clear_board('a1')
+# p moves = validator.estimate_rook_bishop_queen_moves('a1')
+# board.print_board
+# game.play_game
