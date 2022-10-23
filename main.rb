@@ -10,18 +10,17 @@
 # I didn't use TDD, but writing unit tests was important for creating a project this size. As the complexity increased during development, A seemingly simple change in one part of code can create bugs in places that seemed unrelated or places I would have not thought to look if I had to debug without tests
 # Moved all relevant methods from ChessBoard to MoveValidator
 # Moved relative_moves from ChessPiece to MoveValidator
+# Replit live version
 
 # Further work - Immediate
-# Move relative_moves from ChessPiece to MoveValidator
-# Make tests that play the game using rspec mocks and doubles
-# Create a GameMessages module to take a lot of code out of ChessGame to make it more readable
 # Other de-spaghettification
-# Replit live version
 # Make a nice Readme.md
 #    Consider making post-project thoughts section or similar
 #    https://github.com/JonathanYiv/chess
 
 # Further work - Long Term
+# Make tests that play the game using rspec mocks and doubles
+# Create a GameMessages module to take a lot of code out of ChessGame to make it more readable
 # Use design patterns to standarize methods and DRY: https://www.amazon.com/Design-Patterns-Ruby-Russ-Olsen/dp/0321490452
 # Pawn - En passant attack
 # Castle/King - Castling
