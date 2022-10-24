@@ -1,10 +1,3 @@
-# Accomplishments
-# unicode white and black icons didn't look right. Opted to use a single icon but change the color to white or black
-
-# Unneccessary
-# location? - its stored in Board, pieces are chosen by grid coordinate
-# legal moves? calculated by Game
-
 require_relative '../lib/string' # console font styles
 
 class ChessPiece
