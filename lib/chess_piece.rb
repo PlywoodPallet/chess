@@ -3,14 +3,12 @@ require_relative '../lib/string' # console font styles
 class ChessPiece
   attr_reader :player_num, :icon, :relative_moves
 
-  # player is nil by default
   def initialize(player_num = nil, icon_color = nil)
     @player_num = player_num
     @icon_color = icon_color
   end
 
   # important for Chess_Board.print_board
-  # change icon color based on player
   def to_s
     @icon.to_s.send(@icon_color)
   end
