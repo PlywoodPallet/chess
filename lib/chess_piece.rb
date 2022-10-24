@@ -5,8 +5,6 @@
 # location? - its stored in Board, pieces are chosen by grid coordinate
 # legal moves? calculated by Game
 
-# TODO: Change @player to @player_num, and refactor all other variable calls throughout the project
-
 require_relative '../lib/string' # console font styles
 
 class ChessPiece
@@ -30,10 +28,6 @@ class ChessPiece
   end
 end
 
-# Note: relative moves are [x,y] or [col, row]
-
-# removed @relative_moves because pawns can only move forward. The logic involved is in ChessBoard#get_valid_pawn_moves
-# TODO: castling feature
 class Pawn < ChessPiece
   def initialize(player_num = nil, icon_color = nil)
     super(player_num, icon_color)
