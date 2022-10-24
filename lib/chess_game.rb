@@ -1,12 +1,8 @@
-# User selects chess piece
-# Game provides list of legal moves (different based on piece type)
-# User choses a legal move
-# Game moves piece and removes opposing player's piece if needed
-
 require_relative '../lib/chess_board'
 require_relative '../lib/move_validator'
 require_relative '../lib/serializable'
 
+# Plays a chess game
 class ChessGame
   include Serializable
 
@@ -37,10 +33,11 @@ class ChessGame
   end
 
   def print_final_message
-    # @active_player is loser due to #turn_order, toggle so it is the winner
+    # For checkmate: toggle @active_player so the correct winner is declared
     toggle_active_player(@active_player) if @game_over_condition == 'Checkmate'
 
     # Print game_over_condition and winner. Do not print anything if game is being saved
+    # TODO: For stalemate, print a different message (do not declare a winner)
     puts "#{@game_over_condition}! Player #{@active_player} wins" unless @player_save_game == true
   end
 
@@ -80,7 +77,8 @@ class ChessGame
     @player_redo_selection = true # reset back to default value for the next player
   end
 
-  # Function: Skips piece selection when player is under check. Moving the king is the only legal move
+  # Ask user to select a valid piece
+  # Additional function: Skips piece selection when player is under check. Moving the king is the only legal move
   def select_piece(player_num, check = false)
     verified_start_coord = ''
 
@@ -97,6 +95,7 @@ class ChessGame
     @player_starting_coord = verified_start_coord
   end
 
+  # helper method for #select_piece
   def ask_for_start_coord(player_num)
     verified_start_coord = ''
     loop do
@@ -120,6 +119,7 @@ class ChessGame
     verified_start_coord
   end
 
+  # helper method for #verify_start_coord
   def verify_start_coord(start_coord)
     # this must be at the top because start_coord is not a valid piece
     if start_coord.upcase == 'RESIGN'
@@ -159,6 +159,7 @@ class ChessGame
     @chess_board.print_board(@player_starting_coord, @player_valid_moves)
   end
 
+  # Ask player to choose a move for selected piece
   def choose_move(player_num, check = false)
     # if under check, declare it to user
     print 'Check! ' if check == true
@@ -185,6 +186,7 @@ class ChessGame
     @player_ending_coord = verified_move
   end
 
+  # Helper method for #choose_move
   def verify_move_choice(move_choice)
     if move_choice.upcase == 'RESIGN' && check?(@active_player)
       @game_over_condition = 'Resigned'
@@ -207,7 +209,7 @@ class ChessGame
     nil
   end
 
-  # Move piece chosen piece to end
+  # Move chosen piece
   def move_piece
     @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
     
@@ -215,6 +217,7 @@ class ChessGame
     puts "Player #{@active_player} moved #{piece.class.name} from #{@player_starting_coord} to #{@player_ending_coord}"
   end
 
+  # Promote pawn when #promotable? is true
   def pawn_promotion(active_player)
     puts "Promote Pawn in #{@player_ending_coord}"
     puts "Enter a piece to promote to (Queen, Knight, Rook, Bishop):"
@@ -248,6 +251,7 @@ class ChessGame
     puts "Pawn in #{@player_ending_coord} was promoted to #{piece.class}"
   end
 
+  # Helper method for #pawn_promotion
   def verify_promotion_choice(player_input)
     valid_promotion_choices = ['QUEEN', 'KNIGHT', 'ROOK', 'BISHOP']
 
@@ -267,13 +271,7 @@ class ChessGame
     @active_player = 1 if active_player == 2
   end
 
-  # Game over conditions
-  # Player resign - player is able to enter option during piece choice
-  # Checkmate
-  # Stalemate - player has no legal move and not in check
-  # SKIP IMPLEMENTATION: Dead position - neither player is able to checkmate. Such as only two kings are on the board (research all possibilities - hope its a short list)
-
-
+  # Determine if the game is over
   def game_over? (active_player)
     return true if @game_over_condition == 'Resigned'
     
@@ -290,9 +288,7 @@ class ChessGame
     false
   end
 
-  # When a king is under immediate attack, it is said to be in check. A move in response to a check is legal only if it results in a position where the king is no longer in check. This can involve capturing the checking piece; interposing a piece between the checking piece and the king (which is possible only if the attacking piece is a queen, rook, or bishop and there is a square between it and the king); or moving the king to a square where it is not under attack. Castling is not a permissible response to a check
-
-  # The object of the game is to checkmate the opponent; this occurs when the opponent's king is in check, and there is no legal way to get it out of check. It is never legal for a player to make a move that puts or leaves the player's own king in check
+  # Returns true if king is under check but has valid moves
   def check?(active_player)
     king_coord = get_king_coord_of_player(active_player)
 
@@ -306,17 +302,7 @@ class ChessGame
     false
   end
 
-  # Checkmate - King is under threat. King may have valid_moves but they all lead to the king being captured
-  # Need to know the location of both kings are at all times
-  # From a king position, scan for opponent pieces similar to get_valid_moves (using a relative_moves check) for rook, bishop, queen, knight, pawn/king. All opponent piece coords that satisfy this condition go into an array. Check each piece with get_valid_moves to double check that these pieces can directly attack the king
-  # if no pieces can attack the king, the player is not in check or checkmate
-  # if a piece can attack the king, but it can flee into a safe position, the player is in check
-  # if a piece can attack the king and it cannot flee into a safe position, the player is in checkmate and the game is over
-
-      # problem here. What of pawn moves? They need to be considered separately. A pawn is different in that its "regular moves" and "attack moves" are different
-    # If this isn't considered, a game state can be falsely determined to have a checkmate from a pawn moving forward but not attacking
-    # idea 1: create a param in board.get_valid_moves that if used on a pawn, calls a different method that only returns attack moves
-
+  # Returns true if king is under check and has NO valid moves
   def checkmate?(active_player)
     king_coord = get_king_coord_of_player(active_player)
 
