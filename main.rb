@@ -1,36 +1,3 @@
-# Accomplishments
-# Broke a lot of tests when designing remove_moves_jeopardize_king. Fixed by doing a major refactor of valid_moves. Split into valid_moves and estimate_moves
-# LOTS of edge cases!
-# Skipped en passant and castling. Much more Odin project left to do and didn't want to waste time implementing this. 
-# Usability - user has ability to redo piece selection. When a piece is selected, the possible moves are highlighted on the board
-# unicode white and black icons didn't look right. Opted to use a single icon but change the color to white or black
-# Making the command line interface look good was not a priority. This task is rarely done in the real world, except for debugging
-# Found a code snippet online that adds to String class with commands to change console text and bg color, made print_board more readable than using ANSI console
-# Early design decision of storing the board as a hash made debugging much easier!
-# Royally messed up. Pushed code with bugs to remote (seemly minor change broke something - was minor so I pushed it). Learned how to use git reflog and git checkout to go back into time when code worked to start debugging
-# I didn't use TDD, but writing unit tests was important for creating a project this size. As the complexity increased during development, A seemingly simple change in one part of code can create bugs in places that seemed unrelated or places I would have not thought to look if I had to debug without tests
-# Moved all relevant methods from ChessBoard to MoveValidator
-# Moved relative_moves from ChessPiece to MoveValidator
-# Replit live version
-# Made decisions that some features may not be completed 
-# Tech debt - initially put move validation functions in chessboard to get a working prototype. As I created the prototype I realized that MoveValidator was necessary. Later created the MoveValidator class and had to deal with more work than if I had created it when I realized it was necessary
-
-# Further work - Immediate
-# Other de-spaghettification
-# Make a nice Readme.md
-#    Consider making post-project thoughts section or similar
-#    https://github.com/JonathanYiv/chess
-
-# Further work - Long Term
-# Make tests that play the game using rspec mocks and doubles
-# Create a GameMessages module to take a lot of code out of ChessGame to make it more readable
-# Use design patterns to standarize methods and DRY: https://www.amazon.com/Design-Patterns-Ruby-Russ-Olsen/dp/0321490452
-# Pawn - En passant attack
-# Castle/King - Castling
-# GameRecorder which stores each move (algebraic notation)
-# Player 2 automated so that it picks a random move
-# Import a ruby chess agent to be the automatic player 2
-
 require_relative 'lib/chess_game'
 require_relative 'lib/chess_board'
 require_relative 'lib/chess_piece'
