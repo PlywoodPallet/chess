@@ -1,7 +1,6 @@
 require_relative '../lib/chess_piece'
 
 # For determining if a move is valid given the state of the board
-# Each ChessPiece object contains @relative_moves array which specifies
 class MoveValidator
   def initialize (chess_board)
     @chess_board = chess_board
@@ -14,8 +13,8 @@ class MoveValidator
     @queen_relative_moves = build_relative_queen_moves
   end
 
-  # Rook.relative_moves has a different data structure. Each subarray contains dimension (up,down,left,right). Each subarray goes from 1-square move to 8-square move. The method checks 1 move first, then 2nd move, etc. If one move contains a piece, the iteration stops and all other moves are not considered. This prevents rooks from jumping over pieces
-    # relative_moves for Rook classes have a different array structure
+
+  # relative_moves for Rook classes have a different array structure
   # [1, 2, 3, 4]
   # 1 [[1, 0] to [8, 0]] (move in row)
   # 2 [[0, 1] to [0, 8]] (move in col)
@@ -34,7 +33,7 @@ class MoveValidator
   end
 
 
-    # relative_moves for Bishop class has a different array structure
+  # relative_moves for Bishop class has a different array structure
   # [1, 2, 3, 4]
   # 1 [[1, 1] to [8, 8]]
   # 2 [[1, -1] to [8, -8]]
@@ -166,6 +165,7 @@ class MoveValidator
     relative_attack_moves
   end
 
+  # Estimate the moves of knight (can jump over pieces)
   def estimate_knight_moves(starting_coord)
     piece = @chess_board.get_piece(starting_coord)
     # player_num = piece.player_num
@@ -181,6 +181,9 @@ class MoveValidator
     valid_absolute_moves + valid_absolute_attack_moves
   end
 
+  # Estimate the moves of rook, bishop and queen
+  # These pieces do not jump and can be blocked by other pieces
+  # This method checks a 1-square move first, then 2-square move, etc.
   def estimate_rook_bishop_queen_moves(starting_coord)
     piece = @chess_board.get_piece(starting_coord)
     player_num = piece.player_num
@@ -228,12 +231,11 @@ class MoveValidator
     valid_absolute_moves
   end
 
-  # Rook can move multiple squares cannot jump over other pieces
+  # These helper methods aren't really necessary, but I already wrote a bunch of tests for each method before creating #estimate_rook_bishop_queen_moves
   def estimate_rook_moves(starting_coord)
     estimate_rook_bishop_queen_moves(starting_coord)
   end
 
-  # Consider making a general method for bishop, rook and queen
   def estimate_bishop_moves(starting_coord)
     estimate_rook_bishop_queen_moves(starting_coord)
   end
@@ -242,7 +244,6 @@ class MoveValidator
     estimate_rook_bishop_queen_moves(starting_coord)
   end
 
-  # Consider making a general method for knight and king
   def estimate_king_moves(starting_coord)
     # get_valid_knight_moves(starting_coord)
     piece = @chess_board.get_piece(starting_coord)
@@ -259,10 +260,7 @@ class MoveValidator
     output = valid_absolute_moves + valid_absolute_attack_moves
   end
 
-  # given a starting_coord of the piece that wants to move
-  # given the absolute_moves_array of mostly valid moves 
-  # determined by get_valid_x_moves methods
-  # only return moves that DO NOT threaten own king
+  # After moves have already been estimated for a piece, remove illegal moves that would jeopardize own king
   # NOTE: this method works if the starting_coord is the king, will determine which moves are valid
   def remove_moves_that_jeopardize_king(starting_coord, moves_array)
     piece = @chess_board.get_piece(starting_coord)
@@ -296,10 +294,9 @@ class MoveValidator
     legal_moves_array
   end
 
-  # Scan for opponent pieces using relative_moves of rook, bishop and knight
-  # Need two different algos for rook,bishop vs knight because former doesn't jump, latter does jump
-  # Return the coords of such pieces
-  # Not all pieces are guaranteed to check the king. They are used as candidates for further determination
+  # Scan for opponent pieces that can capture piece at starting_coord
+  # player_num of current active player
+  # TODO: see refactor comment
   def get_threatening_pieces(starting_coord, player_num = nil)
     piece = nil
     opponent_player_num = nil
@@ -333,11 +330,11 @@ class MoveValidator
     opponent_pieces_targeting_coord
   end
 
+  # helper method for #get_threatening_pieces
   def possible_opponent_pieces_targeting_coord(starting_coord, player_num, opponent_player_num)
     # assemble relative moves of three types of moves. These moves are used to find candidates of threatening pieces
     # Rook - covers attack moves of king, queen
     # Bishop - covers the attack moves of a pawn, queen
-    # Knight - only piece that jumps, so it is considered separately
     rook_bishop_relative_moves = @rook_relative_moves + @bishop_relative_moves
 
     # Covert relative moves to absolute moves on the board
@@ -346,6 +343,7 @@ class MoveValidator
       subarray.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
     end
 
+    # Knight - only piece that jumps, so it is considered separately
     knight_absolute_moves = @knight_relative_moves.map { |relative_move| convert_relative_to_absolute(starting_coord, relative_move) }
 
     possible_opponent_pieces_targeting_coord = []
@@ -399,10 +397,10 @@ class MoveValidator
     player_num == 1 ? 2 : 1
   end
 
+  # Helper method for ChessGame#stalemate?
   # for a certain player:
   # return true if all pieces have no moves left
   # return false if any piece has at least one valid move
-  # for determining stalemate in ChessGame
   def no_valid_moves?(player_num)
 
     # boolean no_valid_moves = true by default
@@ -426,6 +424,7 @@ class MoveValidator
     no_valid_moves
   end
 
+  # Helper method for ChessGame. For determining if piece is a pawn that can be promoted
   def promotable?(coord)
     piece = @chess_board.get_piece(coord)
     player_num = piece.player_num
