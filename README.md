@@ -19,11 +19,9 @@ Prerequisites
 Known issue: your chess game will look slightly different on other command line interfaces
 
 ## Project Requirements
-2-Player Game with legal moves
-
-Save and load games
-
-Tests using Rspec
+- 2-Player Game with legal moves
+- Save and load games
+- Tests using Rspec
 
 ## Post-Project Notes
 - This was the **largest project** I’ve ever completed to date
