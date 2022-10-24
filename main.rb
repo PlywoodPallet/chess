@@ -11,6 +11,8 @@
 # Moved all relevant methods from ChessBoard to MoveValidator
 # Moved relative_moves from ChessPiece to MoveValidator
 # Replit live version
+# Made decisions that some features may not be completed 
+# Tech debt - initially put move validation functions in chessboard to get a working prototype. As I created the prototype I realized that MoveValidator was necessary. Later created the MoveValidator class and had to deal with more work than if I had created it when I realized it was necessary
 
 # Further work - Immediate
 # Other de-spaghettification
