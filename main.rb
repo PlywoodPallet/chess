@@ -39,6 +39,21 @@ require_relative 'lib/string' # console font styles
 
 extend Serializable
 
+# If a saved game is detected, ask the player if they want to restore it
+# Otherwise, play a new game
+if Dir.exist?('saved_games') && !Dir.empty?('saved_games')
+  save_choice = save_game_player_input
+  if save_choice.upcase == 'YES' || save_choice.upcase == 'Y'
+    load_game.play_game
+  else
+    game = ChessGame.new
+    game.play_game
+  end
+else
+  game = ChessGame.new
+  game.play_game
+end
+
 def save_game_player_input
   verified_save_choice = ''
   loop do
@@ -61,20 +76,6 @@ end
 # get player input then convert to string
 def player_input
   gets.chomp.to_s
-end
-
-# If a saved game is detected
-if Dir.exist?('saved_games') && !Dir.empty?('saved_games')
-  save_choice = save_game_player_input
-  if save_choice.upcase == 'YES' || save_choice.upcase == 'Y'
-    load_game.play_game
-  else
-    game = ChessGame.new
-    game.play_game
-  end
-else
-  game = ChessGame.new
-  game.play_game
 end
 
 # game = ChessGame.new
