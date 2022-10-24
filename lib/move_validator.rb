@@ -6,6 +6,7 @@ class MoveValidator
   def initialize (chess_board)
     @chess_board = chess_board
 
+    # Note: relative moves are [x,y] or [col, row]
     @knight_relative_moves = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]]
     @king_relative_moves = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
     @rook_relative_moves = build_relative_rook_moves
