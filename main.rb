@@ -3,6 +3,7 @@
 # LOTS of edge cases!
 # Skipped en passant and castling. Much more Odin project left to do and didn't want to waste time implementing this. 
 # Usability - user has ability to redo piece selection. When a piece is selected, the possible moves are highlighted on the board
+# unicode white and black icons didn't look right. Opted to use a single icon but change the color to white or black
 # Making the command line interface look good was not a priority. This task is rarely done in the real world, except for debugging
 # Found a code snippet online that adds to String class with commands to change console text and bg color, made print_board more readable than using ANSI console
 # Early design decision of storing the board as a hash made debugging much easier!
