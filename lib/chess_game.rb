@@ -214,7 +214,9 @@ class ChessGame
     @chess_board.move_piece(@player_starting_coord, @player_ending_coord)
     
     piece = @chess_board.get_piece(@player_ending_coord)
-    puts "Player #{@active_player} moved #{piece.class.name} from #{@player_starting_coord} to #{@player_ending_coord}"
+
+    # Removed this output, it shifts the chessboard display in a distracting way
+    # puts "Player #{@active_player} moved #{piece.class.name} from #{@player_starting_coord} to #{@player_ending_coord}"
   end
 
   # Promote pawn when #promotable? is true
