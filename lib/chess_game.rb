@@ -25,8 +25,6 @@ class ChessGame
   def play_game
     # if this is a restored saved game, reset this var so the game doesn't immediately end
     @player_save_game = false if @player_save_game == true
-    # print starting board
-    print_board
     # keep playing the game until the game is over or player chooses to save game
     turn_order until game_over?(@active_player) || @player_save_game == true
     print_final_message
@@ -49,6 +47,8 @@ class ChessGame
 
   def player_turn(active_player)
     while @player_redo_selection == true
+      print_board
+
       # Ask player to choose a valid piece
       select_piece(active_player, check?(active_player))
 
