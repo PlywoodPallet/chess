@@ -2,7 +2,7 @@
 Final project for the Ruby curriculum at [The Odin Project](https://www.theodinproject.com/lessons/ruby-ruby-final-project)
 
 ## Demo
-![Visualization of Chess Game](chess_demo.gif)
+![Visualization of Chess Game](demo/chess_demo.gif)
 
 ## How to play
 ### Online
