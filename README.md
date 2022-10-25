@@ -8,6 +8,8 @@ Final project for the Ruby curriculum at [The Odin Project](https://www.theodinp
 ### Online
 https://replit.com/@Plywood/chess
 
+Known issue: your chess game will look different in other command line interfaces
+
 ### Locally
 Prerequisites
 - Ruby 3.0.3 (Ruby 2 will probably work)
@@ -16,7 +18,7 @@ Prerequisites
 - Navigate to project directory
 - Run `ruby main.rb`
 
-Known issue: your chess game will look slightly different on other command line interfaces
+Known issue: your chess game will look different in other command line interfaces
 
 ## Project Requirements
 - 2-Player Game with legal moves
