@@ -103,8 +103,8 @@ class ChessBoard
   # print the board according to the format below (rows: descending numbers, col: ascending alphabet)
   # https://en.wikipedia.org/wiki/Chess
   # Board alignment - "queen starts on own color". White queen starts on white square, etc
-  # TODO: center chess piece in square
   # valid_moves is for highlighting the valid moves of the selected piece at coordinate array (color2)
+  # Print the chess board row by row (starting with row 8)
   def print_board (selected_piece_coord = nil, valid_moves = nil)
     print_col_label
 
@@ -114,18 +114,27 @@ class ChessBoard
       
       ('a'..'h').each do |letter|
         icon = @board["#{letter}#{number}"].to_s # explicit to_s needed for icon.send to work correctly
-        icon = "  #{icon}" # add spaces for display padding
+
+        # For some reason this creates black bars
+        # icon = " #{icon} "
 
         coord = letter.to_s + number.to_s
-
         # highlight the coordinate selected by user
         if selected_piece_coord != nil && coord == selected_piece_coord
+        # I have to print white space like this because the simpler solution above
+        # creates black bars
+          print " ".send(@highlighed_piece_bg_color)
           print icon.send(@highlighed_piece_bg_color) # send bg color command directly to preserve checkered background
+          print " ".send(@highlighed_piece_bg_color)
         # highlight the possible moves of the piece
         elsif selected_piece_coord != nil && valid_moves.include?(coord)
+          print " ".send(@possible_moves_bg_color)
           print icon.send(@possible_moves_bg_color) # send bg color command directly to preserve checkered background
+          print " ".send(@possible_moves_bg_color)
         else
+          print " ".send(current_bg_color)
           print icon.send(current_bg_color)
+          print " ".send(current_bg_color)
         end
 
         # alternate between background colors
