@@ -23,13 +23,13 @@ class ChessBoard
     # String coordinate -> ChessPiece object
     @board = Hash.new # default value is nil so moves off the board can be detected
 
-    @bg_colors = ['bg_white', 'bg_bright_black'] # row 8 first square, r8 second square
-    @icon_colors = ['bright_white', 'black'] # player 1, player 2
+    @bg_colors = ['background_light_grey', 'background_dark_grey'] # row 8 first square, r8 second square
+    @icon_colors = ['icon_orange', 'icon_black'] # player 1, player 2
 
     # When a player chooses a piece to move, bg color of that piece
-    @highlighed_piece_bg_color = 'bg_cyan'
+    @highlighed_piece_bg_color = 'background_blue'
     # When a player chooses a piece to move, bg color of that piece
-    @possible_moves_bg_color = 'bg_green'
+    @possible_moves_bg_color = 'background_green'
 
     # Track the coord of each players king for determining checkmate
     @player1_king_coord = nil
