@@ -1,16 +1,3 @@
-# 8 x 8 grid
-# x axis - lower case letters (a-h)
-# y axis - numbers (1-8) starts at the bottom of the board then goes up
-# "Queen on own color"
-
-# should finding valid moves be in a separate class? "move_validator"
-# TODO: VScode console and Linux terminal display the board differently. Alternates each player color from black and white
-
-# https://en.wikipedia.org/wiki/Chess if following this format, white is bottom two rows, black is top two rows
-
-# Design decision: Decided to hardcode relative moves for all pieces. I do not expect the rules of Chess to change so I wanted to skip needing to develop a clever algo to determine knight, rook, bishop, queen. #get_valid_x_move methods just iterate through the relative moves array
-# Design decision: Use a hash to store the board: can store pieces in the exact coordinates that they are represented on the board (key a3 has the piece), rather than creating a 2d array where the location is no obvious
-
 require_relative '../lib/chess_piece'
 require_relative '../lib/string' # console font styles
 
