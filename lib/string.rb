@@ -1,7 +1,7 @@
 # Tweak the String base class to easily change console font style
 # Edited from source: https://cbabhusal.wordpress.com/2015/10/02/ruby-printing-colored-formatted-character-in-ruby-colorize/
-# Using ANSI escape characters
-# https://en.wikipedia.org/wiki/ANSI_escape_code
+# Used this tut to define 24-bit RBG console colors
+# https://dev.to/joshdevhub/terminal-colors-using-ruby-410p
 
 class String
   # 38: foreground color
