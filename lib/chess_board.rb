@@ -123,18 +123,18 @@ class ChessBoard
         if selected_piece_coord != nil && coord == selected_piece_coord
         # I have to print white space like this because the simpler solution above
         # creates black bars
-          print " ".send(@highlighed_piece_bg_color)
+          print "  ".send(@highlighed_piece_bg_color)
           print icon.send(@highlighed_piece_bg_color) # send bg color command directly to preserve checkered background
-          print " ".send(@highlighed_piece_bg_color)
+          print "  ".send(@highlighed_piece_bg_color)
         # highlight the possible moves of the piece
         elsif selected_piece_coord != nil && valid_moves.include?(coord)
-          print " ".send(@possible_moves_bg_color)
+          print "  ".send(@possible_moves_bg_color)
           print icon.send(@possible_moves_bg_color) # send bg color command directly to preserve checkered background
-          print " ".send(@possible_moves_bg_color)
+          print "  ".send(@possible_moves_bg_color)
         else
-          print " ".send(current_bg_color)
+          print "  ".send(current_bg_color)
           print icon.send(current_bg_color)
-          print " ".send(current_bg_color)
+          print "  ".send(current_bg_color)
         end
 
         # alternate between background colors
