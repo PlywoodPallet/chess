@@ -8,7 +8,7 @@ Final project for the Ruby curriculum at [The Odin Project](https://www.theodinp
 ### Online
 https://replit.com/@Plywood/chess
 
-Known issue: your chess game will look different in other command line interfaces
+Known issue: Changes of the Replit command line may alter how this program looks
 
 ### Locally
 Prerequisites
