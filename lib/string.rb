@@ -8,7 +8,7 @@ class String
   def icon_white; "\e[38;2;#{255};#{255};#{255}m#{self}\e[0m" end
   def icon_black; "\e[38;2;#{0};#{0};#{0}m#{self}\e[0m" end
 
-  def icon_orange; "\e[38;2;#{200};#{142};#{62}m#{self}\e[0m" end
+  def icon_orange; "\e[38;2;#{184};#{102};#{0}m#{self}\e[0m" end
   def icon_blue; "\e[38;2;#{0};#{157};#{255}m#{self}\e[0m" end 
 
   # 48: background color
