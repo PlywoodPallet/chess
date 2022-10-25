@@ -153,7 +153,7 @@ class ChessBoard
   def print_col_label
     print '   '
     ('a'..'h').each do |letter|
-      print " #{letter} "
+      print "  #{letter}  "
     end
     puts # new line
   end
