@@ -222,6 +222,8 @@ class ChessGame
     puts "Promote Pawn in #{@player_ending_coord}"
     puts "Enter a piece to promote to (Queen, Knight, Rook, Bishop):"
 
+    pawn = @chess_board.get_piece(@player_ending_coord)
+
     promotion_choice = ''
     loop do
       promotion_choice = verify_promotion_choice(player_input)
@@ -234,13 +236,13 @@ class ChessGame
     piece = nil
     case promotion_choice.upcase
     when 'QUEEN'
-      piece = Queen.new(active_player)
+      piece = Queen.new(active_player, pawn.icon_color)
     when 'KNIGHT'
-      piece = Knight.new(active_player)
+      piece = Knight.new(active_player, pawn.icon_color)
     when 'ROOK'
-      piece = Rook.new(active_player)
+      piece = Rook.new(active_player, pawn.icon_color)
     when 'BISHOP'
-      piece = Bishop.new(active_player)
+      piece = Bishop.new(active_player, pawn.icon_color)
     else
       puts 'Error in piece promotion'
     end
