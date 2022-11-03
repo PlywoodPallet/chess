@@ -36,6 +36,7 @@ class ChessGame
 
     # Print game_over_condition and winner. Do not print anything if game is being saved
     # TODO: For stalemate, print a different message (do not declare a winner)
+    print_board
     puts "#{@game_over_condition}! Player #{@active_player} wins" unless @player_save_game == true
   end
 
