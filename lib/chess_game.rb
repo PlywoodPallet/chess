@@ -41,6 +41,7 @@ class ChessGame
 
   def turn_order
     player_turn(@active_player)
+    system('clear')
     toggle_active_player(@active_player)
   end
 
@@ -179,8 +180,6 @@ class ChessGame
 
       puts 'Input Error!'
     end
-
-    system("clear")
 
     @player_ending_coord = verified_move
   end
