@@ -1,7 +1,7 @@
 require_relative '../lib/string' # console font styles
 
 class ChessPiece
-  attr_reader :player_num, :icon, :relative_moves
+  attr_reader :player_num, :icon, :icon_color, :relative_moves
 
   def initialize(player_num = nil, icon_color = nil)
     @player_num = player_num
