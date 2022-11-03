@@ -47,6 +47,7 @@ class ChessGame
 
   def player_turn(active_player)
     while @player_redo_selection == true
+      system('clear')
       print_board
 
       # Ask player to choose a valid piece
