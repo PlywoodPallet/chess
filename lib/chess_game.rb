@@ -41,7 +41,6 @@ class ChessGame
 
   def turn_order
     player_turn(@active_player)
-    print_board
     toggle_active_player(@active_player)
   end
 
