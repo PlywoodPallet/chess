@@ -24,6 +24,7 @@ Known issue: your chess game will look different in other command line interface
 - 2-Player Game with legal moves
 - Save and load games
 - Tests using Rspec
+- [Detailed Project Requirements](https://www.theodinproject.com/lessons/ruby-ruby-final-project)
 
 ## Post-Project Notes
 - This was the **largest project** I’ve ever completed to date
