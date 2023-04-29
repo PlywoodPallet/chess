@@ -27,7 +27,7 @@ Known issue: your chess game will look different in other command line interface
 - [Detailed Project Requirements](https://www.theodinproject.com/lessons/ruby-ruby-final-project)
 
 ## Post-Project Notes
-- This was the **largest project** I’ve ever completed to date
+- This was the **largest project** I’ve ever completed to date. Odin Project requirements are vague and incomplete to simulate a work-like environment. It was up to me to break down the project and often had to learn new things not stated in the requirements
 - **Writing tests was invaluable** as the project increased in complexity. I tried test-driven development but decided against it because of the unfamiliar complexity of the project. It triggered overthinking and decision paralysis.
 - I need to learn design patterns to keep my code clean and be better at TDD.
 - **Usability** was important to me. I created (1) a visual representation of possible moves when a piece is selected, (2) an ability to redo piece selection if user changes their mind, (3) only prompts user to restore a save game if one exists
